@@ -33,13 +33,13 @@ async def parseCommand(message, client):
             await client.send_message(message.channel, "I do not have permission")
 
     elif message.content.startswith('~summon'):
-        await summon(client, message)
+        await summon(message, client)
 
     elif message.content.startswith('~prune'):
-        await prune(client, message)
+        await prune(message, client)
 
     elif message.content.startswith('~play'):
-        await playTest(client, message)
+        await playTest(message, client)
 
     elif message.content.startswith('~ayy'):
         await ayy(message, client)
@@ -48,12 +48,31 @@ async def parseCommand(message, client):
         await kappa(message, client)
 
     elif message.content.startswith('~harambe'):
-        harambe(message, client)
+        await harambe(message, client)
 
     elif message.content.startswith('~giphy'):
-        giphy(message, client)
+        await giphy(message, client)
 
-    await vote(client, message)
-    await userinfo(client, message)
-    await ryan(client, message)
-    await moderation(client, message)
+    elif message.content.startswith('~vote'):
+        await vote(message, client)
+
+    elif message.content.startswith('~whois'):
+        await userInfo(message, client)
+
+    elif message.content.startswith('~shit'):
+        await client.send_message(message.channel, random_hot_post('shitpost', 20))
+
+    elif message.content.startswith('~rr'):
+        subreddit = message.content.split(' ')[1]
+        await client.send_message(message.channel, random_hot_post(subreddit, 20))
+
+    elif message.content.startswith('~tr'):
+        subreddit = message.content.split(' ')[1]
+        await client.send_message(message.channel, random_hot_post(subreddit, 2))
+
+    elif message.content.startswith('~kick'):
+        kick(message, client)
+
+    elif message.content.startswith('~ban'):
+        ban(message, client)
+
