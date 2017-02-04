@@ -1,12 +1,12 @@
 import urllib
 import json
 import urllib.request
-from Core.Reddit import *
-from Core.help import *
-from Core.Moderation import *
-from Core.VoiceCore import *
-from Core.Giphy import *
-from Core.Memes import *
+from Reddit import *
+from help import *
+from Moderation import *
+from VoiceCore import *
+from Giphy import *
+from Memes import *
 
 
 async def parseCommand(message, client):
