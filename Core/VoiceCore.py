@@ -53,6 +53,7 @@ async def playTest(message, client):
             vidUrl = re.search("(?P<url>https?://[^\s]+)", vidUrl).group("url")
             player = await vClient.create_ytdl_player(vidUrl)
             """Adding player to hashmap"""
+            player.use_avconv = True
             playerMap[vClient] = player
             player.start()
 
