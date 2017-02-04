@@ -1,5 +1,5 @@
 import discord
-from Core.Parser import *
+from Parser import *
 
 Token = input("Enter your token: ")
 client = discord.Client()
