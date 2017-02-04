@@ -35,7 +35,8 @@ async def parseCommand(message, client):
     elif message.content.startswith('~summon'):
         await summon(message, client)
 
-    #elif message.content.startswith('~prune'):
+    elif message.content.startswith('~prune'):
+        await client.send_message(message.channel, 'Prune temporarily disabled')
     #    await prune(message, client)
 
     elif message.content.startswith('~play'):
@@ -70,10 +71,12 @@ async def parseCommand(message, client):
         subreddit = message.content.split(' ')[1]
         await client.send_message(message.channel, random_hot_post(subreddit, 2))
 
-    #elif message.content.startswith('~kick'):
+    elif message.content.startswith('~kick'):
+        await client.send_message(message.channel, 'Kick temporarily disabled')
     #    await kick(message, client)
 
-    #elif message.content.startswith('~ban'):
+    elif message.content.startswith('~ban'):
+        await client.send_message(message.channel, 'Ban temporarily disabled')
     #    await ban(message, client)
 
     elif message.content.startswith('~stop'):
@@ -81,4 +84,4 @@ async def parseCommand(message, client):
 
     elif message.content.startswith('~'):
         await client.send_message(message.channel, 'That was not a valid command, say ~help to get the help you so des'
-                                                   'peratly need')
+                                                   'perately need')
