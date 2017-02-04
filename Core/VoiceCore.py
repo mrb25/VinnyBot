@@ -40,8 +40,7 @@ async def playTest(message, client):
                 player = playerMap[vClient]
                 vidUrl = message.content
                 vidUrl = re.search("(?P<url>https?://[^\s]+)", vidUrl).group("url")
-                player = await vClient.create_stream_player(vidUrl, use_avconv=True, after=aftersongfinished(message,
-                                                                                                             client))
+                player = await vClient.create_stream_player(vidUrl, use_avconv=True)
                 """Adding player to hashmap"""
                 playerMap[vClient] = player
                 player.start()
@@ -52,8 +51,7 @@ async def playTest(message, client):
             vClient = client.voice_client_in(message.server)
             vidUrl = message.content
             vidUrl = re.search("(?P<url>https?://[^\s]+)", vidUrl).group("url")
-            player = await vClient.create_stream_player(vidUrl, use_avconv=True, after=aftersongfinished(message,
-                                                                                                         client))
+            player = await vClient.create_ytdl_player(vidUrl, use_avconv=True)
             """Adding player to hashmap"""
             player.use_avconv = True
             playerMap[vClient] = player
@@ -64,6 +62,3 @@ async def playTest(message, client):
 
     return True
 
-
-def aftersongfinished(message, client):
-    print('song finished in channel')
