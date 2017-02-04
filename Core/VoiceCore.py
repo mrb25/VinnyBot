@@ -65,7 +65,7 @@ async def playTest(message, client):
 
 async def stopPlay(message, client):
     if playerMap[client.voice_client_in(message.server)].is_playing():
-        print('Stopping Stream in:' + message.server)
+        print('Stopping Stream')
         await client.send_message(message.channel, "Stopping audio Stream")
         playerMap[client.voice_client_in(message.server)].stop()
 
