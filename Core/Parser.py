@@ -35,8 +35,8 @@ async def parseCommand(message, client):
     elif message.content.startswith('~summon'):
         await summon(message, client)
 
-    elif message.content.startswith('~prune'):
-        await prune(message, client)
+    #elif message.content.startswith('~prune'):
+    #    await prune(message, client)
 
     elif message.content.startswith('~play'):
         await playTest(message, client)
@@ -79,3 +79,6 @@ async def parseCommand(message, client):
     elif message.content.startswith('~stop'):
         await stopPlay(message, client)
 
+    elif message.content.startswith('~'):
+        await client.send_message(message.channel, 'That was not a valid command, say ~help to get the help you so des'
+                                                   'peratly need')
