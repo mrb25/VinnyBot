@@ -71,8 +71,11 @@ async def parseCommand(message, client):
         await client.send_message(message.channel, random_hot_post(subreddit, 2))
 
     elif message.content.startswith('~kick'):
-        kick(message, client)
+        await kick(message, client)
 
     elif message.content.startswith('~ban'):
-        ban(message, client)
+        await ban(message, client)
+
+    elif message.content.startswith('~stop'):
+        await stopPlay(message, client)
 
