@@ -7,6 +7,7 @@ from Moderation import *
 from VoiceCore import *
 from Giphy import *
 from Memes import *
+from Markov import *
 
 
 async def parseCommand(message, client):
@@ -81,6 +82,9 @@ async def parseCommand(message, client):
 
     elif message.content.startswith('~stop'):
         await stopPlay(message, client)
+
+    elif message.content.startswith('~comment'):
+        await generateMarkovComment(message, client)
 
     elif message.content.startswith('~'):
         await client.send_message(message.channel, 'That was not a valid command, say ~help to get the help you so des'
