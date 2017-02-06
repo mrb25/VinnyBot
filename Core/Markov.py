@@ -10,7 +10,7 @@ async def generateMarkovComment(message, client):
 
     tmp = await client.send_message(message.channel, 'Downloading messages...')
 
-    async for log in client.logs_from(message.channel, limit=5000):
+    async for log in client.logs_from(message.channel, limit=2000):
         if log.author == message.mentions:
             counter += 1
             textSource += ' ' + message.content + ' '
