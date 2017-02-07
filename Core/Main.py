@@ -1,4 +1,5 @@
 import discord
+import sys
 from Parser import *
 
 Token = input("Enter your token: ")
@@ -41,3 +42,7 @@ async def on_voice_state_update(before, after):
 
 
 client.run(Token)
+
+while(True):
+    var = input('Console Command: ')
+    parseConsole(var)

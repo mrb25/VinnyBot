@@ -100,3 +100,9 @@ async def parseCommand(message, client):
     elif message.content.startswith('~'):
         await client.send_message(message.channel, 'That was not a valid command, say ~help to get the help you so des'
                                                    'perately need')
+
+
+def parseConsole(input):
+
+    if input == 'quit':
+        exit()
