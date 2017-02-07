@@ -40,5 +40,5 @@ async def updateLoading(message, client, tmp, channelCounter):
         else:
             loading += '▒'
 
-        loading += ']'
-        await client.edit_message(tmp, loading)
+    loading += ']'
+    await client.edit_message(tmp, loading)
