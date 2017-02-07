@@ -41,7 +41,7 @@ async def generateMarkovComment(message, client):
     await client.edit_message(tmp, message.mentions[0].name + ' says: ' + text_model.make_sentence(tries=100, max_overlap_ratio=40))
 
 async def updateLoading(message, client, tmp, channelCounter, usableChannels):
-    loading = 'Downloading messages from channels ({}/{}) |'.format(channelCounter, len(message.server.channels))
+    loading = 'Downloading messages from channels ({}/{}) |'.format(channelCounter, len(usableChannels))
     for x in range(0, len(usableChannels)):
         if channelCounter > x:
             loading += '█'
