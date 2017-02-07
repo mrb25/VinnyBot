@@ -1,24 +1,26 @@
 import markovify
+from discord import ChannelType
+
 
 async def generateMarkovComment(message, client):
     counter = 0
     channelCounter = 0
     textSource = ''
 
+    usableChannels = [channel for channel in message.server.channels if not channel.type == ChannelType.voice]
 
     if (len(message.mentions) != 1):
         await client.send_message(message.channel, 'Please mention only 1 user')
-        return
 
     tmp = await client.send_message(message.channel, 'Downloading messages...')
-    for channel in message.server.channels:
+    for channel in usableChannels:
         async for log in client.logs_from(channel, limit=2500):
             if log.author == message.mentions[0]:
                 counter += 1
                 textSource += log.content + '\n'
                 # print('message received')
         channelCounter += 1
-        await updateLoading(message, client, tmp, channelCounter)
+        await updateLoading(message, client, tmp, channelCounter, usableChannels)
 
 
     if counter <= 30:
@@ -32,9 +34,9 @@ async def generateMarkovComment(message, client):
     # print(textSource)
     await client.edit_message(tmp, message.mentions[0].name + ' says: ' + text_model.make_sentence(tries=100, max_overlap_ratio=40))
 
-async def updateLoading(message, client, tmp, channelCounter):
+async def updateLoading(message, client, tmp, channelCounter, usableChannels):
     loading = 'Downloading messages from channels ({}/{}) |'.format(channelCounter, len(message.server.channels))
-    for x in range(0, len(message.server.channels)):
+    for x in range(0, len(usableChannels)):
         if channelCounter > x:
             loading += '█'
         else:
