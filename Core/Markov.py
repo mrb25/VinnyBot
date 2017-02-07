@@ -40,7 +40,7 @@ async def generateMarkovComment(message, client):
     # Debugging print
     # print(textSource)
     await client.edit_message(tmp, message.mentions[0].name + ' says: ' + text_model.make_sentence(tries=100, max_overlap_ratio=40))
-    collectTrash()
+
 
 async def updateLoading(message, client, tmp, channelCounter, usableChannels):
     loading = 'Downloading messages from channels ({}/{}) |'.format(channelCounter, len(usableChannels))
@@ -52,6 +52,3 @@ async def updateLoading(message, client, tmp, channelCounter, usableChannels):
 
     loading += '|'
     await client.edit_message(tmp, loading)
-
-def collectTrash():
-    gc.collect()
