@@ -14,14 +14,14 @@ async def generateMarkovComment(message, client):
     tmp = await client.send_message(message.channel, 'Downloading messages...')
     await updateLoading(message, client, tmp, channelCounter, usableChannels)
     for channel in usableChannels:
-        async for log in client.logs_from(channel, limit=2500):
-            if log.author == message.mentions[0]:
-                counter += 1
-                textSource += log.content + '\n'
-                # print('message received')
+        if message.mentions[0].permissions_in(channel).send_messages:
+            async for log in client.logs_from(channel, limit=2500):
+                if log.author == message.mentions[0]:
+                    counter += 1
+                    textSource += log.content + '\n'
+                    # print('message received')
         channelCounter += 1
         await updateLoading(message, client, tmp, channelCounter, usableChannels)
-
 
     if counter <= 30:
         await client.send_message(message.channel, 'Not enough messages received, cannot generate message')

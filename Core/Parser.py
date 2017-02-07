@@ -21,9 +21,6 @@ async def parseCommand(message, client):
 
         await client.edit_message(tmp, message.author.name + ', you have {} messages.'.format(counter))
 
-    elif message.content.startswith('~praise'):
-        await client.send_message(message.channel, 'https://media.giphy.com/media/fr42tarocsK6Q/giphy.gif')
-
     elif message.content.startswith('~help'):
         await help(client, message)
 
@@ -33,12 +30,21 @@ async def parseCommand(message, client):
         else:
             await client.send_message(message.channel, "I do not have permission")
 
-    elif message.content.startswith('~summon'):
-        await summon(message, client)
-
     elif message.content.startswith('~prune'):
         await client.send_message(message.channel, 'Prune temporarily disabled')
-    #    await prune(message, client)
+        # await prune(message, client)
+
+    elif message.content.startswith('~kick'):
+        await client.send_message(message.channel, 'Kick temporarily disabled')
+        # await kick(message, client)
+
+    elif message.content.startswith('~ban'):
+        await client.send_message(message.channel, 'Ban temporarily disabled')
+        # await ban(message, client)
+
+    # Voice Commands
+    elif message.content.startswith('~summon'):
+        await summon(message, client)
 
     elif message.content.startswith('~play'):
         await playTest(message, client)
@@ -49,6 +55,10 @@ async def parseCommand(message, client):
     elif message.content.startswith('~resume'):
         await resumeStream(message, client)
 
+    elif message.content.startswith('~stop'):
+        await stopPlay(message, client)
+
+    # Meme Commands
     elif message.content.startswith('~ayy'):
         await ayy(message, client)
 
@@ -61,12 +71,16 @@ async def parseCommand(message, client):
     elif message.content.startswith('~giphy'):
         await giphy(message, client)
 
+    elif message.content.startswith('~praise'):
+        await client.send_message(message.channel, 'https://media.giphy.com/media/fr42tarocsK6Q/giphy.gif')
+
     elif message.content.startswith('~vote'):
         await vote(message, client)
 
     elif message.content.startswith('~whois'):
         await userInfo(message, client)
 
+    # Reddit Commands
     elif message.content.startswith('~shit'):
         await client.send_message(message.channel, random_hot_post('shitpost', 20))
 
@@ -78,20 +92,11 @@ async def parseCommand(message, client):
         subreddit = message.content.split(' ')[1]
         await client.send_message(message.channel, random_hot_post(subreddit, 2))
 
-    elif message.content.startswith('~kick'):
-        await client.send_message(message.channel, 'Kick temporarily disabled')
-    #    await kick(message, client)
-
-    elif message.content.startswith('~ban'):
-        await client.send_message(message.channel, 'Ban temporarily disabled')
-    #    await ban(message, client)
-
-    elif message.content.startswith('~stop'):
-        await stopPlay(message, client)
-
+    # Markov Chain
     elif message.content.startswith('~comment'):
         await generateMarkovComment(message, client)
 
+    # Not a command
     elif message.content.startswith('~'):
         await client.send_message(message.channel, 'That was not a valid command, say ~help to get the help you so des'
                                                    'perately need')
