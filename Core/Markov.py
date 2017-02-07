@@ -27,10 +27,10 @@ async def generateMarkovComment(message, client):
 
     await client.edit_message(tmp, 'Generating comment from {} messages.'.format(counter))
     print('Generating model from {} messages'.format(counter))
-    text_model = markovify.NewlineText(textSource, state_size=3)
+    text_model = markovify.NewlineText(textSource)
     # Debugging print
     # print(textSource)
-    await client.edit_message(tmp, message.mentions[0].name + ' says: ' + text_model.make_sentence(tries=100, max_overlap_ratio=60))
+    await client.edit_message(tmp, message.mentions[0].name + ' says: ' + text_model.make_sentence(tries=100))
 
 async def updateLoading(message, client, tmp, channelCounter):
     loading = 'Downloading messages from channels ({}/{}) |'.format(channelCounter, len(message.server.channels))
