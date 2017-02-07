@@ -11,6 +11,11 @@ async def generateMarkovComment(message, client):
 
     if (len(message.mentions) != 1):
         await client.send_message(message.channel, 'Please mention only 1 user')
+        return
+
+    if message.mentions[0] == client.user:
+        await client.send_message(message.channel, 'I know what I would say. You dont need to ~comment me')
+        return
 
     for channel in message.server.channels:
         if message.mentions[0].permissions_in(channel).send_messages:
@@ -23,10 +28,13 @@ async def generateMarkovComment(message, client):
     for channel in usableChannels:
         if message.mentions[0].permissions_in(channel).send_messages:
             async for log in client.logs_from(channel, limit=4000):
+                # Checks for messages from the mentioned user
                 if log.author == message.mentions[0]:
-                    counter += 1
-                    textSource += log.content + '\n'
-                    # print('message received')
+                    # Checks and omits commands
+                    if not log.content.startswith('~') or not log.content.startswith('!'):
+                        counter += 1
+                        textSource += log.content + '\n'
+                        # print('message received')
         channelCounter += 1
         await updateLoading(message, client, tmp, channelCounter, usableChannels)
 
@@ -38,7 +46,7 @@ async def generateMarkovComment(message, client):
     print('Generating model from {} messages'.format(counter))
     text_model = markovify.NewlineText(textSource)
     # Debugging print
-    # print(textSource)
+    print(textSource)
     await client.edit_message(tmp, message.mentions[0].name + ' says: ' + text_model.make_sentence(tries=100, max_overlap_ratio=40))
 
 
