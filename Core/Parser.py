@@ -43,6 +43,12 @@ async def parseCommand(message, client):
     elif message.content.startswith('~play'):
         await playTest(message, client)
 
+    elif message.content.startswith('~pause'):
+        await pauseStream(message, client)
+
+    elif message.content.startswith('~resume'):
+        await resumeStream(message, client)
+
     elif message.content.startswith('~ayy'):
         await ayy(message, client)
 

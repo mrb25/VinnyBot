@@ -9,17 +9,22 @@ async def generateMarkovComment(message, client):
         return
 
     tmp = await client.send_message(message.channel, 'Downloading messages...')
+    for channel in message.server.channels:
+        print('scanning channel')
+        async for log in client.logs_from(channel, limit=2500):
+            if log.author == message.mentions[0]:
+                counter += 1
+                textSource += log.content + '\n'
+                # print('message received')
 
-    async for log in client.logs_from(message.channel, limit=2000):
-        if log.author == message.mentions:
-            counter += 1
-            textSource += ' ' + message.content + ' '
+    if counter <= 30:
+        await client.send_message(message.channel, 'Not enough messages received, cannot generate message')
+        return
 
     await client.edit_message(tmp, 'Generating comment from {} messages.'.format(counter))
-
-    text_model = markovify.Text(textSource)
-
-    await client.edit_message(tmp, text_model.make_sentence())
-
-
+    print('Generating model from {} messages'.format(counter))
+    text_model = markovify.NewlineText(textSource)
+    # Debugging print
+    print(textSource)
+    await client.edit_message(tmp, message.mentions[0].name + ' says: ' + text_model.make_sentence(tries=100, max_overlap_total=10))
 
