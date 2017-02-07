@@ -18,7 +18,7 @@ async def generateMarkovComment(message, client):
                 textSource += log.content + '\n'
                 # print('message received')
         channelCounter += 1
-        updateLoading(message, channel, tmp, channelCounter)
+        await updateLoading(message, channel, tmp, channelCounter)
 
 
     if counter <= 30:
