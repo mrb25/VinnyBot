@@ -30,7 +30,7 @@ async def generateMarkovComment(message, client):
     text_model = markovify.NewlineText(textSource)
     # Debugging print
     # print(textSource)
-    await client.edit_message(tmp, message.mentions[0].name + ' says: ' + text_model.make_sentence(tries=100))
+    await client.edit_message(tmp, message.mentions[0].name + ' says: ' + text_model.make_sentence(tries=100, max_overlap_ratio=40))
 
 async def updateLoading(message, client, tmp, channelCounter):
     loading = 'Downloading messages from channels ({}/{}) |'.format(channelCounter, len(message.server.channels))
