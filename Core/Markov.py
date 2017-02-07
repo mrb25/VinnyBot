@@ -6,8 +6,8 @@ async def generateMarkovComment(message, client):
     counter = 0
     channelCounter = 0
     textSource = ''
-
-    usableChannels = [channel for channel in message.server.channels if not channel.type == ChannelType.voice]
+    usableChannels = message.server.channels
+    usableChannels = [channel for channel in usableChannels if not channel.type == ChannelType.voice]
 
     if (len(message.mentions) != 1):
         await client.send_message(message.channel, 'Please mention only 1 user')
