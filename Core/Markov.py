@@ -6,12 +6,18 @@ async def generateMarkovComment(message, client):
     counter = 0
     channelCounter = 0
     textSource = ''
-    usableChannels = message.server.channels
+    usableChannels = []
 
     if (len(message.mentions) != 1):
         await client.send_message(message.channel, 'Please mention only 1 user')
 
+    for channel in message.server.channels:
+        if message.mentions[0].permissions_in(channel).send_messages:
+            if not channel.type == ChannelType.voice:
+                usableChannels.append(channel)
+
     tmp = await client.send_message(message.channel, 'Downloading messages...')
+
     await updateLoading(message, client, tmp, channelCounter, usableChannels)
     for channel in usableChannels:
         if message.mentions[0].permissions_in(channel).send_messages:
