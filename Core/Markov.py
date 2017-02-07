@@ -31,7 +31,7 @@ async def generateMarkovComment(message, client):
                 # Checks for messages from the mentioned user
                 if log.author == message.mentions[0]:
                     # Checks and omits commands
-                    if not log.content.startswith('~') or not log.content.startswith('!'):
+                    if not log.content.startswith('~'):
                         counter += 1
                         textSource += log.content + '\n'
                         # print('message received')
