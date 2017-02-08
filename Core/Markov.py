@@ -22,6 +22,8 @@ async def generateMarkovComment(message, client):
             if not channel.type == ChannelType.voice:
                 usableChannels.append(channel)
 
+    print('Comment for ' + message.mentions[0].name + ' requested by ' + message.author.name + ' in Server: '
+          + message.server.name + ' in channel: ' + message.channel.name)
     tmp = await client.send_message(message.channel, 'Downloading messages...')
 
     await updateLoading(message, client, tmp, channelCounter, usableChannels)
@@ -43,8 +45,7 @@ async def generateMarkovComment(message, client):
         return
 
     await client.edit_message(tmp, 'Generating comment from {} messages.'.format(counter))
-    print('Generating model from {} messages'.format(counter) + ' in Server: ' + message.server.name + ' in channel: '
-          + message.channel.name)
+    print('Generating model from {} messages'.format(counter))
 
     text_model = markovify.NewlineText(textSource)
     # Debugging print
