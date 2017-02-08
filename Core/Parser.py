@@ -74,6 +74,30 @@ async def parseCommand(message, client):
     elif message.content.startswith('~lenny'):
         await lenny(message, client)
 
+    elif message.content.startswith('~hitler'):
+        await hitler(message, client)
+
+    elif message.content.startswith('~mario'):
+        await mario(message, client)
+
+    elif message.content.startswith('~megaman'):
+        await megaMan(message, client)
+
+    elif message.content.startswith('~patrick'):
+        await patrick(message, client)
+
+    elif message.content.startswith('~salt'):
+        await salt(message, client)
+
+    elif message.content.startswith('~pikachu'):
+        await pikachu(message, client)
+
+    elif message.content.startswith('~facepalm'):
+        await facepalm(message, client)
+
+    elif message.content.startswith('~feels'):
+        await feels(message, client)
+
     elif message.content.startswith('~harambe'):
         await harambe(message, client)
 
