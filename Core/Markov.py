@@ -43,13 +43,16 @@ async def generateMarkovComment(message, client):
         return
 
     await client.edit_message(tmp, 'Generating comment from {} messages.'.format(counter))
-    print('Generating model from {} messages'.format(counter))
+    print('Generating model from {} messages'.format(counter) + ' in Server: ' + message.server.name + ' in channel: '
+          + message.channel.name)
+
     text_model = markovify.NewlineText(textSource)
     # Debugging print
     # print(textSource)
     generatedMessage = text_model.make_sentence(tries=100)
-    print(generatedMessage)
-    await client.edit_message(tmp, message.mentions[0].name + ' says: ' + generatedMessage)
+    print('Generated message: ' + generatedMessage + '\n')
+
+    await client.edit_message(tmp, message.mentions[0].name + ' says: ' + generatedMessage.replace('@', ':at:'))
 
 
 async def updateLoading(message, client, tmp, channelCounter, usableChannels):
