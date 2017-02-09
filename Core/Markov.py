@@ -74,10 +74,10 @@ async def updateLoading(message, client, tmp, channelCounter, usableChannels):
 async def updateChannelLoading(message, client, tmp, counter):
     loading = 'Downloading messages from channel ({}/10,000) |'.format(counter)
     rangeL = counter/1000
-    
-    for x in range(0, rangeL):
+
+    for x in range(0, int(rangeL)):
         loading += '█'
-    for x in range(0, 10-rangeL):
+    for x in range(0, 10 - int(rangeL)):
         loading += '▒'
 
     loading += '|'
