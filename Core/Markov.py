@@ -11,6 +11,7 @@ async def generateMarkovComment(message, client):
 
     if len(message.channel_mentions) > 0:
         await generateMarkovChannel(message, client)
+        return 
 
     if (len(message.mentions) != 1):
         await client.send_message(message.channel, 'Please mention only 1 user')
