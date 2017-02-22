@@ -9,6 +9,7 @@ from Giphy import *
 from Memes import *
 from Markov import *
 from GoogleAPIs import *
+from WhoSaid import *
 
 
 async def parseCommand(message, client):
@@ -124,8 +125,12 @@ async def parseCommand(message, client):
     elif message.content.startswith('~comment'):
         await generateMarkovComment(message, client)
 
+
     elif message.content.startswith('~ryzen'):
         await generateRyzen(message, client)
+
+    elif message.content.startswith('~whosaid '):
+        await findWhoSaid(message,client)
 
     # Not a command
     elif message.content.startswith('~'):
