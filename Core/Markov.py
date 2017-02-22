@@ -127,4 +127,4 @@ async def generateRyzen(message, client):
 
     text_model = markovify.Text(text)
 
-    await client.send_message(message.channel, "Hey, did you guys hear about Ryzen?" + text_model.make_sentence())
+    await client.send_message(message.channel, "Hey, did you guys hear about Ryzen? " + text_model.make_sentence())
