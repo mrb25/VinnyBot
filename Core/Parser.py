@@ -8,6 +8,7 @@ from VoiceCore import *
 from Giphy import *
 from Memes import *
 from Markov import *
+from GoogleAPIs import *
 
 
 async def parseCommand(message, client):
@@ -122,6 +123,9 @@ async def parseCommand(message, client):
     # Markov Chain
     elif message.content.startswith('~comment'):
         await generateMarkovComment(message, client)
+
+    elif message.content.startswith('~ryzen'):
+        await generateRyzen(message, client)
 
     # Not a command
     elif message.content.startswith('~'):

@@ -1,0 +1,238 @@
+The biggest x86 launch for AMD in five years is today: Ryzen is here. As always before a major launch, AMD gives a ‘Tech Day’ for relevant press and analysts, and through this event AMD’s CEO, Dr. Lisa Su lifted the lid on one of the most anticipated products in the semiconductor industry. AMD knows how to control the level of enthusiasm for its fans, and today is the end result, with processors going on pre-order from major retailers today at 1pm EST, ready for a general hard launch on March 2nd.
+
+In a similar vein to launches of recent smartphones, AMD is doing a staggered announcement/launch with the products on their new microarchitecture. Where Samsung/Apple might give all the details for a product a few weeks before it’s available to buy, today on February 22nd marks the day where AMD is giving consumers information about Ryzen, and specifically the Ryzen 7 family of eight-core products. All the information today is from AMD, and AMD’s internal testing, and pre-orders also start from today for users ready to put down their money for a launch day part. Reviews of the CPUs, as well as when the CPUs will ship to customers, is on March 2nd. This also happens to be right in the middle of two annual shows, Game Developer Conference (GDC) and Mobile World Congress (MWC), making the time between receiving pre-launch samples and being able to provide independent verification of AMD’s performance claims relatively frantic. We’ll do our best!
+
+The Ryzen Family
+With a new processor launch, naming the parts and positioning them within the market is critical. So with Ryzen, the processor stack will be split into three based on performance and price: Ryzen 7 at the high end, Ryzen 5 in the middle, and Ryzen 3 for more price-conscious consumers. Both Ryzen 5 and Ryzen 3 are set to be launched later, and Ryzen 7 is the first portion of the family to be released.
+
+
+
+Ryzen 7 will have three CPUs to start, all having eight cores and supporting simultaneous multi-threading:
+
+Ryzen 7 1800X: 8C/16T, 3.6 GHz base, 4.0 GHz turbo, 95W, $499
+Ryzen 7 1700X: 8C/16T, 3.4 GHz base, 3.8 GHz turbo, 95W, $399
+Ryzen 7 1700: 8C/16T, 3.0 GHz base, 3.7 GHz turbo, $329
+Ryzen 7 1800X will be the high-end part, featuring a base clock of 3.6 GHz and a turbo of 4.0 GHz, within a TDP of 95W, and for $499. Next to this is Ryzen 7 1700X, launching at $399, with a base/turbo of 3.4/3.8 GHz. The final part for the launch is the Ryzen 7 1700, providing eight cores and sixteen threads for $329 at 3.0/3.7 GHz frequencies.
+
+Processors will initially be available for pre-order from 185 retailers and OEMs worldwide, either as individual parts or pre-built systems.
+
+What, not 40% IPC? 52% IPC??
+Enthusiasts and analysts use the term IPC, or ‘Instructions Per Clock’, as a measure of how much the underlying microarchitecture improves from generation to generation. Two decades ago, a good design on a smaller node could net a healthy double-digit gain, whereas in recent years 5-10% gain has become the norm. When AMD initially announced that the new Zen microarchitecture they were developing was aiming for a 40% IPC gain, despite the low IPC they were starting from, users remained skeptical. AMD rehired Jim Keller to work alongside long-term AMD architect Mike Clark and produce a team with several goals in mind: high-performance x86, simultaneous multithreading, and a product to be relevant in the computing, PC, server and mobile space again. So despite this, 40% IPC always seemed a somewhat lofty goal, because Bulldozer was so underwhelming, and despite this low starting point. For the Ryzen launch today, AMD is stating that the final result of that goal is a 52% gain in IPC.
+
+
+
+This is something we will need to test in due course!
+
+The Ryzen Silicon, and the Future
+AMD pointed out that the new 8-core silicon design runs 4.8 billion transistors and features 200m of wiring. Through previous announcements we’ve examined parts of the microarchitecture including cache sizes, threading, front-end/back-end design, and so on.
+
+AMD Zen Microarchiture Part 2: Extracting Instruction-Level Parallelism
+AMD Gives More Zen Details: Ryzen, 3.4 GHz+, NVMe, Neural Net Prediction, & 25 MHz Boost Steps
+
+
+
+AMD’s CEO was keen to point out that this is a from-scratch design for AMD, using the knowledge gained from features developed for previous products but ultimately under the hood it looks like ‘a typical x86 high-performance core’, with AMD-specific features and tweaks. We were told that AMD’s roadmap extends into the multi-year range, so while the focus for 2017 will be on this family of products, back at HQ the next two generations are in various stages of development.
+
+BENCHMARKS PLEASE
+So despite the 82+ motherboards going to be available, 19 initial PC system builders moving into 200+ through the first half of 2017, the big question on everyone’s lips is how exactly does it perform?
+
+Well, AMD gave us the following numbers:
+
+
+
+AMD's benchmarks showed that the top Ryzen 7 1800X, compared to the 8-core Intel Core i7-6900K, both at out-of-the-box frequencies, gives an identical score on the single threaded test and a +9% in the multi-threaded test. AMD put this down to the way their multi-threading works over the Intel design. Also, the fact that the 1800X is half of the price of the i7-6900K.
+
+
+
+In a similar vein, again with the Cinebench 15 multi-threaded test, the Ryzen 7 1700X scores over and above the Core i7-6800K (its price competition) and higher than the Core i7-6900K which costs 2.5 times as much.
+
+We’ll tell you what our benchmarks say, with official retail processors. But you will have to wait until March 2nd. Sorry.
+
+Oasis' smash hit "Wonderwall" was playing as the throng of journalists assembled in the ballroom of a Grand Hyatt hotel in San Francisco at AMD's Ryzen Tech Day. I don't know why the song was picked—normally these events prefer something a little more current and upbeat—but it sure seemed apt. As CEO Lisa Su and others were preparing to speak, one of the Gallagher brothers (who knows which one) drearily droned the question, "You're gonna be the one that saves me?"
+
+AMD is a company that needs saving. Although there have been occasional high spots, such as the design wins for both the PlayStation 4 and the Xbox One, the last few years have been heavy going for the chip designer. Its main products—desktop and server processors—haven't been very good at all, forcing it to sell only to the very lowest of the low-end customers. Intel has handily dominated the performance-oriented desktop processor market for the last decade, after AMD's Bulldozer family brought widespread disappointment.
+
+But in 2015, Su made clear that the company needed high-performance, high-end parts, and those parts are very nearly here.
+
+On March 2, and preorderable today, the first three Ryzen processors will be available to buy. All three processors use AMD's brand-new Zen core. All are eight-core, 16-thread parts; all have a 16MB level 3 cache shared across all cores; and all three are unlocked for overclocking.
+
+The top-end part is the R7 1800X. This $499 chip will have a 3.6GHz base speed and a 4.0GHz boost speed, with a 95W TDP. AMD is positioning it against Intel's i7-6900K, a $1,050 processor using the Broadwell-E core running at 3.2 GHz, and turboing up to 3.7GHz.
+
+In the Cinebench R15 multithreaded rendering test, AMD says that its new processor scores about 9 percent higher than Intel's. In the single threaded version of the same test, it's a dead heat.
+
+AMD hasn't quite matched Broadwell's instructions per clock—it's relying on a few hundred extra megahertz to achieve that tied score—but it's not far off. And given that the Ryzen ships at a few hundred extra megahertz more than Intel's twice-as-expensive chip, the shortfall in IPC is largely academic. IPC is interesting in that it gives a sense of how cores are designed, but workloads aren't constrained by IPC or clock speed per se; they're constrained by thermal and power constraints. And AMD compares very favorably there, too: the Intel chip is a 140W part, so can use about 50 percent more power than the AMD.
+
+Per AMD's demonstrations, the Ryzen also beat the Intel chip in Handbrake video encoding and boasted somewhat better frame rates in Sniper Elite 4 at 4K.
+
+AMD CEO Lisa Su holding a Ryzen chip.
+Enlarge / AMD CEO Lisa Su holding a Ryzen chip.
+AMD
+The other two parts are the R7 1700X, a $399 part with a base of 3.4GHz and a boost of 3.8GHz; and the R7 1700, with clocks of 3.0 and 3.7GHz, selling for $329. AMD is positioning these against the $439 Intel Core i7-6800K (a six-core, 12-thread part) and $349 Core i7-7700K, respectively.
+
+This last comparison is particularly significant; the Kaby Lake processor is only a four-core, eight-thread processor. It has a sizable clockspeed advantage—its base frequency of 4.2GHz is higher than the boost frequency of any Ryzen, and it turbos all the way up to 4.5GHz—and AMD concedes that in strictly single threaded workloads, the Intel chip will open up a gap over the Ryzen, but as soon as you're doing something that can use all eight of those cores and all 16 of those simultaneous threads, that clock speed delta shows its limits: in Cinebench the Ryzen is 46 percent faster.
+
+The company was aiming to improve IPC by 40 percent over its previous processor design, and Lisa Su said that it didn't just hit this target—it surpassed it for a 52 percent improvement. This puts AMD back in the performance game.
+
+Full benchmarking will have to wait—the reviews will not arrive until launch day—but if the Cinebench scores are indicative, Ryzen isn't just giving AMD its first credible desktop processor for more than a decade; it's also putting Intel on the back foot, leaving Intel's already expensive Broadwell-E chips looking very overpriced indeed.
+
+AMD is promising that March 2 will be a hard launch, too, with chips in abundant supply, 82 or more different motherboards from a wide range of OEMs, and systems from 19 different boutique PC vendors. All the major OEMs should have Ryzen systems within about 30 days of launch, too.
+
+Late in the year, the company will be launching its new Vega GPU architecture, the Zen-based Naples server CPU, mobile Ryzen parts with integrated graphics processors, and Radeon Instinct headless GPUs designed for supercomputing number crunching.
+
+All told, 2017 is going to be a big year for AMD. If Ryzen truly delivers on its promise, and early indications are that it does, it should prove transformational for the company, giving it—and perhaps even parts of the PC market itself—the wonderwall it so desperately needs.
+
+Chip maker Advanced Micro Devices Inc. released details Wednesday on its forthcoming Ryzen chip, including pricing that has the potential to set off a price war with its big rival, Intel Corp.
+
+AMD AMD  said the first three chips based on its highly anticipated Zen architecture will be launched March 2 for the desktop PC and gaming market, with the most powerful chip in the lineup priced at half of what Intel INTC, -1.23%   charges for a similarly configured chip. Investors were enthused by the first concrete news of the chip family, with AMD’s shares rallying almost 2%.
+
+Chief Executive Lisa Su said at an event Wednesday in San Francisco that AMD had one goal in mind when it was developing the new chips. “We wanted to disrupt the PC market, we wanted to bring innovation, choice and performance to as many people as possible,” she said.
+
+Its highest-performance chip, called the Ryzen 7 1800X, with 8 cores, is priced at $499, which the company compared to a similarly configured 8-core, 16-thread Intel Core i7-6900K, at $1,000. “More performance, half the price,” Su said. AMD’s other two Ryzen chips are priced slightly below Intel’s chips, she said. The Ryzen 7 1700X will be priced at $399, versus Intel’s pricing of a comparable chip for $425, and the Ryzen 7 1700 will be priced at $329, versus $350 for a comparable chip from Intel, AMD said.
+
+Patrick Moorhead, principal analyst with Moor Insights & Strategy, said he believes Intel will take a wait-and-see approach, and focus on the high performance of its own chips, possibly increasing the clock speeds of its own chip offerings, rather than hurt its profit margins by lowering prices.
+
+“Overall, I see Intel marketing the heck out of their advantages to basically own the channel,” he said in an email. “Further on down the road, we could see some product enhancements, but only at last resort will Intel pull the price lever.”
+
+In the past, Intel and AMD have sparred over pricing, but that was in the days of a much stronger PC market. It’s feasible that now the chip rivals will engage instead in a performance war over clock speeds, which have become less of a focus for most consumers but are still important to videogamers.
+
+AMD shares have soared it the past few months as investors have big hopes for the company’s new chip family, which Su said was “truly our best product lineup in over a decade.” But the real hope for investors is AMD’s foray again into the server and data-center market, where as Bernstein Research analyst Stacy Rasgon noted, the company currently has less than .2% market share.
+
+“The biggest incremental opportunity could be in servers, but that takes longer,” he said.
+
+AMD said it will launch its Naples chip for data centers in the second quarter, along with two other chips based on the Zen architecture. Investors will be waiting to see AMD’s financial results for proof that 2017 will be “an incredible year.”
+AMD is coming out swinging against longtime competitor Intel with the launch of Ryzen, its latest PC processors based on the company's Zen chip architecture.
+
+On Wednesday, the Sunnyvale, Calif.-based chipmaker announced details for three central processing units (or CPUs) under the Ryzen 7 brand that beat Intel's top PC chips in both price and performance.
+
+The Ryzen chips all feature 8 cores and 16 threads. They come in three tiers:
+
+Ryzen 7 1800X running at 3.6 GHz or up to 4.0 GHz at $499
+Ryzen 7 1700X running at 3.4 GHz or up to 3.8 GHz at $399
+Ryzen 7 1700 running at 3.0 GHz or up to 3.7 GHz at $329
+Using the popular CPU benchmark tool Cinebench, AMD pitted the three processors against comparable Intel PC chips, and the initial results look promising:
+
+Benchmarks show the Ryzen 7 1800X performs 9% better than an Intel Core i7 6900K. Perhaps even more crucially, however, that top-of-the-line AMD chip costs half as much as Intel's: $499 for AMD versus $1050 for Intel.
+The 1700X performs 39% better than Intel Core i7 6800K, based on Cinebench's figures. The 1700X will cost $399, versus $425 for Intel's i7 6800K.
+Finally, the Ryzen 7 1700 achieves a 46% performance boost over Intel Core i7 7700K, and costs $329 against Intel's $350.
+With Ryzen, AMD hopes to reinvigorate a waning PC industry, which has experienced overall annual decline in sales for the past five years.
+
+“Ryzen is more than just another processor launch,” boasted Jim Anderson, senior vice president of computing and graphics at AMD, at a Tuesday event in San Francisco. “It represent real innovation and competition in the high-performance PC market.”
+
+Of course the chips aren't likely to kickstart demand for the PC -- the boom days are long gone. But by introducing some competition into the market, AMD hopes it can improve its market share and make high-performance PCs more accessible to consumers. Not only are gamers continually demanding higher performance, but so are people editing and compiling videos and photos.
+
+“We’re starting to see insatiable demand for better experiences when creating content,” said AMD CTO Mark Papermaster in an interview. “We have thousands of photos we want to edit and create photo albums for. We’re all becoming content creators. The old low-resolution displays are not good for any of us anymore. We need more processing power.”
+
+AMD has had a rocky recent past. While it competed successfully against Intel for many years up until the mid-2000s, a string of duds brought the company to near extinction. During that time, Intel gobbled up CPU market share in both PCs and the data center.
+
+“Take a look at the PC market over the last two or three years — it’s starved for innovation and it has really stagnated,” said Anderson. “In the tech industry, the worst thing is incrementalism. That’s what the market has been suffering from. This has benefitted our competitor in their financials, but it hasn’t benefitted the industry and the end user. Ryzen injects some real competition into the industry.”
+
+Ryzen is the initial step in a potential turnaround for AMD. Wall Street is certainly betting on it: AMD's stock is trading up more than 600% over the past 12 months.
+
+AMD began building the architecture Ryzen is based on -- Zen -- four years ago. Its original goal was to hit 40% more instructions per cycle, which is a metric for processor performance, over the previous generation's architecture with the new system. Instead, AMD ended up with 52% more instructions per cycle. Typically, most chips based on new architecture achieve only up to 20% jumps in performance.
+
+The three Ryzen 7 processors are going up for pre-orders on Wednesday and will launch globally on March 2nd. More than 180 retailers and PC makers will support the new chips.
+AMD just officially unveiled its Ryzen desktop processor family, a chip that it says can compete with Intel's chips at long last. AMD's last generation of desktop chips was disappointing, and has been largely relegated to low-end computers. But Ryzen manages a 52 percent boost in instructions per cycle (IPC) over last time, which puts it on a level playing field with the best Intel has to offer.
+
+The Ryzen family will come in multiple flavors, but the high-end Ryzen 7 is shipping first. The chip has eight cores and 16 threads, and starts at $329. At the top end is the 3.6GHz (4.0GHz turbo), $499 Ryzen 7 1800X, which compares well with Intel's $1,050 i7-6900K. According to AMD's benchmarks, the 1800X ties the 6900K on singlethreaded benchmarks, and beats Intel on multithreaded performance.
+
+
+AMD uses a few hundred more megahertz to get there, which means AMD isn't doing quite as much as Intel Broadwell per hertz. But it's the end result that matters, and AMD is claiming to match or beat Intel across the spectrum with better prices — the dream scenario, basically.
+
+The new processors are available for preorder now, and will ship on March 2nd. AMD is promising to have plenty of inventory and a ton of motherboard options at launch. It's a lot of promises, AMD! Hopefully Ryzen can deliver, and we can get a real fight in the desktop market, which will be wonderful for anybody not named "Intel."
+For months, computer enthusiasts have chafed for fresh official information on Ryzen, as opposed to the stream of unverified leaks. Today, AMD is releasing detailed product information, pricing, and estimated IPC improvements over Excavator. Hold on to your hats, ladies and gentlemen — things are about to get real interesting in the PC market.
+
+For those of you just tuning in, Ryzen is AMD’s last, best chance to prove it can compete effectively against Intel’s Core i3/i5/i7 product lines. For years, AMD has been stuck trying to compete against Intel’s top-end chips with its Piledriver-based architecture. Ryzen is a new architecture, completely unrelated to AMD’s previous Bulldozer / Piledriver / Steamroller / Excavator product lines. It’s no exaggeration to say that AMD’s future in the PC market depends on this core. Based on what we saw at the Ryzen launch event on Tuesday, that future is in good hands.
+
+For years, AMD has talked about a 40% IPC uplift for its chips compared with Excavator. Today, AMD revealed that it didn’t just meet that goal, it beat it by 12 percentage points. There’s no evidence whatsoever that this 52% uplift is a cherry-picked figure. If anything, it might be somewhat conservative.
+
+IPC-Uplift
+
+AMD is taking pre-orders on three Ryzen SKUs today: Ryzen 7 1700, Ryzen 7 1700X, and the Ryzen 7 1800X. All three chips are eight-core, 16-thread models. Unlike previous benchmark results, the data below is from production systems with Turbo Mode enabled on both AMD and Intel chips. Here’s how the SKUs and their performance break down:
+
+Ryzen 7 1700: 3.0GHz base, 3.7GHz boost clock, with a 65W TDP. This is the chip AMD is positioning against the Core i7-7700K (4.2GHz base, 4.5GHz Turbo).
+
+
+
+AMD’s overall win against Intel’s Core i7-7700K isn’t surprising, given Ryzen’s additional cores. The Intel chip has an 18-25% advantage in frequency, which offsets some of the gap between the two chips, but AMD is still much faster, while also drawing less power.
+
+Ryzen 7 1700X: 3.4GHz base clock, 3.8GHz boost clock, with a 95W TDP. AMD is positioning Ryzen 7 1700X against two Intel cores — the Core i7-6800K (6 cores, 12 threads, 3.4GHz base, 3.6GHz Turbo) and the Core i7-6900K (8 cores, 16 threads, 3.2GHz base, 3.7GHz Turbo). Both Intel chips have a 140W TDP.
+
+Ryzen-1700X-14
+
+Again, we see AMD offering significantly better performance compared with the six-core version of the chip. Ryzen 1700X only leads the 6900K by 4%, but it does lead the match.
+
+Ryzen 1800X: 3.6GHz base clock, 4GHz boost clock, 95W TDP. This is AMD’s heavy-hitter, and it beats past the Core i7-6900K by an impressive 9% in Cinebench R15.
+
+Ryzen-1800X-18
+
+Single-threaded performance, meanwhile, is also quite strong. No, AMD hasn’t quite caught Intel in terms of single-thread performance — remember, the Ryzen 7 1800X is running at a 3.6GHz base / 4GHz boost compared with a 3.2GHz base / 3.7GHz boost for the Core i7-6900K. But the clock speed gap between the two cores at maximum turbo is just 8%. Piledriver, on average, was roughly 60% as fast as an Intel CPU. If the 1800X can actually hold AMD’s 95W TDP at these performance level, it’ll offer strong competition against the Core i7-6900K both in raw performance and performance-per-watt.
+
+Pricing
+Ryzen’s pricing has been calibrated to blow holes in Intel’s High End DeskTop (HEDT) product line.
+
+Ryzen-Pricing
+
+The Core i7-7700K is a $339 – $350 CPU. The Core i7-6800K is a $434 – $441 CPU. And, of course, the Core i7-6900K is a $1000 CPU. Between the increased performance from additional cores and the dramatic price reduction (relative to Intel) for an eight-core part, AMD is obviously gunning for bear.
+
+Cinebench is the only test we have graphed data for, but it wasn’t the only test that AMD showed. The Ryzen 7 1700 was also shown as beating the Core i7-7700K in Handbrake (61.8s vs. 71.8s), and multiple demo systems throughout the event showcased this match-up. The results in well-threaded software weren’t particularly kind to Chipzilla. Intel still has an advantage in pure single-threaded code in some cases, but the gap isn’t very large.
+
+Ryzen rising
+For years, AMD has talked about Zen / Ryzen as a CPU architecture that would drive server market gains and desktop sales alike, with a low-power APU coming to mobile systems and desktops later this year. While we’re reserving final judgment for a full suite of benchmark tests, everything we’ve seen this week looks extremely promising.
+
+An eight-core Ryzen CPU
+AMD beat its IPC goal without compromising its clockspeed. Its 14nm feature sizes are actually smaller than their Intel counterparts, and AMD suggests we’ll see some overclocking capability on top of the 4GHz clock (exactly how much is still unclear).
+
+Start your clock — Ryzen 7 launches on March 2. Ryzen 5 and other parts will arrive in the not-too-distant future.
+
+AMD’s Ryzen desktop processors are finally here, and they’re poised to go directly into battle with Intel.
+
+Today, AMD unveiled their new powerhouse chip at a special event in San Francisco. These specific variants on the Ryzen 7 were front and center: The 1800X, the 1700x, and the 1700.
+
+“We're hunting for awesome startups”
+Run an early-stage company? We're inviting 250 to exhibit at TNW Conference and pitch on stage!
+The Ryzen 7 has eight cores, 16 threads, and is based on the Zen architecture, which uses a 14nm manufacturing process. According to AMD CEO Lisa Su, Zen shows a 52-percent improvement in instructions per cycle over the previous generation and is designed to consume less energy. Su also promised huge visual improvements, especially for gamers.
+
+To show how it had improved on performance, AMD used Cinebench to compare Ryzen chips with comparable Intel i7 processors. According to the tests, Ryzen 7 outperforms i7s in every variation. Su showed the details of the tests during the show, which you can see below.
+
+
+
+The main draw of these chips is their price. AMD apparently plans to undercut Intel by offering Ryzen for less than its Intel equivalents. The R7 1700 sells for just $329. The top-of-the-line R7 1800X sells for $499, less than half the price of its rival Intel chip.
+
+Starting today, you can pre-order Ryzen from several retailers, including Amazon and Newegg. They’ll be commercially available on March 2.
+It has been a long time since AMD (AMD 14,28 +0,28 +2,00%) unleashed a new CPU into the PC landscape, but that is about to change. Today AMD has confirmed that the Ryzen 7 lineup of processors will hit retail starting March 2, 2017, with pre-orders open Today at 1:00 p.m. EST.
+
+The Ryzen 7 lineup of CPU's boast an impressive lineup of specs, with the 1800X reportedly out-performing the similarly configured 8-core, 16-thread Core i&-6900K in Cinebench and handbrake video transcoding tests. It is also boasting similar performance when 4K gaming, all at a much lower power consumption and price point.
+
+With the Ryzen, AMD has priced the full lineup at a very affordable point. The highest end in the range, the 1800X with a base clock of 3.6, a boost clock of 4.0 will cost consumers $499USD, while the 1700X running at 3.4 base, and 3.8 boost will cost $399. Finally, the 1700, the lowest in the Ryzen 7 range will run at 3.0, with a boost of 3.7, and an included Wraith Spire cooler will only set you back $329 USD.
+
+“We deeply appreciate the ways in which our partners and customers came together to build a high-performance ecosystem for Ryzen,” said Jim Anderson, senior vice president and general manager, Computing and Graphics Group, AMD. “With an anticipated 82 new motherboards from ODMs worldwide, Ryzen-based designs from top global PC OEMs expected soon, and boutique SIs and OEMs showing extreme-performance PC designs, this will be a launch like no other. Unprecedented pre-order support from etailers globally shows that our ecosystem and partners are fully behind AMD and our commitment to return innovation and competition to high-performance PCs.”
+
+
+With VR, and the rise of 4K gaming, AMD could not have picked the better time to jump back into the PC CPU race at full force. The Ryzen 7 lineup is looking to be an exciting offering, and if AMD is able to pull off the boosted performance in real world testing it could easily change the enthusiast building market landscape. For more details on the future of Ryzen, along with details on AM4 motherboards and compatible thermal options, AMD CEO Lisa Su will be doing a AMA on March 2, 2017 at 11:30 a.m. CST on the AMD Reddit.  CGMagazine will have a full review of the Ryzen Lineup closer to launch.
+Let's talk about these specs for a moment. There has been a lot of leaked information on Ryzen and the 17 different SKUs AMD is expected to release. None of the information is official, nor are the accompanying specs, most notably core counts, clockspeeds, and TDP ratings. In this case, the part number indicates this is a CPU with a 65W TPD. From what we think we know, the Ryzen 5 1600X is supposed to be a 95W part. If that's the case, and assuming the benchmark run is real, we might actually be looking at a Ryzen 5 1600 here.
+
+There hasn't been any pricing information leaked for the Ryzen 5 1600, so for the sake of comparison, let's go ahead and assume we're looking at a Ryzen 5 1600X. That's a $259 processor (which again is unconfirmed). As pointed out in the comments section at Reddit, if you plot the Ryzen CPU's score in a graph of Cinebench R15 benchmark results over at Anandtech containing scores from 20 Intel processors, its score of 1,136 matches up with (and comes out slightly ahead of) Intel's Core i7-6800K, a 6-core Broadwell-E chip that retails for between $410 and $450. Our own stable of benchmarks here, some higher-end chips, some lower end, also supports this estimation.
+
+Again, this might not even be a Ryzen 5 1600X, it could be a less expensive Ryzen part. Either way, this is another leaked benchmark that shows Ryzen shaking things up in the CPU market in a big way. It's already been rumored that Intel is readying new Kaby Lake Core i7 and Core i5 processors to steal some thunder from Ryzen, but if all these leaks turn out to be accurate, the Santa Clara chipmaker may have to rethink its pricing pyramid, too.
+With a little bit of luck, AMD will launch its Ryzen processor lineup on February 28 during its Capsaicin event at the 2017 Game Developers Conference (GDC) and put to rest all the rumors and speculation. Barring that, we'll have to wait until sometime early next month, as AMD CEO Dr. Lisa Su previously indicated. Either way, the leaks will continue to flow in the meantime. Using information that has already been leaked, a reddit forum member who goes by "Nestledrink" put together a handy chart showing how AMD could disrupt the market by undercutting Intel at nearly every turn.
+
+There is a lot of information about Ryzen that is out in the wild, including model names of 17 SKUs, core counts, clockspeeds, and TDP ratings. Pricing data is a little tougher to come by, though it's out there, including a full breakdown in a Chinese forum. Nestledrink took that data and did some conversions to see how Ryzen and Kaby Lake might stack up in the marketplace. Here is a look at that chart:
+
+image: http://hothardware.com/ContentImages/NewsItem/40216/content/small_Ryzen_Kaby_Lake_Chart.jpg
+
+AMD Ryzen and Intel Kaby Lake Chart
+Click to Enlarge
+
+Nestledrink explains that the first thing he did was convert the Chinese prices for Ryzen to U.S. currency. He then looked up equivalent Newegg prices for Intel processors.
+
+"When we look at the Intel prices on Newegg, on average it's around 85 percent versus the converted Chinese price. Using this logic, I multiplied the converted Chinese Ryzen prices by 85 percent to get the expected price for Ryzen product lines," Nestledrink said.
+
+There are things to note here. For one, Ryzen pricing has not yet been confirmed. Heck, even the 17 SKUs along with core counts and clockspeeds is all based on leaks and rumors. On top of that, pricing often varies by region—a straight up conversion isn't typically how it works.
+
+Those issues aside, if the leaked information to date is mostly accurate, the chart serves as a ballpark breakdown of where Ryzen stands in relation to Kaby Lake. That is where things get interesting. Take for example Intel's Core i7-6850K processor priced at $610. It has 6-cores, 12 threads, and is clocked at 3.6GHz to 3.8GHz. Compare that to AMD's Ryzen R5-1600X priced at $247. It also has 6 cores and 12 threads, and is clocked slightly lower at 3.3GHz to 3.7GHz.
+
+Here's another interesting comparison:
+Intel Core i7-6900K: 8 cores, 16 threads, 3.2GHz to 3.7GHz, $1,050
+AMD Ryzen R7-1700X: 8 cores, 16 threads, 3.4GHz to 3.8GHz, $397
+AMD Ryzen R7-1700: 8 cores, 16 threads, 3GHz to 3.7GHz, $322
+AMD's aggressive pricing, if it turns out that way, could force Intel to either lower its prices or hope that its customers are willing to spend considerably more out of brand loyalty. As it stands, rumor has it Intel is readying new Kaby Lake Core i7 and i5 chips to fend off Ryzen. The question is, will it be enough? Stay tuned.

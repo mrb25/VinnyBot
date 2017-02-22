@@ -11,7 +11,7 @@ async def generateMarkovComment(message, client):
 
     if len(message.channel_mentions) > 0:
         await generateMarkovChannel(message, client)
-        return 
+        return
 
     if (len(message.mentions) != 1):
         await client.send_message(message.channel, 'Please mention only 1 user')
@@ -110,8 +110,8 @@ async def generateMarkovChannel(message, client):
         await client.send_message(message.channel, 'Not enough messages received, cannot generate message')
         return
 
-    await client.edit_message(tmp, 'Generating comment from {} messages.'.format(counter))
-    print('Generating model from {} messages'.format(counter))
+    await client.edit_message(tmp, 'Generating comment from {} messages.'.format(usableCounter))
+    print('Generating model from {} messages'.format(usableCounter))
 
     text_model = markovify.NewlineText(textSource)
     # Debugging print
@@ -120,3 +120,11 @@ async def generateMarkovChannel(message, client):
     print('Generated message: ' + generatedMessage + '\n')
 
     await client.edit_message(tmp, message.channel_mentions[0].name + ' says: ' + generatedMessage.replace('@', ':at:'))
+
+async def generateRyzen(message, client):
+    with open("res/ryzen.txt", encoding="utf8") as f:
+        text = f.read()
+
+    text_model = markovify.Text(text)
+
+    await client.send_message(message.channel, "Hey, did you guys hear about Ryzen?" + text_model.make_sentence())
