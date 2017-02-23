@@ -34,9 +34,7 @@ async def playTest(message, client):
     elif client.voice_client_in(message.server).channel == message.author.voice_channel:
         try:
             if playerMap[client.voice_client_in(message.server)].is_playing():
-                vidUrl = message.content
-                vidUrl = re.search("(?P<url>https?://[^\s]+)", vidUrl).group("url")
-                songMap[client.voice_client_in(message.server)].append(vidUrl)
+                songMap[client.voice_client_in(message.server)].append(message.content)
                 await client.send_message(message.channel, "Added song to playlist!")
 
 
@@ -48,8 +46,7 @@ async def playTest(message, client):
                 else:
                     vClient = client.voice_client_in(message.server)
                     player = playerMap[vClient]
-                    vidUrl = message.content
-                    vidUrl = re.search("(?P<url>https?://[^\s]+)", vidUrl).group("url")
+                    vidUrl = formatYoutube(message.content)
                     player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
                     """Adding player to hashmap"""
                     playerMap[vClient] = player
@@ -64,8 +61,7 @@ async def playTest(message, client):
                 print('ayo key error!!!')
                 await voiceInit()
                 vClient = client.voice_client_in(message.server)
-                vidUrl = message.content
-                vidUrl = re.search("(?P<url>https?://[^\s]+)", vidUrl).group("url")
+                vidUrl = formatYoutube(message.content)
                 player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
                 """Adding player to hashmap"""
                 player.use_avconv = True
@@ -124,7 +120,9 @@ def songFinished(message, client):
 
         else:
             vClient = client.voice_client_in(message.server)
-            coro = vClient.create_ytdl_player(songMap[vClient][0], use_avconv=True, after=lambda: songFinished(message, client))
+            coro = vClient.create_ytdl_player(formatYoutube(songMap[vClient][0]), use_avconv=True,
+                                              after=lambda: songFinished(message, client))
+            
             fut = asyncio.run_coroutine_threadsafe(coro, client.loop)
             try:
                 player = fut.result()
@@ -141,7 +139,6 @@ def songFinished(message, client):
         del playerMap[client.voice_client_in(message.server)]
 
 
-
 def leaveServer(client, channel):
     print("leaving channel")
     try:
@@ -151,3 +148,8 @@ def leaveServer(client, channel):
 
     except KeyError:
         print("Tried to leave but not in the map")
+
+
+def formatYoutube(url):
+    return re.search("(?P<url>https?://[^\s]+)", url).group("url")
+
