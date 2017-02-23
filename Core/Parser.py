@@ -59,6 +59,10 @@ async def parseCommand(message, client):
         await summon(message, client)
         commandCalled()
 
+    elif message.content.startswith('~playlist'):
+        await printPlaylist(message, client)
+        commandCalled();
+
     elif message.content.startswith('~play'):
         await playTest(message, client)
         commandCalled()
@@ -74,10 +78,6 @@ async def parseCommand(message, client):
     elif message.content.startswith('~stop'):
         await stopPlay(message, client)
         commandCalled()
-
-    elif message.content.startswith('~playlist'):
-        await printPlaylist(message, client)
-        commandCalled();
 
     # Meme Commands
     elif message.content.startswith('~ayy'):
