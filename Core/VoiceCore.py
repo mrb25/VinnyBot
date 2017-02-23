@@ -32,7 +32,10 @@ async def playTest(message, client):
         return False
 
     elif not client.voice_client_in(message.server):
-        await client.send_message(message.channel, 'I am not in a voice channel please "~summon" me')
+        if client.is_voice_connected(message.server):
+            await client.voice_client_in(message.server).move_to(audio_channel)
+        else:
+            await client.join_voice_channel(audio_channel)
 
     elif client.voice_client_in(message.server).channel == message.author.voice_channel:
         try:
@@ -116,6 +119,19 @@ async def resumeStream(message, client):
         await client.send_message(message.channel, 'I could not detect an audio stream playing')
 
 
+async def changeVolume(message, client):
+    try:
+        player = playerMap[client.voice_client_in(message.server)]
+        volume = float(message.content[8:])
+        if volume > 2.0 or volume < 0.1:
+            await client.send_message(message.channel, "Please enter a number between 0.1 and 2.0")
+        player.volume = volume
+
+    except:
+        await client.send_message(message.channel, "Please enter a valid number between 0.1 and 2.0")
+
+
+
 def songFinished(message, client):
     print("The song is done")
     try:
@@ -160,6 +176,7 @@ def formatYoutube(url):
 
 async def printPlaylist(message, client):
     try:
+        msg = await client.send_message(message.channel, "Grabbing playlist")
         list = ""
         count = 0
         for u in songMap[client.voice_client_in(message.channel)]:
@@ -167,10 +184,10 @@ async def printPlaylist(message, client):
                 list += "Now Playing: " + getYTTitle(u[6:]) + "\n"
 
             else:
-                list += str(count) + getYTTitle(u[6:]) + "\n"
+                list += str(count) + ": " + getYTTitle(u[6:]) + "\n"
 
             count += 1
-        await client.send_message(message.channel, list)
+        await client.edit_message(msg, list)
 
 
     except KeyError:
