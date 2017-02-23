@@ -1,6 +1,9 @@
+import urllib
 import discord
 import re
 import asyncio
+import lxml
+from lxml import etree
 
 playerMap = {}
 songMap = {}
@@ -51,6 +54,7 @@ async def playTest(message, client):
                     """Adding player to hashmap"""
                     playerMap[vClient] = player
                     songMap[vClient] = []
+                    songMap[vClient].append(message.content)
                     player.start()
 
         except KeyError:
@@ -67,6 +71,7 @@ async def playTest(message, client):
                 player.use_avconv = True
                 playerMap[vClient] = player
                 songMap[vClient] = []
+                songMap[vClient].append(message.content)
                 player.start()
 
     else:
@@ -114,15 +119,15 @@ async def resumeStream(message, client):
 def songFinished(message, client):
     print("The song is done")
     try:
-        if songMap[client.voice_client_in(message.server)][0] is None:
+        if songMap[client.voice_client_in(message.server)][1] is None:
             del playerMap[client.voice_client_in(message.server)]
             del songMap[client.voice_client_in(message.server)]
 
         else:
             vClient = client.voice_client_in(message.server)
-            coro = vClient.create_ytdl_player(formatYoutube(songMap[vClient][0]), use_avconv=True,
+            coro = vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
                                               after=lambda: songFinished(message, client))
-            
+
             fut = asyncio.run_coroutine_threadsafe(coro, client.loop)
             try:
                 player = fut.result()
@@ -153,3 +158,26 @@ def leaveServer(client, channel):
 def formatYoutube(url):
     return re.search("(?P<url>https?://[^\s]+)", url).group("url")
 
+async def printPlaylist(message, client):
+    try:
+        list = ""
+        count = 0
+        for u in songMap[client.voice_client_in(message.channel)]:
+            if count == 0:
+                list += "Now Playing: " + getYTTitle(u[6:]) + "\n"
+
+            else:
+                list += str(count) + getYTTitle(u[6:]) + "\n"
+
+            count += 1
+        await client.send_message(message.channel, list)
+
+
+    except KeyError:
+        await client.send_message(message.channel, "There are currently no songs playing")
+
+
+def getYTTitle(url):
+    youtube = etree.HTML(urllib.urlopen(url).read())
+    video_title = youtube.xpath("//span[@id='eow-title']/@title")
+    return ''.join(video_title)
