@@ -36,7 +36,7 @@ async def playTest(message, client):
                 vidUrl = message.content
                 vidUrl = re.search("(?P<url>https?://[^\s]+)", vidUrl).group("url")
                 songMap[client.voice_client_in(message.server)].append(vidUrl)
-                await client.send_message(message.channel, "There is currently a song playing please try again later.")
+                await client.send_message(message.channel, "Added song to playlist!")
 
 
             else:
@@ -65,7 +65,7 @@ async def playTest(message, client):
                 vClient = client.voice_client_in(message.server)
                 vidUrl = message.content
                 vidUrl = re.search("(?P<url>https?://[^\s]+)", vidUrl).group("url")
-                player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
+                player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: await songFinished(message,client))
                 """Adding player to hashmap"""
                 player.use_avconv = True
                 playerMap[vClient] = player
