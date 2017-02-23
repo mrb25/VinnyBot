@@ -1,5 +1,6 @@
 import discord
 import re
+import asyncio
 
 playerMap = {}
 songMap = {}
@@ -65,7 +66,7 @@ async def playTest(message, client):
                 vClient = client.voice_client_in(message.server)
                 vidUrl = message.content
                 vidUrl = re.search("(?P<url>https?://[^\s]+)", vidUrl).group("url")
-                player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: await songFinished(message,client))
+                player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
                 """Adding player to hashmap"""
                 player.use_avconv = True
                 playerMap[vClient] = player
@@ -114,7 +115,7 @@ async def resumeStream(message, client):
         await client.send_message(message.channel, 'I could not detect an audio stream playing')
 
 
-async def songFinished(message, client):
+def songFinished(message, client):
     print("The song is done")
     try:
         if songMap[client.voice_client_in(message.server)][0] is None:
@@ -123,9 +124,14 @@ async def songFinished(message, client):
 
         else:
             vClient = client.voice_client_in(message.server)
-            player = await vClient.create_ytdl_player(songMap[vClient][0], use_avconv=True, after=lambda: songFinished(message, client))
+            coro = vClient.create_ytdl_player(songMap[vClient][0], use_avconv=True, after=lambda: songFinished(message, client))
+            fut = asyncio.run_coroutine_threadsafe(coro, client.loop)
+            try:
+                player = fut.result()
+            except:
+                print("Error")
+
             """Adding player to hashmap"""
-            player.use_avconv = True
             playerMap[vClient] = player
             songMap[vClient].pop(0)
             player.start()
