@@ -8,7 +8,8 @@ async def help(client, message):
     text += "~tr subreddit -- Top HOT post from subreddit right now\n" \
             "~comment @user or #channel -- Generates a unique comment based on the user/channel post history (Experimental)\n" \
             "~ryzen -- Hey did you hear about Ryzen??\n"
-    text += "\nMODERATION COMMANDS\n~prune num\n~kick @username\n~whois @username -- Gives info about a user\n"
+    text += "\nMODERATION COMMANDS\n~prune num\n~kick @username\n~whois @username -- Gives info about a user\n" \
+            "~stats -- Gives stats about Vinny\n"
     text += "\nVOICE COMMANDS\n~summon -- Summons Vinny to your current voice channel\n"
     text += "~play youtubeurl -- Plays audio from video in your channel\n"
     text += "~stop -- If an audio stream is playing in your server it stops it\n" \
