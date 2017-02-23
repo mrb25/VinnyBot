@@ -1,4 +1,4 @@
-import urllib
+import urllib.request
 import discord
 import re
 import asyncio
@@ -178,6 +178,6 @@ async def printPlaylist(message, client):
 
 
 def getYTTitle(url):
-    youtube = etree.HTML(urllib.urlopen(url).read())
+    youtube = etree.HTML(urllib.request.urlopen(url).read())
     video_title = youtube.xpath("//span[@id='eow-title']/@title")
     return ''.join(video_title)
