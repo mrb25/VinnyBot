@@ -61,7 +61,11 @@ async def parseCommand(message, client):
 
     elif message.content.startswith('~playlist'):
         await printPlaylist(message, client)
-        commandCalled();
+        commandCalled()
+
+    elif message.content.startswith("~volume"):
+        await setVolume(message, client)
+        commandCalled()
 
     elif message.content.startswith('~play'):
         await playTest(message, client)
