@@ -119,13 +119,25 @@ async def resumeStream(message, client):
 async def setVolume(message, client):
     try:
         player = playerMap[client.voice_client_in(message.server)]
-        volume = float(message.content[8:])
+        volume = float(message.content[7:])
         if volume > 2.0 or volume < 0.1:
             await client.send_message(message.channel, "Please enter a number between 0.1 and 2.0")
-        player.volume = volume
+
+        else:
+            player.volume = volume
+            await client.send_message(message.channel, "Volume changed to {}".format(volume))
 
     except:
         await client.send_message(message.channel, "Please enter a valid number between 0.1 and 2.0")
+
+
+async def getVolume(message, client):
+    try:
+        volume = playerMap[client.voice_client_in(message.server)].volume
+        await client.send_message(message.channel, "Volume is currently: " + str(volume))
+
+    except:
+        await client.send_message(message.channel, "I am not currently in a channel so I have no volume :(")
 
 
 
