@@ -137,7 +137,7 @@ async def getVolume(message, client):
         await client.send_message(message.channel, "Volume is currently: " + str(volume))
 
     except:
-        await client.send_message(message.channel, "I am not currently in a channel so I have no volume :(")
+        await client.send_message(message.channel, "I have no volume :(")
 
 
 
