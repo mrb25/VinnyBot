@@ -2,6 +2,7 @@ import discord
 import re
 
 playerMap = {}
+songMap = {}
 
 async def voiceInit():
     if not discord.opus.is_loaded():
@@ -32,8 +33,11 @@ async def playTest(message, client):
     elif client.voice_client_in(message.server).channel == message.author.voice_channel:
         try:
             if playerMap[client.voice_client_in(message.server)].is_playing():
-                print('here in playing')
+                vidUrl = message.content
+                vidUrl = re.search("(?P<url>https?://[^\s]+)", vidUrl).group("url")
+                songMap[client.voice_client_in(message.server)].append(vidUrl)
                 await client.send_message(message.channel, "There is currently a song playing please try again later.")
+
 
             else:
                 if len(playerMap) >= 2:
@@ -48,6 +52,7 @@ async def playTest(message, client):
                     player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
                     """Adding player to hashmap"""
                     playerMap[vClient] = player
+                    songMap[vClient] = []
                     player.start()
 
         except KeyError:
@@ -64,6 +69,7 @@ async def playTest(message, client):
                 """Adding player to hashmap"""
                 player.use_avconv = True
                 playerMap[vClient] = player
+                songMap[vClient] = []
                 player.start()
 
     else:
@@ -78,6 +84,7 @@ async def stopPlay(message, client):
         await client.send_message(message.channel, "Stopping audio Stream")
         playerMap[client.voice_client_in(message.server)].stop()
         del playerMap[client.voice_client_in(message.server)]
+        del songMap[client.voice_client_in(message.server)]
 
 async def pauseStream(message, client):
     if playerMap[client.voice_client_in(message.server)].is_playing():
@@ -107,15 +114,33 @@ async def resumeStream(message, client):
         await client.send_message(message.channel, 'I could not detect an audio stream playing')
 
 
-def songFinished(message, client):
+async def songFinished(message, client):
     print("The song is done")
-    del playerMap[client.voice_client_in(message.server)]
+    try:
+        if songMap[client.voice_client_in(message.server)][0] is None:
+            del playerMap[client.voice_client_in(message.server)]
+            del songMap[client.voice_client_in(message.server)]
+
+        else:
+            vClient = client.voice_client_in(message.server)
+            player = await vClient.create_ytdl_player(songMap[vClient][0], use_avconv=True, after=lambda: songFinished(message, client))
+            """Adding player to hashmap"""
+            player.use_avconv = True
+            playerMap[vClient] = player
+            songMap[vClient].pop(0)
+            player.start()
+
+    except KeyError:
+        print("Finished song key error")
+        del playerMap[client.voice_client_in(message.server)]
+
 
 
 def leaveServer(client, channel):
     print("leaving channel")
     try:
         del playerMap[client.voice_client_in(channel.server)]
+        del songMap[client.voice_client_in(channel.server)]
         print("Successfully left")
 
     except KeyError:
