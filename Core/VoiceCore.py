@@ -36,26 +36,35 @@ async def playTest(message, client):
                 await client.send_message(message.channel, "There is currently a song playing please try again later.")
 
             else:
+                if len(playerMap) >= 2:
+                    await client.send_message(message.channel,
+                                              "Max amount of servers using audio. Please try again later, sorry.")
+
+                else:
+                    vClient = client.voice_client_in(message.server)
+                    player = playerMap[vClient]
+                    vidUrl = message.content
+                    vidUrl = re.search("(?P<url>https?://[^\s]+)", vidUrl).group("url")
+                    player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
+                    """Adding player to hashmap"""
+                    playerMap[vClient] = player
+                    player.start()
+
+        except KeyError:
+            if len(playerMap) >= 2:
+                await client.send_message(message.channel, "Max amount of servers using audio. Please try again later, sorry.")
+
+            else:
+                print('ayo key error!!!')
+                await voiceInit()
                 vClient = client.voice_client_in(message.server)
-                player = playerMap[vClient]
                 vidUrl = message.content
                 vidUrl = re.search("(?P<url>https?://[^\s]+)", vidUrl).group("url")
                 player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
                 """Adding player to hashmap"""
+                player.use_avconv = True
                 playerMap[vClient] = player
                 player.start()
-
-        except KeyError:
-            print('ayo key error!!!')
-            await voiceInit()
-            vClient = client.voice_client_in(message.server)
-            vidUrl = message.content
-            vidUrl = re.search("(?P<url>https?://[^\s]+)", vidUrl).group("url")
-            player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
-            """Adding player to hashmap"""
-            player.use_avconv = True
-            playerMap[vClient] = player
-            player.start()
 
     else:
         await client.send_message(message.channel, 'You are not in my voice channel. Please join or "~summon" me')
@@ -68,6 +77,7 @@ async def stopPlay(message, client):
         print('Stopping Stream')
         await client.send_message(message.channel, "Stopping audio Stream")
         playerMap[client.voice_client_in(message.server)].stop()
+        del playerMap[client.voice_client_in(message.server)]
 
 async def pauseStream(message, client):
     if playerMap[client.voice_client_in(message.server)].is_playing():
@@ -99,3 +109,14 @@ async def resumeStream(message, client):
 
 def songFinished(message, client):
     print("The song is done")
+    del playerMap[client.voice_client_in(message.server)]
+
+
+def leaveServer(client, channel):
+    print("leaving channel")
+    try:
+        del playerMap[client.voice_client_in(channel.server)]
+        print("Successfully left")
+
+    except KeyError:
+        print("Tried to leave but not in the map")

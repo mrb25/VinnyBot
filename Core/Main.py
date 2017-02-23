@@ -1,6 +1,7 @@
 import discord
 import sys
 from Parser import *
+from VoiceCore import *
 
 Token = input("Enter your token: ")
 client = discord.Client()
@@ -38,6 +39,7 @@ async def on_voice_state_update(before, after):
     if client.is_voice_connected(after.server):
         vClient = client.voice_client_in(before.server)
         if len(vClient.channel.voice_members) == 1:
+            leaveServer(client, before)
             await client.voice_client_in(before.server).disconnect()
 
 
