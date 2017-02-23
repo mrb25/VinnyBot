@@ -34,7 +34,7 @@ async def playTest(message, client):
     elif not client.is_voice_connected(message.server):
         await client.join_voice_channel(audio_channel)
 
-    elif client.voice_client_in(message.server).channel == message.author.voice_channel:
+    if client.voice_client_in(message.server).channel == message.author.voice_channel:
         try:
             if playerMap[client.voice_client_in(message.server)].is_playing():
                 songMap[client.voice_client_in(message.server)].append(message.content)
