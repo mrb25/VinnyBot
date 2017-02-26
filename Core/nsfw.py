@@ -7,7 +7,13 @@ import xml.etree.ElementTree
 
 async def postR34(message, client):
     tags = message.content[4:]
-    search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={}".format(tags)
+
+    if "fur" not in tags or "furry" not in tags or "yiff" not in tags:
+        search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={}".format(tags) +\
+                 " -fur -furry -yiff"
+    else:
+        search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={}".format(tags)
+
     xmlFile = urllib.request.urlopen(search)
     e = xml.etree.ElementTree.parse(xmlFile)
     root = e.getroot()
