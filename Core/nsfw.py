@@ -11,7 +11,7 @@ async def postR34(message, client):
 
     if "fur" not in tags or "furry" not in tags or "yiff" not in tags or "anthro" not in tags:
         search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={}".format(tags) +\
-                 " -fur -furry -yiff -anthro"
+                 " -fur -furry -yiff -anthro -canine -mammal -wolf"
     else:
         search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={}".format(tags)
 
