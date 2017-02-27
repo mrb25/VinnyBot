@@ -25,9 +25,6 @@ async def postR34(message, client):
         if "furaffinity" not in post.get('source'):
             picUrls.append('http:' + post.get('file_url'))
 
-    for post in root.findall('post'):
-        picUrls.append('http:' + post.get('file_url'))
-
     if len(picUrls) == 0:
         await client.send_message(message.channel, "No results, try searching something less retarded next time!")
 
