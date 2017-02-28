@@ -15,6 +15,10 @@ from nsfw import *
 
 async def parseCommand(message, client):
 
+    if not message.channel.is_private:
+        if not message.channel.permissions_for(message.server.me).send_messages:
+            return
+
     #Find which command has been given
     if message.content.startswith('~test'):
         counter = 0
