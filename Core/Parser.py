@@ -203,6 +203,6 @@ async def parseCommand(message, client):
         commandCalled()
 
     # Not a command
-    elif message.content.startswith('~'):
-        #await client.send_message(message.channel, 'That was not a valid command, say ~help to get the help you so des'
-        #                                           'perately need')
+    elif message.content.startswith('~') and False:
+        await client.send_message(message.channel, 'That was not a valid command, say ~help to get the help you so desperately need')
+
