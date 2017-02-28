@@ -254,7 +254,7 @@ async def skipSong(message, client):
                 if len(skipMap[client.voice_client_in(message.server)]) >= \
                                 (len(client.voice_client_in(message.server).channel.voice_members) - 1) / 2:
                     vClient = client.voice_client_in(message.server)
-                    player = vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
+                    player = await vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
                                                         after=lambda: songFinished(message, client))
                     playerMap[vClient].stop()
                     playerMap[vClient] = player
