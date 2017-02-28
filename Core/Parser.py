@@ -172,6 +172,14 @@ async def parseCommand(message, client):
         await client.send_message(message.channel, random_hot_post(subreddit, 2))
         commandCalled()
 
+    elif message.content.startswith('~cosplaygirls'):
+        await client.send_message(message.channel, getCosplayGirl(message, client))
+        commandCalled()
+
+    elif message.content.startswith('~cosplay'):
+        await client.send_message(message.channel, getCosplay(message, client))
+        commandCalled()
+
     #Nsfw Commands TODO: Add permissions and nsfw lock
     elif message.content.startswith('~r34 '):
         await postR34(message, client)
