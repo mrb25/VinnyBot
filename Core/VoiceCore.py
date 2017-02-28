@@ -241,7 +241,7 @@ async def skipSong(message, client):
                             await stopPlay(message, client)
 
                     else:
-                        client.send_message(message.channel, "Vote recorded. {} more needed to skip".format(
+                        await client.send_message(message.channel, "Vote recorded. {} more needed to skip".format(
                             ((len(client.voice_client_in(message.server)) - 1) / 2) -
                             len(skipMap[client.voice_client_in(message.server)])))
 
