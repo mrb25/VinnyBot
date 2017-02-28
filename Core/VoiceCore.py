@@ -7,6 +7,7 @@ from lxml import etree
 
 playerMap = {}
 songMap = {}
+skipMap = {}
 
 async def voiceInit():
     if not discord.opus.is_loaded():
@@ -26,6 +27,15 @@ async def summon(message, client):
     return True
 
 async def playTest(message, client):
+    if not isYoutube(message):
+        await client.send_message(message.channel, "Not a valid youtube url. Please try again")
+        return
+
+    if isList(message):
+        await client.send_message(message.channel, "Link is to a playlist. Please link to the song from outside "
+                                                   "of the playlist")
+        return
+
     audio_channel = message.author.voice_channel
     if audio_channel is None:
         await client.send_message(message.channel, 'You are not in a voice channel.')
@@ -188,7 +198,7 @@ async def printPlaylist(message, client):
         msg = await client.send_message(message.channel, "Grabbing playlist")
         list = ""
         count = 0
-        for u in songMap[client.voice_client_in(message.channel)]:
+        for u in songMap[client.voice_client_in(message.server)]:
             if count == 0:
                 list += "Now Playing: " + getYTTitle(u[6:]) + "\n"
 
@@ -202,8 +212,70 @@ async def printPlaylist(message, client):
     except KeyError:
         await client.send_message(message.channel, "There are currently no songs playing")
 
+async def skipSong(message, client):
+    try:
+        if playerMap[client.voice_client_in(message.server)].is_playing():
+            try:
+                if message.author.voice_channel == client.voice_client_in(message.server).channel:
+                    if message.author in skipMap[client.voice_client_in(message.server)]:
+                        client.send_message(message.channel, "You have already voted")
+                        return
+
+                    skipMap[client.voice_client_in(message.server)].append(message.author)
+                    if len(skipMap[client.voice_client_in(message.server)]) >= \
+                                    (len(client.voice_client_in(message.server).channel.voice_members) - 1)/2:
+
+                        vClient = client.voice_client_in(message.server)
+                        player = vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
+                                                          after=lambda: songFinished(message, client))
+                        playerMap[vClient].stop()
+                        playerMap[vClient] = player
+                        songMap[vClient].pop(0)
+                        player.start()
+                        await client.send_message(message.channel, "Skipping song")
+                        del skipMap[vClient]
+                    else:
+                        client.send_message(message.channel, "Vote recorded. {} more needed to skip".format(
+                            ((len(client.voice_client_in(message.server)) - 1) / 2) -
+                            len(skipMap[client.voice_client_in(message.server)])))
+
+            except KeyError:
+                await client.send_message(message.channel,
+                                          "Starting skip vote. Everyone who wants to skip the current song "
+                                          "type ~skip to vote to skip")
+                skipMap[client.voice_client_in(message.server)] = []
+                skipMap[client.voice_client_in(message.server)].append(message.author)
+                if len(skipMap[client.voice_client_in(message.server)]) >= \
+                                (len(client.voice_client_in(message.server).channel.voice_members) - 1) / 2:
+                    vClient = client.voice_client_in(message.server)
+                    player = vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
+                                                        after=lambda: songFinished(message, client))
+                    playerMap[vClient].stop()
+                    playerMap[vClient] = player
+                    songMap[vClient].pop(0)
+                    player.start()
+                    await client.send_message(message.channel, "Skipping song")
+                    del skipMap[vClient]
+
+
+    except KeyError:
+        await client.send_message(message.channel, "I am not currently playing on this server.")
+
 
 def getYTTitle(url):
     youtube = etree.HTML(urllib.request.urlopen(url).read())
     video_title = youtube.xpath("//span[@id='eow-title']/@title")
     return ''.join(video_title)
+
+
+def isYoutube(message):
+    youtube_regex = (r'(https?://)?(www\.)?'
+                     '(youtube|youtu|youtube-nocookie)\.(com|be)/'
+                     '(watch\?.*?(?=v=)v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
+    return re.match(youtube_regex, message.content[6:])
+
+
+def isList(message):
+    return "list=" in message.content
+
+

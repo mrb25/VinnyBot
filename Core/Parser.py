@@ -14,7 +14,7 @@ from nsfw import *
 
 
 async def parseCommand(message, client):
-    commandCalled()
+
     #Find which command has been given
     if message.content.startswith('~test'):
         counter = 0
@@ -62,6 +62,10 @@ async def parseCommand(message, client):
 
     elif message.content.startswith('~playlist'):
         await printPlaylist(message, client)
+        commandCalled()
+
+    elif message.content.startswith('~skip'):
+        await skipSong(message, client)
         commandCalled()
 
     elif message.content.startswith("~volume "):

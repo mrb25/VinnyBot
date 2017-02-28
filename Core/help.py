@@ -13,6 +13,7 @@ async def help(client, message):
     text += "\nVOICE COMMANDS\n~summon -- Summons Vinny to your current voice channel\n"
     text += "~play youtubeurl -- Plays audio from video in your channel\n" \
             "~playlist -- Gets the playlist of currently playing music\n" \
+            "~skip -- Starts a vote to skip the current song" \
             "~volume -- Enter a number between 0.1 and 2.0 to change volume of audio. No number gives the current level"
     text += "\n~stop -- If an audio stream is playing in your server it stops it\n" \
             "~pause -- Pauses current audio stream\n~resume -- Resumes audio stream when paused`\n"
