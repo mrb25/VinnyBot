@@ -225,7 +225,7 @@ async def skipSong(message, client):
                     skipMap[client.voice_client_in(message.server)].append(message.author)
                     if len(skipMap[client.voice_client_in(message.server)]) >= \
                                     (len(client.voice_client_in(message.server).channel.voice_members) - 1)/2:
-                        
+                        playerMap[client.voice_client_in(message.server)].stop()
                         songFinished(message, client)
 
                     else:
