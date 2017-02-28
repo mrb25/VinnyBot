@@ -97,6 +97,7 @@ async def stopPlay(message, client):
         playerMap[client.voice_client_in(message.server)].stop()
         del playerMap[client.voice_client_in(message.server)]
         del songMap[client.voice_client_in(message.server)]
+        del skipMap[client.voice_client_in(message.server)]
 
 async def pauseStream(message, client):
     if playerMap[client.voice_client_in(message.server)].is_playing():
@@ -224,16 +225,21 @@ async def skipSong(message, client):
                     skipMap[client.voice_client_in(message.server)].append(message.author)
                     if len(skipMap[client.voice_client_in(message.server)]) >= \
                                     (len(client.voice_client_in(message.server).channel.voice_members) - 1)/2:
+                        try:
+                            vClient = client.voice_client_in(message.server)
+                            player = vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
+                                                              after=lambda: songFinished(message, client))
+                            playerMap[vClient].stop()
+                            playerMap[vClient] = player
+                            songMap[vClient].pop(0)
+                            player.start()
+                            await client.send_message(message.channel, "Skipping song")
+                            del skipMap[vClient]
 
-                        vClient = client.voice_client_in(message.server)
-                        player = vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
-                                                          after=lambda: songFinished(message, client))
-                        playerMap[vClient].stop()
-                        playerMap[vClient] = player
-                        songMap[vClient].pop(0)
-                        player.start()
-                        await client.send_message(message.channel, "Skipping song")
-                        del skipMap[vClient]
+                        except IndexError:
+                            await client.send_message(message.channel, "No next song. Stopping audio stream.")
+                            await stopPlay(message, client)
+
                     else:
                         client.send_message(message.channel, "Vote recorded. {} more needed to skip".format(
                             ((len(client.voice_client_in(message.server)) - 1) / 2) -
