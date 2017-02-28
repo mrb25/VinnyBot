@@ -219,7 +219,7 @@ async def skipSong(message, client):
             try:
                 if message.author.voice_channel == client.voice_client_in(message.server).channel:
                     if message.author in skipMap[client.voice_client_in(message.server)]:
-                        client.send_message(message.channel, "You have already voted")
+                        await client.send_message(message.channel, "You have already voted")
                         return
 
                     skipMap[client.voice_client_in(message.server)].append(message.author)
