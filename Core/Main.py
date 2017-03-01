@@ -27,7 +27,7 @@ async def on_message(message):
 
 @client.event
 async def on_member_join(member):
-    if not member.channel.is_private:
+    if False:
         if not member.channel.permissions_for(member.server.me).send_messages:
             return
     #await client.send_message(member.server, member.mention + ' has joined the server.')
@@ -35,7 +35,7 @@ async def on_member_join(member):
 
 @client.event
 async def on_member_remove(member):
-    if not member.channel.is_private:
+    if False:
         if not member.channel.permissions_for(member.server.me).send_messages:
             return
 
