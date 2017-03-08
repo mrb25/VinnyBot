@@ -3,10 +3,19 @@ import discord
 import re
 import asyncio
 import pybooru
+import os
 from random import randint
 import xml.etree.ElementTree
 
+channels = []
+
 async def postR34(message, client):
+    init()
+    if not isEnabled(message):
+        await client.send_message(message.channel, "NSFW not authorized in this channel. To authorize an admin must"
+                                                   "use the ~togglensfw command")
+        return
+
     tags = message.content[4:]
 
     if "fur" not in tags or "furry" not in tags or "yiff" not in tags or "anthro" not in tags:
@@ -30,3 +39,44 @@ async def postR34(message, client):
 
     else:
         await client.send_message(message.channel, picUrls[randint(0, len(picUrls) - 1)])
+
+
+def isEnabled(message):
+    return message.channel.id in channels
+
+
+async def toggleChannel(message, client):
+    init()
+
+    if message.channel.id in channels:
+        channels.remove(message.channel.id)
+        writeChannels()
+        await client.send_message(message.channel, ":x: NSFW now disabled in this channel. :x:")
+
+    else:
+        channels.append(message.channel.id)
+        writeChannels()
+        await client.send_message(message.channel, ":wink: NSFW now enabled in this channel. I don't judge :wink:")
+
+
+def writeChannels():
+    with open("locks/nsfwLocks.txt", "w") as f:
+            for id in channels:
+                f.write(id + "\n")
+
+
+def init():
+    global channels
+
+    if not os.path.exists("locks"):
+        os.makedirs("locks")
+
+    if not os.path.exists("locks/nsfwLocks.txt"):
+        f = open("locks/nsfwLocks.txt", "w+")
+        f.close()
+
+    if not channels:
+        with open("locks/nsfwLocks.txt", "r") as f:
+            channels = f.readlines()
+            channels = [id.strip() for id in channels]
+

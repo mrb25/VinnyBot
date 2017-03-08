@@ -20,230 +20,252 @@ async def parseCommand(message, client):
         if not message.channel.permissions_for(message.server.me).send_messages:
             return
 
-    #Find which command has been given
-    if message.content.startswith('~test'):
-        counter = 0
-        tmp = await client.send_message(message.channel, 'Calculating messages...')
-        async for log in client.logs_from(message.channel, limit=1000):
-            if log.author == message.author:
-                counter += 1
+        #Find which command has been given
+        if message.content.startswith('~test'):
+            counter = 0
+            tmp = await client.send_message(message.channel, 'Calculating messages...')
+            async for log in client.logs_from(message.channel, limit=1000):
+                if log.author == message.author:
+                    counter += 1
 
-        await client.edit_message(tmp, message.author.name + ', you have {} messages.'.format(counter))
+            await client.edit_message(tmp, message.author.name + ', you have {} messages.'.format(counter))
 
-    elif message.content.startswith('~help'):
-        await help(client, message)
-        commandCalled()
-        logCommand(message, client, '~help')
+        elif message.content.startswith('~help'):
+            await help(client, message)
+            commandCalled()
+            logCommand(message, client, '~help')
 
-    elif message.content.startswith('~stats'):
-        await getStats(message, client)
-        commandCalled()
-        logCommand(message, client, '~stats')
+        elif message.content.startswith('~stats'):
+            await getStats(message, client)
+            commandCalled()
+            logCommand(message, client, '~stats')
 
-    elif message.content.startswith('~permission'):
-        commandCalled()
-        logCommand(message, client, '~permission')
-        if client.user.permissions_in(message.channel).read_messages:
-            await client.send_message(message.channel, "I have permission")
+        elif message.content.startswith('~permission'):
+            commandCalled()
+            logCommand(message, client, '~permission')
+            if client.user.permissions_in(message.channel).read_messages:
+                await client.send_message(message.channel, "I have permission")
+            else:
+                await client.send_message(message.channel, "I do not have permission")
+
+        elif message.content.startswith('~prune'):
+            await client.send_message(message.channel, 'Prune temporarily disabled')
+            commandCalled()
+            logCommand(message, client, '~prune')
+            # await prune(message, client)
+
+        elif message.content.startswith('~kick'):
+            await client.send_message(message.channel, 'Kick temporarily disabled')
+            commandCalled()
+            logCommand(message, client, '~kick')
+            # await kick(message, client)
+
+        elif message.content.startswith('~ban'):
+            await client.send_message(message.channel, 'Ban temporarily disabled')
+            commandCalled()
+            logCommand(message, client, '~ban')
+            # await ban(message, client)
+
+        # Voice Commands
+        elif message.content.startswith('~summon'):
+            await summon(message, client)
+            commandCalled()
+            logCommand(message, client, '~summon')
+
+        elif message.content.startswith('~playlist'):
+            await printPlaylist(message, client)
+            commandCalled()
+            logCommand(message, client, '~playlist')
+
+        elif message.content.startswith('~skip'):
+            await skipSong(message, client)
+            commandCalled()
+            logCommand(message, client, '~skip')
+
+        elif message.content.startswith("~volume "):
+            await setVolume(message, client)
+            commandCalled()
+            logCommand(message, client, '~volume (val)')
+
+        elif message.content.startswith("~volume"):
+            await getVolume(message, client)
+            commandCalled()
+            logCommand(message, client, '~volume')
+
+        elif message.content.startswith('~play'):
+            await playTest(message, client)
+            commandCalled()
+            logCommand(message, client, '~play')
+
+        elif message.content.startswith('~pause'):
+            await pauseStream(message, client)
+            commandCalled()
+            logCommand(message, client, '~pause')
+
+        elif message.content.startswith('~resume'):
+            await resumeStream(message, client)
+            commandCalled()
+            logCommand(message, client, '~resume')
+
+        elif message.content.startswith('~stop'):
+            await stopPlay(message, client)
+            commandCalled()
+            logCommand(message, client, '~stop')
+
+        # Meme Commands
+        elif message.content.startswith('~ayy'):
+            await ayy(message, client)
+            commandCalled()
+            logCommand(message, client, '~ayy')
+
+        elif message.content.startswith('~kappa'):
+            await kappa(message, client)
+            commandCalled()
+            logCommand(message, client, '~kappa')
+
+        elif message.content.startswith('~hammer'):
+            await banHammer(message, client)
+            commandCalled()
+            logCommand(message, client, '~hammer')
+
+        elif message.content.startswith('~doggo'):
+            await doggo(message, client)
+            commandCalled()
+            logCommand(message, client, '~doggo')
+
+        elif message.content.startswith('~lenny'):
+            await lenny(message, client)
+            commandCalled()
+            logCommand(message, client, '~lenny')
+
+        elif message.content.startswith('~hitler'):
+            await hitler(message, client)
+            commandCalled()
+            logCommand(message, client, '~hitler')
+
+        elif message.content.startswith('~mario'):
+            await mario(message, client)
+            commandCalled()
+            logCommand(message, client, '~mario')
+
+        elif message.content.startswith('~megaman'):
+            await megaMan(message, client)
+            commandCalled()
+            logCommand(message, client, '~megaman')
+
+        elif message.content.startswith('~salt'):
+            await salt(message, client)
+            commandCalled()
+            logCommand(message, client, '~salt')
+
+        elif message.content.startswith('~pikachu'):
+            await pikachu(message, client)
+            commandCalled()
+            logCommand(message, client, '~pikachu')
+
+        elif message.content.startswith('~feels'):
+            await feels(message, client)
+            commandCalled()
+            logCommand(message, client, '~feels')
+
+        elif message.content.startswith('~harambe'):
+            await harambe(message, client)
+            commandCalled()
+            logCommand(message, client, '~harambe')
+
+        elif message.content.startswith('~giphy'):
+            await giphy(message, client)
+            commandCalled()
+            logCommand(message, client, '~giphy')
+
+        elif message.content.startswith('~praise'):
+            await client.send_message(message.channel, 'https://media.giphy.com/media/fr42tarocsK6Q/giphy.gif')
+            commandCalled()
+            logCommand(message, client, '~praise')
+
+        elif message.content.startswith('~vote'):
+            await vote(message, client)
+            commandCalled()
+            logCommand(message, client, '~vote')
+
+        elif message.content.startswith('~whois'):
+            await userInfo(message, client)
+            commandCalled()
+            logCommand(message, client, '~whois')
+
+        # Reddit Commands
+        elif message.content.startswith('~shit'):
+            await client.send_message(message.channel, random_hot_post('shitpost', 20))
+            commandCalled()
+            logCommand(message, client, '~shit')
+
+        elif message.content.startswith('~rr'):
+            subreddit = message.content.split(' ')[1]
+            await client.send_message(message.channel, random_hot_post(subreddit, 20))
+            commandCalled()
+            logCommand(message, client, message.content)
+
+        elif message.content.startswith('~tr'):
+            subreddit = message.content.split(' ')[1]
+            await client.send_message(message.channel, random_hot_post(subreddit, 2))
+            commandCalled()
+            logCommand(message, client, message.content)
+
+        elif message.content.startswith('~cosplaygirls'):
+            await client.send_message(message.channel, getCosplayGirl(message, client))
+            commandCalled()
+            logCommand(message, client, '~cosplaygirls')
+
+        elif message.content.startswith('~cosplay'):
+            await client.send_message(message.channel, getCosplay(message, client))
+            commandCalled()
+            logCommand(message, client, message.content)
+
+        #Nsfw Commands TODO: Add permissions and nsfw lock
+        elif message.content.startswith('~nsfw'):
+            if isEnabled(message):
+                await client.send_message(message.channel, ":sweat_drops: NSFW is currently enabled :sweat_drops:")
+            else:
+                await client.send_message(message.channel, ":x: NSFW is not currently enabled :x:")
+            commandCalled()
+            logCommand(message, client, "~nsfw")
+
+        elif message.content.startswith('~r34 '):
+            await postR34(message, client)
+            commandCalled()
+            logCommand(message, client, message.content)
+
+        elif message.content.startswith("~togglensfw"):
+            if message.channel.permissions_for(message.author).manage_channels:
+                await toggleChannel(message, client)
+            else:
+                await client.send_message(message.channel, ":x: You do not have permissions to use this command :x:")
+            commandCalled()
+            logCommand(message, client, "~togglensfw")
+
+        # Markov Chain
+        elif message.content.startswith('~comment'):
+            await generateMarkovComment(message, client)
+            commandCalled()
+            logCommand(message, client, message.content)
+
+        elif message.content.startswith('~ryzen'):
+            await generateRyzen(message, client)
+            commandCalled()
+            logCommand(message, client, '~ryzen')
+
+        elif message.content.startswith('~whosaid '):
+            await findWhoSaid(message,client)
+            commandCalled()
+            logCommand(message, client, '~whosaid')
+
+        # Not a command
+        elif message.content.startswith('~') and False:
+            await client.send_message(message.channel, 'That was not a valid command, say ~help to get the help you so desperately need')
+
+    else:
+        if message.content.startswith('~help'):
+            await help(client, message)
+            commandCalled()
         else:
-            await client.send_message(message.channel, "I do not have permission")
-
-    elif message.content.startswith('~prune'):
-        await client.send_message(message.channel, 'Prune temporarily disabled')
-        commandCalled()
-        logCommand(message, client, '~prune')
-        # await prune(message, client)
-
-    elif message.content.startswith('~kick'):
-        await client.send_message(message.channel, 'Kick temporarily disabled')
-        commandCalled()
-        logCommand(message, client, '~kick')
-        # await kick(message, client)
-
-    elif message.content.startswith('~ban'):
-        await client.send_message(message.channel, 'Ban temporarily disabled')
-        commandCalled()
-        logCommand(message, client, '~ban')
-        # await ban(message, client)
-
-    # Voice Commands
-    elif message.content.startswith('~summon'):
-        await summon(message, client)
-        commandCalled()
-        logCommand(message, client, '~summon')
-
-    elif message.content.startswith('~playlist'):
-        await printPlaylist(message, client)
-        commandCalled()
-        logCommand(message, client, '~playlist')
-
-    elif message.content.startswith('~skip'):
-        await skipSong(message, client)
-        commandCalled()
-        logCommand(message, client, '~skip')
-
-    elif message.content.startswith("~volume "):
-        await setVolume(message, client)
-        commandCalled()
-        logCommand(message, client, '~volume (val)')
-
-    elif message.content.startswith("~volume"):
-        await getVolume(message, client)
-        commandCalled()
-        logCommand(message, client, '~volume')
-
-    elif message.content.startswith('~play'):
-        await playTest(message, client)
-        commandCalled()
-        logCommand(message, client, '~play')
-
-    elif message.content.startswith('~pause'):
-        await pauseStream(message, client)
-        commandCalled()
-        logCommand(message, client, '~pause')
-
-    elif message.content.startswith('~resume'):
-        await resumeStream(message, client)
-        commandCalled()
-        logCommand(message, client, '~resume')
-
-    elif message.content.startswith('~stop'):
-        await stopPlay(message, client)
-        commandCalled()
-        logCommand(message, client, '~stop')
-
-    # Meme Commands
-    elif message.content.startswith('~ayy'):
-        await ayy(message, client)
-        commandCalled()
-        logCommand(message, client, '~ayy')
-
-    elif message.content.startswith('~kappa'):
-        await kappa(message, client)
-        commandCalled()
-        logCommand(message, client, '~kappa')
-
-    elif message.content.startswith('~hammer'):
-        await banHammer(message, client)
-        commandCalled()
-        logCommand(message, client, '~hammer')
-
-    elif message.content.startswith('~doggo'):
-        await doggo(message, client)
-        commandCalled()
-        logCommand(message, client, '~doggo')
-
-    elif message.content.startswith('~lenny'):
-        await lenny(message, client)
-        commandCalled()
-        logCommand(message, client, '~lenny')
-
-    elif message.content.startswith('~hitler'):
-        await hitler(message, client)
-        commandCalled()
-        logCommand(message, client, '~hitler')
-
-    elif message.content.startswith('~mario'):
-        await mario(message, client)
-        commandCalled()
-        logCommand(message, client, '~mario')
-
-    elif message.content.startswith('~megaman'):
-        await megaMan(message, client)
-        commandCalled()
-        logCommand(message, client, '~megaman')
-
-    elif message.content.startswith('~salt'):
-        await salt(message, client)
-        commandCalled()
-        logCommand(message, client, '~salt')
-
-    elif message.content.startswith('~pikachu'):
-        await pikachu(message, client)
-        commandCalled()
-        logCommand(message, client, '~pikachu')
-
-    elif message.content.startswith('~feels'):
-        await feels(message, client)
-        commandCalled()
-        logCommand(message, client, '~feels')
-
-    elif message.content.startswith('~harambe'):
-        await harambe(message, client)
-        commandCalled()
-        logCommand(message, client, '~harambe')
-
-    elif message.content.startswith('~giphy'):
-        await giphy(message, client)
-        commandCalled()
-        logCommand(message, client, '~giphy')
-
-    elif message.content.startswith('~praise'):
-        await client.send_message(message.channel, 'https://media.giphy.com/media/fr42tarocsK6Q/giphy.gif')
-        commandCalled()
-        logCommand(message, client, '~praise')
-
-    elif message.content.startswith('~vote'):
-        await vote(message, client)
-        commandCalled()
-        logCommand(message, client, '~vote')
-
-    elif message.content.startswith('~whois'):
-        await userInfo(message, client)
-        commandCalled()
-        logCommand(message, client, '~whois')
-
-    # Reddit Commands
-    elif message.content.startswith('~shit'):
-        await client.send_message(message.channel, random_hot_post('shitpost', 20))
-        commandCalled()
-        logCommand(message, client, '~shit')
-
-    elif message.content.startswith('~rr'):
-        subreddit = message.content.split(' ')[1]
-        await client.send_message(message.channel, random_hot_post(subreddit, 20))
-        commandCalled()
-        logCommand(message, client, message.content)
-
-    elif message.content.startswith('~tr'):
-        subreddit = message.content.split(' ')[1]
-        await client.send_message(message.channel, random_hot_post(subreddit, 2))
-        commandCalled()
-        logCommand(message, client, message.content)
-
-    elif message.content.startswith('~cosplaygirls'):
-        await client.send_message(message.channel, getCosplayGirl(message, client))
-        commandCalled()
-        logCommand(message, client, '~cosplaygirls')
-
-    elif message.content.startswith('~cosplay'):
-        await client.send_message(message.channel, getCosplay(message, client))
-        commandCalled()
-        logCommand(message, client, message.content)
-
-    #Nsfw Commands TODO: Add permissions and nsfw lock
-    elif message.content.startswith('~r34 '):
-        await postR34(message, client)
-        commandCalled()
-        logCommand(message, client, message.content)
-
-    # Markov Chain
-    elif message.content.startswith('~comment'):
-        await generateMarkovComment(message, client)
-        commandCalled()
-        logCommand(message, client, message.content)
-
-    elif message.content.startswith('~ryzen'):
-        await generateRyzen(message, client)
-        commandCalled()
-        logCommand(message, client, '~ryzen')
-
-    elif message.content.startswith('~whosaid '):
-        await findWhoSaid(message,client)
-        commandCalled()
-        logCommand(message, client, '~whosaid')
-
-    # Not a command
-    elif message.content.startswith('~') and False:
-        await client.send_message(message.channel, 'That was not a valid command, say ~help to get the help you so desperately need')
-
+            await client.send_message(message.channel, "Quit trying to slide into my DMs I only do ~help inside of DMs")
