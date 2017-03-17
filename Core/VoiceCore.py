@@ -169,6 +169,7 @@ def songFinished(message, client):
                 player = fut.result()
             except:
                 print("Error")
+                pass
 
             """Adding player to hashmap"""
             playerMap[vClient] = player

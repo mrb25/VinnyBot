@@ -2,6 +2,7 @@ import discord
 import sys
 from Parser import *
 from VoiceCore import *
+from Logger import *
 
 Token = input("Enter your token: ")
 client = discord.Client()
