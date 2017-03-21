@@ -200,7 +200,11 @@ async def parseCommand(message, client):
             logCommand(message, client, '~shit')
 
         elif message.content.startswith('~rr'):
-            subreddit = message.content.split(' ')[1]
+            try:
+                subreddit = message.content.split(' ')[1]
+            except IndexError:
+                await client.send_message(message.channel, "So subreddit mentioned, please enter a subreddit")
+                return
             post = random_hot_post(subreddit, 20)
             if post is not None:
                 await client.send_message(message.channel, post)
@@ -211,7 +215,11 @@ async def parseCommand(message, client):
             logCommand(message, client, message.content)
 
         elif message.content.startswith('~tr'):
-            subreddit = message.content.split(' ')[1]
+            try:
+                subreddit = message.content.split(' ')[1]
+            except IndexError:
+                await client.send_message(message.channel, "No subreddit mentioned, please enter a subreddit")
+                return
             await client.send_message(message.channel, random_hot_post(subreddit, 2))
             commandCalled()
             logCommand(message, client, message.content)
