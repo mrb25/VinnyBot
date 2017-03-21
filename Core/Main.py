@@ -1,10 +1,13 @@
+import threading
 import discord
 import sys
 from Parser import *
 from VoiceCore import *
 from Logger import *
+from Config import *
 
-Token = input("Enter your token: ")
+initConfig()
+Token = getToken('Discord')
 client = discord.Client()
 
 
@@ -15,15 +18,16 @@ async def on_ready():
     print(client.user.id)
     print('------\n')
     await client.change_presence(game=discord.Game(name='~help for command list'))
+    sendStatistics(client)
 
 
 @client.event
 async def on_message(message):
-    if message.content.startswith('~'):
-        await parseCommand(message, client)
+        if message.content.startswith('~'):
+            await parseCommand(message, client)
 
-    else:
-        return
+        else:
+            return
 
 
 @client.event

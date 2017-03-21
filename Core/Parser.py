@@ -201,7 +201,12 @@ async def parseCommand(message, client):
 
         elif message.content.startswith('~rr'):
             subreddit = message.content.split(' ')[1]
-            await client.send_message(message.channel, random_hot_post(subreddit, 20))
+            post = random_hot_post(subreddit, 20)
+            if post is not None:
+                await client.send_message(message.channel, post)
+            else:
+                await client.send_message(message.channel, "There was an error retrieving a post")
+
             commandCalled()
             logCommand(message, client, message.content)
 

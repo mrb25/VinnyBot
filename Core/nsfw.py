@@ -60,7 +60,7 @@ async def toggleChannel(message, client):
 
 
 def writeChannels():
-    with open("locks/nsfwLocks.txt", "w") as f:
+    with open("config/nsfwLocks.txt", "w") as f:
             for id in channels:
                 f.write(id + "\n")
 
@@ -68,15 +68,15 @@ def writeChannels():
 def init():
     global channels
 
-    if not os.path.exists("locks"):
-        os.makedirs("locks")
+    if not os.path.exists("config"):
+        os.makedirs("config")
 
-    if not os.path.exists("locks/nsfwLocks.txt"):
-        f = open("locks/nsfwLocks.txt", "w+")
+    if not os.path.exists("config/nsfwLocks.txt"):
+        f = open("config/nsfwLocks.txt", "w+")
         f.close()
 
     if not channels:
-        with open("locks/nsfwLocks.txt", "r") as f:
+        with open("config/nsfwLocks.txt", "r") as f:
             channels = f.readlines()
             channels = [id.strip() for id in channels]
 

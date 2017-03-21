@@ -1,4 +1,11 @@
+import json
+import threading
+import urllib.parse
 import discord
+import urllib.request
+from urllib.request import urlopen
+from urllib.request import Request
+from Config import getToken
 
 commandsSinceLastReboot = 0
 
@@ -31,3 +38,24 @@ async def getStats(message, client):
 def commandCalled():
     global commandsSinceLastReboot
     commandsSinceLastReboot += 1
+
+
+def sendStatistics(client):
+    url = "https://bots.discord.pw/api/bots/" + getToken('Bot ID') + "/stats"
+    serverCount = 0
+    for server in client.servers:
+        serverCount += 1
+
+    data = {
+               "server_count": serverCount
+           }
+
+    req = Request(url)
+    req.add_header('Content-Type', 'application/json')
+    req.add_header('Authorization', getToken('Bot API'))
+    response = urlopen(req, json.dumps(data).encode('utf8'))
+    print(response)
+    print('here')
+    t = threading.Timer(60.0, sendStatistics, args=(client,))
+    t.setDaemon(True)
+    t.start()

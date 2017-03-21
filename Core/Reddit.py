@@ -24,6 +24,8 @@ def random_hot_post(subreddit, limit):
 
     try:
         hot_page = list(itertools.islice(submissions, limit))
+        if len(hot_page) == 0:
+            return 'Failed to find post matching parameters.'
         random_page = hot_page[num]
     except:
         return None
@@ -53,6 +55,9 @@ def getCosplay(message, client):
 
     hot_page = list(itertools.islice(submissions, limit))
 
+    if len(hot_page) == 0:
+        return 'Failed to find post matching parameters.'
+
     random_page = hot_page[num]
 
     if random_page.stickied:
@@ -76,6 +81,8 @@ def getCosplayGirl(message, client):
 
     hot_page = list(itertools.islice(submissions, limit))
 
+    if len(hot_page) == 0:
+        return 'Failed to find post matching parameters.'
     random_page = hot_page[num]
 
     if random_page.stickied:
