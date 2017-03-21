@@ -55,6 +55,6 @@ def sendStatistics(client):
     req.add_header('Authorization', getToken('Bot API'))
     response = urlopen(req, json.dumps(data).encode('utf8'))
     print('Stats Posted Successfully')
-    t = threading.Timer(240.0, sendStatistics, args=(client,))
+    t = threading.Timer(600.0, sendStatistics, args=(client,))
     t.setDaemon(True)
     t.start()
