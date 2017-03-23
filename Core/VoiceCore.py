@@ -50,7 +50,6 @@ async def playTest(message, client):
                 songMap[client.voice_client_in(message.server)].append(message.content)
                 await client.send_message(message.channel, "Added song to playlist!")
 
-
             else:
                 if len(playerMap) >= 2:
                     await client.send_message(message.channel,
@@ -91,40 +90,50 @@ async def playTest(message, client):
 
 
 async def stopPlay(message, client):
-    if playerMap[client.voice_client_in(message.server)].is_playing():
-        print('Stopping Stream')
-        await client.send_message(message.channel, "Stopping audio Stream")
-        playerMap[client.voice_client_in(message.server)].stop()
-        del playerMap[client.voice_client_in(message.server)]
-        del songMap[client.voice_client_in(message.server)]
-        del skipMap[client.voice_client_in(message.server)]
+    try:
+        if playerMap[client.voice_client_in(message.server)].is_playing():
+            print('Stopping Stream')
+            await client.send_message(message.channel, "Stopping audio Stream")
+            playerMap[client.voice_client_in(message.server)].stop()
+            del playerMap[client.voice_client_in(message.server)]
+            del songMap[client.voice_client_in(message.server)]
+            del skipMap[client.voice_client_in(message.server)]
+    except KeyError:
+        await client.send_message(message.channel, "Not currently playing")
 
 async def pauseStream(message, client):
-    if playerMap[client.voice_client_in(message.server)].is_playing():
-        print('Pausing stream')
-        await client.send_message(message.channel, 'Pausing audio stream')
-        playerMap[client.voice_client_in(message.server)].pause()
-
-    else:
-        await client.send_message(message.channel, 'I could not detect an audio stream playing')
-
-async def resumeStream(message, client):
-    if not playerMap[client.voice_client_in(message.server)].is_playing():
-        print('Trying to resume Stream\n')
-        playerMap[client.voice_client_in(message.server)].resume()
+    try:
         if playerMap[client.voice_client_in(message.server)].is_playing():
-            await client.send_message(message.channel, 'Resuming audio stream')
-            print('Success')
-            return
+            print('Pausing stream')
+            await client.send_message(message.channel, 'Pausing audio stream')
+            playerMap[client.voice_client_in(message.server)].pause()
+
         else:
             await client.send_message(message.channel, 'I could not detect an audio stream playing')
-            return
+    except KeyError:
+        await client.send_message(message.channel, "Not currently playing")
 
-    elif playerMap[client.voice_client_in(message.server)].is_playing():
-        await client.send_message(message.channel, 'Stream is already playing')
+async def resumeStream(message, client):
+    try:
+        if not playerMap[client.voice_client_in(message.server)].is_playing():
+            print('Trying to resume Stream\n')
+            playerMap[client.voice_client_in(message.server)].resume()
+            if playerMap[client.voice_client_in(message.server)].is_playing():
+                await client.send_message(message.channel, 'Resuming audio stream')
+                print('Success')
+                return
+            else:
+                await client.send_message(message.channel, 'I could not detect an audio stream playing')
+                return
 
-    else:
-        await client.send_message(message.channel, 'I could not detect an audio stream playing')
+        elif playerMap[client.voice_client_in(message.server)].is_playing():
+            await client.send_message(message.channel, 'Stream is already playing')
+
+        else:
+            await client.send_message(message.channel, 'I could not detect an audio stream playing')
+
+    except KeyError:
+        await client.send_message(message.channel, "No current audio stream")
 
 
 async def setVolume(message, client):
