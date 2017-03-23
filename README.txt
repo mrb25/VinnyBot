@@ -34,3 +34,6 @@ VoiceCore.py
 -Avconv
 -Youtube-dl
 -Lxml
+
+Whosaid.py
+-None
