@@ -14,10 +14,13 @@ VINNY_COLOR = int('008cba', 16)
 async def getStats(message, client):
     serverCount = 0
     channelCount = 0
+    memberCount = 0
     for server in client.servers:
         serverCount += 1
         for channel in server.channels:
             channelCount += 1
+        for member in server.members:
+            memberCount += 1
 
     if message.channel.permissions_for(message.server.me).embed_links:
         embed = discord.Embed(title='', colour=VINNY_COLOR)
@@ -25,6 +28,7 @@ async def getStats(message, client):
                         value='{}'.format(serverCount),
                         inline=True)
         embed.add_field(name='Channels', value=channelCount, inline=True)
+        embed.add_field(name='Users', value=memberCount, inline=True)
         embed.add_field(name='Commands since last update', value=commandsSinceLastReboot, inline=True)
         embed.set_author(name=client.user.name, icon_url=client.user.avatar_url)
 
@@ -45,6 +49,7 @@ def sendStatistics(client):
     serverCount = 0
     for server in client.servers:
         serverCount += 1
+
 
     data = {
                "server_count": serverCount
