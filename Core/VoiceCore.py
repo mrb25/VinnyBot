@@ -5,6 +5,7 @@ import asyncio
 import lxml
 from lxml import etree
 
+NUM_MAX_PLAYERS = 2
 playerMap = {}
 songMap = {}
 skipMap = {}
@@ -51,7 +52,7 @@ async def playTest(message, client):
                 await client.send_message(message.channel, "Added song to playlist!")
 
             else:
-                if len(playerMap) >= 2:
+                if len(playerMap) >= NUM_MAX_PLAYERS:
                     await client.send_message(message.channel,
                                               "Max amount of servers using audio. Please try again later, sorry.")
 
@@ -67,7 +68,7 @@ async def playTest(message, client):
                     player.start()
 
         except KeyError:
-            if len(playerMap) >= 2:
+            if len(playerMap) >= NUM_MAX_PLAYERS:
                 await client.send_message(message.channel, "Max amount of servers using audio. Please try again later, sorry.")
 
             else:
@@ -294,4 +295,8 @@ def isYoutube(message):
 def isList(message):
     return "list=" in message.content
 
+def getNumPlayers():
+    return len(playerMap)
 
+def getNumMaxPlayers():
+    return NUM_MAX_PLAYERS
