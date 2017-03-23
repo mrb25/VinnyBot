@@ -1,4 +1,6 @@
+import glob
 import json
+import os
 import threading
 import urllib.parse
 import discord
@@ -6,21 +8,23 @@ import urllib.request
 from urllib.request import urlopen
 from urllib.request import Request
 from Config import getToken
+from VoiceCore import getNumPlayers
+from VoiceCore import getNumMaxPlayers
 
-commandsSinceLastReboot = 0
+commandsCalled = 0
+members = {}
 
 VINNY_COLOR = int('008cba', 16)
 
 async def getStats(message, client):
     serverCount = 0
     channelCount = 0
-    memberCount = 0
     for server in client.servers:
         serverCount += 1
         for channel in server.channels:
             channelCount += 1
         for member in server.members:
-            memberCount += 1
+            members[member.id] = 1
 
     if message.channel.permissions_for(message.server.me).embed_links:
         embed = discord.Embed(title='', colour=VINNY_COLOR)
@@ -28,20 +32,28 @@ async def getStats(message, client):
                         value='{}'.format(serverCount),
                         inline=True)
         embed.add_field(name='Channels', value=channelCount, inline=True)
-        embed.add_field(name='Users', value=memberCount, inline=True)
-        embed.add_field(name='Commands since last update', value=commandsSinceLastReboot, inline=True)
+        embed.add_field(name='Users', value=len(members), inline=True)
+        embed.add_field(name='Commands Called', value=commandsCalled, inline=True)
+        embed.add_field(name='Active Voice Channels', value=getNumPlayers(), inline=True)
+        embed.add_field(name='Max Active Channels', value=getNumMaxPlayers(), inline=True)
         embed.set_author(name=client.user.name, icon_url=client.user.avatar_url)
 
         return await client.send_message(message.channel, embed=embed)
     else:
         await client.send_message(message.channel, "Vinny Stats:\n`Servers: " + str(serverCount) + "\nChannels: " + str(channelCount)
-                                  + "\nNumber of commands issued since last update: " + str(commandsSinceLastReboot) +
+                                  + "\nNumber of commands issued since last update: " + str(commandsCalled) +
                                   "`")
 
 
 def commandCalled():
-    global commandsSinceLastReboot
-    commandsSinceLastReboot += 1
+    global commandsCalled
+    commandsCalled += 1
+
+def initCommandCount():
+    global commandsCalled
+    for filename in glob.glob(os.path.join('logs', '*.txt')):
+        with open(filename, 'r') as f:
+            commandsCalled += sum(1 for _ in f)
 
 
 def sendStatistics(client):
