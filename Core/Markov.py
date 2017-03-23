@@ -1,7 +1,10 @@
 import gc
+
+import discord
 import markovify
 from discord import ChannelType
 
+VINNY_COLOR = int('008cba', 16)
 
 async def generateMarkovComment(message, client):
     counter = 0
@@ -58,7 +61,15 @@ async def generateMarkovComment(message, client):
     generatedMessage = text_model.make_sentence(tries=100)
     print('Generated message: ' + generatedMessage + '\n')
 
-    await client.edit_message(tmp, message.mentions[0].name + ' says: ' + generatedMessage.replace('@', ':at:'))
+    if message.channel.permissions_for(message.server.me).embed_links:
+        embed = discord.Embed(title='', colour=VINNY_COLOR)
+        embed.set_author(name=message.mentions[0], icon_url=message.mentions[0].avatar_url)
+        embed.add_field(name='Message', value=generatedMessage)
+
+        await client.send_message(message.channel, embed=embed)
+        await client.delete_message(tmp)
+    else:
+        await client.edit_message(tmp, message.mentions[0].name + ' says: ' + generatedMessage.replace('@', ':at:'))
 
 
 async def updateLoading(message, client, tmp, channelCounter, usableChannels):
