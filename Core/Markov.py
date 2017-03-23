@@ -49,7 +49,7 @@ async def generateMarkovComment(message, client):
         await updateLoading(message, client, tmp, channelCounter, usableChannels)
 
     if counter <= 30:
-        await client.send_message(message.channel, 'Not enough messages received, cannot generate message')
+        await client.edit_message(tmp, 'Not enough messages received, cannot generate message')
         return
 
     await client.edit_message(tmp, 'Generating comment from {} messages.'.format(counter))
@@ -118,7 +118,7 @@ async def generateMarkovChannel(message, client):
             await updateChannelLoading(message, client, tmp, counter)
 
     if usableCounter <= 30:
-        await client.send_message(message.channel, 'Not enough messages received, cannot generate message')
+        await client.edit_message(tmp, 'Not enough messages received, cannot generate message')
         return
 
     await client.edit_message(tmp, 'Generating comment from {} messages.'.format(usableCounter))

@@ -112,6 +112,11 @@ async def parseCommand(message, client):
             commandCalled()
             logCommand(message, client, '~stop')
 
+        elif message.content.startswith('~voicestats'):
+            commandCalled()
+            logCommand(message, client, 'voicestats')
+            await voiceStats(message, client)
+
         # Meme Commands
         elif message.content.startswith('~ayy'):
             await ayy(message, client)

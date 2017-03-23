@@ -75,3 +75,17 @@ def sendStatistics(client):
     t = threading.Timer(3600.0, sendStatistics, args=(client,))
     t.setDaemon(True)
     t.start()
+
+async def voiceStats(message, client):
+    #TODO: update for scaling color
+    availible = getNumMaxPlayers() - getNumPlayers()
+    if availible == 0:
+        color = int('ff0000', 16)
+    else:
+        color = int('00ff00', 16)
+
+    embed = discord.Embed(title='', colour=color)
+    embed.add_field(name='Active Voice channels', value=getNumPlayers(), inline=True)
+    embed.add_field(name='Maximum Voice channels', value=getNumMaxPlayers(), inline=True)
+    embed.add_field(name='Open spots', value='There are ' + str(availible) + ' stream slots available')
+    await client.send_message(message.channel, embed=embed)

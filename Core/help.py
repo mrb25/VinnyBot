@@ -21,6 +21,7 @@ async def help(client, message):
             "~volume *#* -- Enter a number between 0.1 and 2.0 to change volume of audio. No number gives the current level"
     text += "\n~stop -- If an audio stream is playing in your server it stops it\n" \
             "~pause -- Pauses current audio stream\n~resume -- Resumes audio stream when paused" \
+            "\n~voicestats -- Gives info about current audio streams" \
             "\n\nNSFW COMMANDS\n~togglensfw -- Toggles the 'NSFW lock' on each channel" \
             " (User must have 'Manage Channels' permission)\n~nsfw -- Tells wether or not" \
             "nsfw is enabled on a given channel\n~r34 *tags* (for multi-word tags replace spaces with _) -- Rule 34`\n"
