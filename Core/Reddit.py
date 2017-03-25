@@ -57,8 +57,10 @@ def getCosplay(message, client):
 
     if len(hot_page) == 0:
         return 'Failed to find post matching parameters.'
-
-    random_page = hot_page[num]
+    try:
+        random_page = hot_page[num]
+    except:
+        return 'Failed to find a post matching parameters.'
 
     if random_page.stickied:
         return getCosplay(message, client)
@@ -83,7 +85,10 @@ def getCosplayGirl(message, client):
 
     if len(hot_page) == 0:
         return 'Failed to find post matching parameters.'
-    random_page = hot_page[num]
+    try:
+        random_page = hot_page[num]
+    except:
+        return 'Failed to find a post matching parameters.'
 
     if random_page.stickied:
         return getCosplay(message, client)
