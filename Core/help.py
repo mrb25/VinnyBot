@@ -26,7 +26,7 @@ async def help(client, message):
             "\n\nNSFW COMMANDS\n~togglensfw -- Toggles the 'NSFW lock' on each channel" \
             " (User must have 'Manage Channels' permission)\n~nsfw -- Tells whether or not" \
             "nsfw is enabled on a given channel\n~r34 *tags* (for multi-word tags replace spaces with _) -- Rule 34\n\n" \
-            "Discord Serve -- https://discord.gg/XMwyzxZ`\n"
+            "Discord Server -- https://discord.gg/XMwyzxZ`\n"
     await client.send_message(user, text)
 
 async def info(message, client):
