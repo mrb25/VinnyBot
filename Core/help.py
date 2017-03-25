@@ -14,7 +14,7 @@ async def help(client, message):
             "post history (Experimental)\n" \
             "~ryzen -- Hey did you hear about Ryzen??\n"
     text += "\nMODERATION COMMANDS\n~prune *num*\n~kick *@username*\n~whois *@username* -- Gives info about a user\n" \
-            "~stats -- Gives stats about Vinny\n"
+            "~stats -- Gives stats about Vinny\n~info -- Gives information about Vinny\n"
     text += "\nVOICE COMMANDS\n~summon -- Summons Vinny to your current voice channel\n"
     text += "~play *youtubeurl* -- Plays audio from video in your channel (Partial livestream support)\n" \
             "~playlist -- Gets the playlist of currently playing music\n" \
@@ -25,7 +25,8 @@ async def help(client, message):
             "\n~voicestats -- Gives info about current audio streams" \
             "\n\nNSFW COMMANDS\n~togglensfw -- Toggles the 'NSFW lock' on each channel" \
             " (User must have 'Manage Channels' permission)\n~nsfw -- Tells whether or not" \
-            "nsfw is enabled on a given channel\n~r34 *tags* (for multi-word tags replace spaces with _) -- Rule 34`\n"
+            "nsfw is enabled on a given channel\n~r34 *tags* (for multi-word tags replace spaces with _) -- Rule 34\n\n" \
+            "Discord Serve -- https://discord.gg/XMwyzxZ`\n"
     await client.send_message(user, text)
 
 async def info(message, client):
