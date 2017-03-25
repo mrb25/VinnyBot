@@ -60,7 +60,11 @@ async def playTest(message, client):
                     vClient = client.voice_client_in(message.server)
                     player = playerMap[vClient]
                     vidUrl = formatYoutube(message.content)
-                    player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
+                    try:
+                        player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
+                    except:
+                        await client.send_message(message.channel, "The video does not exist or is private. Please try again")
+                        return
                     """Adding player to hashmap"""
                     playerMap[vClient] = player
                     songMap[vClient] = []
@@ -76,7 +80,11 @@ async def playTest(message, client):
                 await voiceInit()
                 vClient = client.voice_client_in(message.server)
                 vidUrl = formatYoutube(message.content)
-                player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
+                try:
+                    player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
+                except:
+                    await client.send_message(message.channel, "The video does not exist or is private. Please try again")
+                    return
                 """Adding player to hashmap"""
                 player.use_avconv = True
                 playerMap[vClient] = player
@@ -170,16 +178,17 @@ def songFinished(message, client):
             del songMap[client.voice_client_in(message.server)]
 
         else:
-            vClient = client.voice_client_in(message.server)
-            coro = vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
-                                              after=lambda: songFinished(message, client))
-
-            fut = asyncio.run_coroutine_threadsafe(coro, client.loop)
             try:
+                vClient = client.voice_client_in(message.server)
+                coro = vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
+                                                    after=lambda: songFinished(message, client))
+
+                fut = asyncio.run_coroutine_threadsafe(coro, client.loop)
                 player = fut.result()
             except:
                 print("Error")
                 pass
+                return
 
             """Adding player to hashmap"""
             playerMap[vClient] = player
@@ -238,8 +247,14 @@ async def skipSong(message, client):
                                     (len(client.voice_client_in(message.server).channel.voice_members) - 1)/2:
                         try:
                             vClient = client.voice_client_in(message.server)
-                            player = await vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
-                                                              after=lambda: songFinished(message, client))
+                            try:
+                                player = await vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
+                                                                after=lambda: songFinished(message, client))
+                            except:
+                                client.send_message(message.channel, "Video does not exist or is private, skipping song")
+                                songMap[vClient].pop(0)
+                                skipSong(message, client)
+
                             playerMap[vClient].stop()
                             playerMap[vClient] = player
                             songMap[vClient].pop(0)
@@ -248,7 +263,7 @@ async def skipSong(message, client):
                             del skipMap[vClient]
 
                         except IndexError:
-                            await client.send_message(message.channel, "No next song. Stopping audio stream.")
+                            await client.send_message(message.channel, "Skip vote passed. No next song. Stopping audio stream.")
                             await stopPlay(message, client)
 
                     else:
@@ -264,15 +279,25 @@ async def skipSong(message, client):
                 skipMap[client.voice_client_in(message.server)].append(message.author)
                 if len(skipMap[client.voice_client_in(message.server)]) >= \
                                 (len(client.voice_client_in(message.server).channel.voice_members) - 1) / 2:
-                    vClient = client.voice_client_in(message.server)
-                    player = await vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
-                                                        after=lambda: songFinished(message, client))
-                    playerMap[vClient].stop()
-                    playerMap[vClient] = player
-                    songMap[vClient].pop(0)
-                    player.start()
-                    await client.send_message(message.channel, "Skipping song")
-                    del skipMap[vClient]
+                    try:
+                        vClient = client.voice_client_in(message.server)
+                        try:
+                            player = await vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
+                                                                after=lambda: songFinished(message, client))
+                        except:
+                            client.send_message(message.channel, "Video does not exist or is private, skipping song")
+                            songMap[vClient].pop(0)
+                            skipSong(message, client)
+                        playerMap[vClient].stop()
+                        playerMap[vClient] = player
+                        songMap[vClient].pop(0)
+                        player.start()
+                        await client.send_message(message.channel, "Skipping song")
+                        del skipMap[vClient]
+
+                    except IndexError:
+                        await client.send_message(message.channel, "Skip vote passed. No next song. Stopping audio stream.")
+                        await stopPlay(message, client)
 
 
     except KeyError:

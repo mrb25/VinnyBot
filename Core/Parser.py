@@ -35,6 +35,11 @@ async def parseCommand(message, client):
             commandCalled()
             logCommand(message, client, '~help')
 
+        elif message.content.startswith('~info'):
+            await info(message, client)
+            commandCalled()
+            logCommand(message, client, '~info')
+
         elif message.content.startswith('~stats'):
             await getStats(message, client)
             commandCalled()
