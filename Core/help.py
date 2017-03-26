@@ -40,8 +40,7 @@ ABOUT_VINNY = "Vinny is an under development discord bot created by Kikkia. Sinc
               "Vinny may rarely crash or drop offline for short periods of time as I find/fix bugs and add features. " \
               "Vinny offers a wide set of features for " \
               "any discord server. Including Music, Memes, Comment generation, and Much more. For a full list type " \
-              "'~help' in a channel vinny is in. Vinny is currently run on a Raspberry Pi 3. Because of this he only" \
-              "allows up to 2 servers to use music at the same time. Hopefully soon he can find a more powerful home." \
+              "'~help' in a channel vinny is in. " \
               " Vinny uses the Discord.py " \
               "framework. For some more detailed statistics run the '~stats' command."
 

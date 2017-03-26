@@ -5,7 +5,7 @@ import asyncio
 import lxml
 from lxml import etree
 
-NUM_MAX_PLAYERS = 2
+NUM_MAX_PLAYERS = 20
 playerMap = {}
 songMap = {}
 skipMap = {}
