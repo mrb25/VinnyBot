@@ -15,6 +15,7 @@ async def voiceInit():
         discord.opus.load_opus('opus')
 
 async def summon(message, client):
+    voiceInit()
     summoned_channel = message.author.voice_channel
     if summoned_channel is None:
         await client.send_message(message.channel, 'You are not in a voice channel.')
