@@ -1,11 +1,13 @@
+import os
 import urllib.request
 import discord
 import re
 import asyncio
 import lxml
+import youtube_dl
 from lxml import etree
 
-NUM_MAX_PLAYERS = 20
+NUM_MAX_PLAYERS = 10
 playerMap = {}
 songMap = {}
 skipMap = {}
@@ -62,7 +64,8 @@ async def playTest(message, client):
                     player = playerMap[vClient]
                     vidUrl = formatYoutube(message.content)
                     try:
-                        player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
+                        dlSong(vidUrl)
+                        player = vClient.create_ffmpeg_player(vidUrl.split('=', 1)[1], use_avconv=True, after=lambda: songFinished(message,client))
                     except:
                         await client.send_message(message.channel, "The video does not exist or is private. Please try again")
                         return
@@ -82,12 +85,13 @@ async def playTest(message, client):
                 vClient = client.voice_client_in(message.server)
                 vidUrl = formatYoutube(message.content)
                 try:
-                    player = await vClient.create_ytdl_player(vidUrl, use_avconv=True, after=lambda: songFinished(message,client))
-                except:
+                    dlSong(vidUrl)
+                    player = vClient.create_ffmpeg_player(vidUrl.split('=', 1)[1], use_avconv=True,
+                                                                after=lambda: songFinished(message,client))
+                except IOError:
                     await client.send_message(message.channel, "The video does not exist or is private. Please try again")
                     return
                 """Adding player to hashmap"""
-                player.use_avconv = True
                 playerMap[vClient] = player
                 songMap[vClient] = []
                 songMap[vClient].append(message.content)
@@ -181,11 +185,11 @@ def songFinished(message, client):
         else:
             try:
                 vClient = client.voice_client_in(message.server)
-                coro = vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
+                dlSong(formatYoutube(songMap[vClient][1]))
+                player = vClient.create_ffmpeg_player(formatYoutube(songMap[vClient][1]).split('=', 1)[1], use_avconv=True,
                                                     after=lambda: songFinished(message, client))
+                os.remove(formatYoutube(songMap[vClient][0]).split('=', 1)[1])
 
-                fut = asyncio.run_coroutine_threadsafe(coro, client.loop)
-                player = fut.result()
             except:
                 print("Error")
                 pass
@@ -198,7 +202,10 @@ def songFinished(message, client):
 
     except KeyError:
         print("Finished song key error")
+        vClient = client.voice_client_in(message.server)
         del playerMap[client.voice_client_in(message.server)]
+        os.remove(formatYoutube(songMap[vClient][0]).split('=', 1)[1])
+
 
 
 def leaveServer(client, channel):
@@ -248,20 +255,10 @@ async def skipSong(message, client):
                                     (len(client.voice_client_in(message.server).channel.voice_members) - 1)/2:
                         try:
                             vClient = client.voice_client_in(message.server)
-                            try:
-                                player = await vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
-                                                                after=lambda: songFinished(message, client))
-                            except:
-                                client.send_message(message.channel, "Video does not exist or is private, skipping song")
-                                songMap[vClient].pop(0)
-                                skipSong(message, client)
-
                             playerMap[vClient].stop()
-                            playerMap[vClient] = player
-                            songMap[vClient].pop(0)
-                            player.start()
                             await client.send_message(message.channel, "Skipping song")
                             del skipMap[vClient]
+                            os.remove(formatYoutube(songMap[vClient][0]).split('=', 1)[1])
 
                         except IndexError:
                             await client.send_message(message.channel, "Skip vote passed. No next song. Stopping audio stream.")
@@ -282,19 +279,10 @@ async def skipSong(message, client):
                                 (len(client.voice_client_in(message.server).channel.voice_members) - 1) / 2:
                     try:
                         vClient = client.voice_client_in(message.server)
-                        try:
-                            player = await vClient.create_ytdl_player(formatYoutube(songMap[vClient][1]), use_avconv=True,
-                                                                after=lambda: songFinished(message, client))
-                        except:
-                            client.send_message(message.channel, "Video does not exist or is private, skipping song")
-                            songMap[vClient].pop(0)
-                            skipSong(message, client)
                         playerMap[vClient].stop()
-                        playerMap[vClient] = player
-                        songMap[vClient].pop(0)
-                        player.start()
                         await client.send_message(message.channel, "Skipping song")
                         del skipMap[vClient]
+                        os.remove(formatYoutube(songMap[vClient][0]).split('=', 1)[1])
 
                     except IndexError:
                         await client.send_message(message.channel, "Skip vote passed. No next song. Stopping audio stream.")
@@ -326,3 +314,37 @@ def getNumPlayers():
 
 def getNumMaxPlayers():
     return NUM_MAX_PLAYERS
+
+class MyLogger(object):
+    def debug(self, msg):
+        print(msg)
+
+    def warning(self, msg):
+        print(msg)
+
+    def error(self, msg):
+        print(msg)
+
+def myHook(d):
+    if d['status'] == 'finished':
+        print('Done downloading')
+
+ytdl_format_options = {
+    'format': 'bestaudio/best',
+    'extractaudio': True,
+    'audioformat': 'mp3',
+    'outtmpl': '%(id)s',
+    'restrictfilenames': True,
+    'noplaylist': True,
+    'nocheckcertificate': True,
+    'ignoreerrors': True,
+    'logtostderr': False,
+    'quiet': False,
+    'no_warnings': False,
+    'default_search': 'auto',
+    'source_address': '0.0.0.0'
+}
+
+def dlSong(url):
+    with youtube_dl.YoutubeDL(ytdl_format_options) as ydl:
+        return ydl.download([url])
