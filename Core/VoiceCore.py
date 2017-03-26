@@ -12,7 +12,7 @@ skipMap = {}
 
 async def voiceInit():
     if not discord.opus.is_loaded():
-        discord.opus.load_opus('opus')
+        discord.opus.load_opus('libopus.so.1')
 
 async def summon(message, client):
     await voiceInit()
