@@ -59,17 +59,21 @@ async def generateMarkovComment(message, client):
     # Debugging print
     # print(textSource)
     generatedMessage = text_model.make_sentence(tries=100)
-    print('Generated message: ' + generatedMessage + '\n')
-
-    if message.channel.permissions_for(message.server.me).embed_links:
-        embed = discord.Embed(title='', colour=VINNY_COLOR)
-        embed.set_author(name=message.mentions[0], icon_url=message.mentions[0].avatar_url)
-        embed.add_field(name='Message', value=generatedMessage)
-
-        await client.send_message(message.channel, embed=embed)
-        await client.delete_message(tmp)
+    if generatedMessage is None:
+        await client.edit_message(tmp,
+                                  'Failed to generate a Comment. I did not get enough comments from them :disappointed:')
     else:
-        await client.edit_message(tmp, message.mentions[0].name + ' says: ' + generatedMessage.replace('@', ':at:'))
+        print('Generated message: ' + generatedMessage + '\n')
+
+        if message.channel.permissions_for(message.server.me).embed_links:
+            embed = discord.Embed(title='', colour=VINNY_COLOR)
+            embed.set_author(name=message.mentions[0], icon_url=message.mentions[0].avatar_url)
+            embed.add_field(name='Message', value=generatedMessage)
+    
+            await client.send_message(message.channel, embed=embed)
+            await client.delete_message(tmp)
+        else:
+            await client.edit_message(tmp, message.mentions[0].name + ' says: ' + generatedMessage.replace('@', ':at:'))
 
 
 async def updateLoading(message, client, tmp, channelCounter, usableChannels):
@@ -128,9 +132,12 @@ async def generateMarkovChannel(message, client):
     # Debugging print
     # print(textSource)
     generatedMessage = text_model.make_sentence(tries=100)
-    print('Generated message: ' + generatedMessage + '\n')
+    if generatedMessage is None:
+        await client.edit_message(tmp, 'Failed to generate a Comment. I did not get enough comments from them :disappointed:')
 
-    await client.edit_message(tmp, message.channel_mentions[0].name + ' says: ' + generatedMessage.replace('@', ':at:'))
+    else:
+        print('Generated message: ' + generatedMessage + '\n')
+        await client.edit_message(tmp, message.channel_mentions[0].name + ' says: ' + generatedMessage.replace('@', ':at:'))
 
 async def generateRyzen(message, client):
     with open("res/ryzen.txt", encoding="utf8") as f:
