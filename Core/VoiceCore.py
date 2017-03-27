@@ -1,4 +1,5 @@
 import os
+import threading
 import urllib.request
 import discord
 import re
@@ -65,7 +66,12 @@ async def playTest(message, client):
                     vidUrl = formatYoutube(message.content)
                     try:
                         dlSong(vidUrl)
-                        player = vClient.create_ffmpeg_player(vidUrl.split('=', 1)[1], use_avconv=True, after=lambda: songFinished(message,client))
+                        player = vClient.create_ffmpeg_player(vidUrl.split('watch?v=', 1)[1], use_avconv=True, after=lambda: songFinished(message,client))
+                    except IndexError:
+                        try:
+                            player = vClient.create_ffmpeg_player(vidUrl.split('.be/', 1)[1], use_avconv=True, after=lambda: songFinished(message, client))
+                        except IndexError:
+                            await client.send_message(message.channel, "Error loading the video. Please make sure it is a valid, Non-playlist Youtube link.")
                     except:
                         await client.send_message(message.channel, "The video does not exist or is private. Please try again")
                         return
@@ -86,9 +92,16 @@ async def playTest(message, client):
                 vidUrl = formatYoutube(message.content)
                 try:
                     dlSong(vidUrl)
-                    player = vClient.create_ffmpeg_player(vidUrl.split('=', 1)[1], use_avconv=True,
+                    player = vClient.create_ffmpeg_player(vidUrl.split('watch?v=', 1)[1], use_avconv=True,
                                                                 after=lambda: songFinished(message,client))
-                except IOError:
+                except IndexError:
+                    try:
+                        player = vClient.create_ffmpeg_player(vidUrl.split('.be/', 1)[1], use_avconv=True,
+                                                              after=lambda: songFinished(message, client))
+                    except IndexError:
+                        await client.send_message(message.channel,
+                                                  "Error loading the video. Please make sure it is a valid, Non-playlist Youtube link.")
+                except:
                     await client.send_message(message.channel, "The video does not exist or is private. Please try again")
                     return
                 """Adding player to hashmap"""
@@ -106,12 +119,28 @@ async def playTest(message, client):
 async def stopPlay(message, client):
     try:
         if playerMap[client.voice_client_in(message.server)].is_playing():
+            playerMap[client.voice_client_in(message.server)].stop()
             print('Stopping Stream')
             await client.send_message(message.channel, "Stopping audio Stream")
-            playerMap[client.voice_client_in(message.server)].stop()
             del playerMap[client.voice_client_in(message.server)]
+            try:
+                os.remove(songMap[client.voice_client_in(message.server)][0].split('watch?v=', 1)[1])
+            except PermissionError:
+                threading.Timer(10.0, delayedDelete, args=(songMap[client.voice_client_in(message.server)][0].split('watch?v=', 1)[1],))
+
+            except IndexError:
+                try:
+                    os.remove(songMap[client.voice_client_in(message.server)][0].split('.be/', 1)[1])
+                except PermissionError:
+                    threading.Timer(10.0, delayedDelete, args=(songMap[client.voice_client_in(message.server)][0].split('.be/', 1)[1],))
+
             del songMap[client.voice_client_in(message.server)]
             del skipMap[client.voice_client_in(message.server)]
+
+    except IndexError:
+        del songMap[client.voice_client_in(message.server)]
+        del skipMap[client.voice_client_in(message.server)]
+
     except KeyError:
         await client.send_message(message.channel, "Not currently playing")
 
@@ -179,32 +208,54 @@ def songFinished(message, client):
     print("The song is done")
     try:
         if songMap[client.voice_client_in(message.server)][1] is None:
+            try:
+                delayedDelete(songMap[client.voice_client_in(message.server)][0].split('watch?v=', 1)[1])
+            except IndexError:
+                delayedDelete(songMap[client.voice_client_in(message.server)][0].split('.be/', 1)[1])
+
             del playerMap[client.voice_client_in(message.server)]
             del songMap[client.voice_client_in(message.server)]
 
+
         else:
+            vClient = client.voice_client_in(message.server)
             try:
-                vClient = client.voice_client_in(message.server)
                 dlSong(formatYoutube(songMap[vClient][1]))
-                player = vClient.create_ffmpeg_player(formatYoutube(songMap[vClient][1]).split('=', 1)[1], use_avconv=True,
+                player = vClient.create_ffmpeg_player(formatYoutube(songMap[vClient][1]).split('watch?v=', 1)[1], use_avconv=True,
                                                     after=lambda: songFinished(message, client))
-                os.remove(formatYoutube(songMap[vClient][0]).split('=', 1)[1])
+
+                playerMap[vClient] = player
+                songMap[vClient].pop(0)
+                player.start()
+
+            except IndexError:
+                try:
+                    player = vClient.create_ffmpeg_player(formatYoutube(songMap[vClient][1]).split('.be/', 1)[1], use_avconv=True,
+                                                          after=lambda: songFinished(message, client))
+                    playerMap[vClient] = player
+                    songMap[vClient].pop(0)
+                    player.start()
+                except:
+                    print("Not valid link in next song")
 
             except:
                 print("Error")
                 pass
-                return
 
-            """Adding player to hashmap"""
-            playerMap[vClient] = player
-            songMap[vClient].pop(0)
-            player.start()
+            try:
+                delayedDelete(formatYoutube(songMap[vClient][0].split('watch?v=', 1)[1]))
+            except IndexError:
+                delayedDelete(formatYoutube(songMap[vClient][0].split('.be/', 1)[1]))
+
 
     except KeyError:
         print("Finished song key error")
         vClient = client.voice_client_in(message.server)
         del playerMap[client.voice_client_in(message.server)]
-        os.remove(formatYoutube(songMap[vClient][0]).split('=', 1)[1])
+        try:
+            delayedDelete(formatYoutube(songMap[vClient][0].split('watch?v=', 1)[1]))
+        except IndexError:
+            delayedDelete(formatYoutube(songMap[vClient][0].split('.be/', 1)[1]))
 
 
 
@@ -212,9 +263,12 @@ def leaveServer(client, channel):
     print("leaving channel")
     try:
         del playerMap[client.voice_client_in(channel.server)]
+        os.remove(songMap[client.voice_client_in(channel.server)].split("watch?v=", 1)[1])
         del songMap[client.voice_client_in(channel.server)]
         print("Successfully left")
 
+    except IndexError:
+        os.remove(songMap[client.voice_client_in(channel.server)].split(".be/", 1)[1])
     except KeyError:
         print("Tried to leave but not in the map")
 
@@ -258,7 +312,10 @@ async def skipSong(message, client):
                             playerMap[vClient].stop()
                             await client.send_message(message.channel, "Skipping song")
                             del skipMap[vClient]
-                            os.remove(formatYoutube(songMap[vClient][0]).split('=', 1)[1])
+                            try:
+                                os.remove(formatYoutube(songMap[vClient][0]).split('watch?v=', 1)[1])
+                            except IndexError:
+                                os.remove(formatYoutube(songMap[vClient][0]).split('.be/', 1)[1])
 
                         except IndexError:
                             await client.send_message(message.channel, "Skip vote passed. No next song. Stopping audio stream.")
@@ -282,11 +339,20 @@ async def skipSong(message, client):
                         playerMap[vClient].stop()
                         await client.send_message(message.channel, "Skipping song")
                         del skipMap[vClient]
-                        os.remove(formatYoutube(songMap[vClient][0]).split('=', 1)[1])
+                        try:
+                            os.remove(formatYoutube(songMap[vClient][0]).split('watch?v=', 1)[1])
+                        except IndexError:
+                            try:
+                                os.remove(formatYoutube(songMap[vClient][0]).split('.be/', 1)[1])
+                            except PermissionError:
+                                delayedDelete(songMap[client.voice_client_in(message.server)][0].split('.be/', 1)[1])
+                        except PermissionError:
+                            delayedDelete(songMap[client.voice_client_in(message.server)][0].split('watch?v=', 1)[1])
+
 
                     except IndexError:
                         await client.send_message(message.channel, "Skip vote passed. No next song. Stopping audio stream.")
-                        await stopPlay(message, client)
+                        #await stopPlay(message, client)
 
 
     except KeyError:
@@ -348,3 +414,13 @@ ytdl_format_options = {
 def dlSong(url):
     with youtube_dl.YoutubeDL(ytdl_format_options) as ydl:
         return ydl.download([url])
+
+def delayedDelete(url):
+    try:
+        os.remove(url)
+    except PermissionError:
+        t = threading.Timer(10.0, delayedDelete, args=(url,))
+        t.setDaemon(True)
+        t.start()
+    except FileNotFoundError:
+        return

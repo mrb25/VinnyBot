@@ -69,7 +69,7 @@ async def generateMarkovComment(message, client):
             embed = discord.Embed(title='', colour=VINNY_COLOR)
             embed.set_author(name=message.mentions[0], icon_url=message.mentions[0].avatar_url)
             embed.add_field(name='Message', value=generatedMessage)
-    
+
             await client.send_message(message.channel, embed=embed)
             await client.delete_message(tmp)
         else:
