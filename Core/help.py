@@ -34,6 +34,7 @@ async def info(message, client):
     info.set_author(name=client.user.name, icon_url=client.user.avatar_url)
     info.add_field(name="About Vinny", value=ABOUT_VINNY)
     info.add_field(name="Vinny Server", value=VINNY_SERVER)
+    info.add_field(name="Invite Vinny", value=VINNY_INVITE)
     await client.send_message(message.channel, embed=info)
 
 ABOUT_VINNY = "Vinny is an under development discord bot created by Kikkia. Since Vinny is under current development" \
@@ -46,5 +47,7 @@ ABOUT_VINNY = "Vinny is an under development discord bot created by Kikkia. Sinc
 
 VINNY_SERVER = "Vinny now has his own discord server where you can suggest features, report bugs, or just talk with " \
                "other users and developers of vinny. Invite Link: https://discord.gg/XMwyzxZ"
+
+VINNY_INVITE = "To invite Vinny to your server go to: https://discordapp.com/oauth2/authorize?client_id=276855867796881408&scope=bot&permissions=67628096"
 
 VINNY_COLOR = int('008cba', 16)
