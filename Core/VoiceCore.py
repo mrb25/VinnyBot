@@ -268,7 +268,7 @@ def leaveServer(client, channel):
         print("Successfully left")
 
     except IndexError:
-        os.remove(songMap[client.voice_client_in(channel.server)].split(".be/", 1)[1])
+        os.remove(songMap[client.voice_client_in(channel.server)][0].split(".be/", 1)[1])
     except KeyError:
         print("Tried to leave but not in the map")
 
