@@ -263,7 +263,7 @@ def leaveServer(client, channel):
     print("leaving channel")
     try:
         del playerMap[client.voice_client_in(channel.server)]
-        os.remove(songMap[client.voice_client_in(channel.server)].split("watch?v=", 1)[1])
+        os.remove(songMap[client.voice_client_in(channel.server)][0].split("watch?v=", 1)[1])
         del songMap[client.voice_client_in(channel.server)]
         print("Successfully left")
 
