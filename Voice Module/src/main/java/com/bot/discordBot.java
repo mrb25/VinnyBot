@@ -25,7 +25,7 @@ import net.dv8tion.jda.core.managers.AudioManager;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Bot extends ListenerAdapter {
+public class discordBot extends ListenerAdapter {
     private static String nickName;
     private static String avatarURL;
 
@@ -35,7 +35,7 @@ public class Bot extends ListenerAdapter {
                 .setToken(config.getToken("Discord"))
                 .buildBlocking();
 
-        jda.addEventListener(new Bot());
+        jda.addEventListener(new discordBot());
         nickName = jda.getSelfUser().getName();
         avatarURL = jda.getSelfUser().getAvatarUrl();
     }
@@ -44,7 +44,7 @@ public class Bot extends ListenerAdapter {
     private final Map<Long, ServerMusicManager> musicManagers;
 
 
-    private Bot() {
+    private discordBot() {
         this.musicManagers = new HashMap<>();
 
         this.playerManager = new DefaultAudioPlayerManager();
