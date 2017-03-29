@@ -43,7 +43,7 @@ ABOUT_VINNY = "Vinny is an under development discord bot created by Kikkia. Sinc
               "any discord server. Including Music, Memes, Comment generation, and Much more. For a full list type " \
               "'~help' in a channel vinny is in. " \
               " Vinny uses the Discord.py " \
-              "framework. For some more detailed statistics run the '~stats' command."
+              "framework, as well as voice with JDA and lavaplayer For some more detailed statistics run the '~stats' command."
 
 VINNY_SERVER = "Vinny now has his own discord server where you can suggest features, report bugs, or just talk with " \
                "other users and developers of vinny. Invite Link: https://discord.gg/XMwyzxZ"

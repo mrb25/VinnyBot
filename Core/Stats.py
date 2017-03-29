@@ -34,8 +34,6 @@ async def getStats(message, client):
         embed.add_field(name='Channels', value=channelCount, inline=True)
         embed.add_field(name='Users', value=len(members), inline=True)
         embed.add_field(name='Commands Called', value=commandsCalled, inline=True)
-        embed.add_field(name='Active Voice Channels', value=getNumPlayers(), inline=True)
-        embed.add_field(name='Max Active Channels', value=getNumMaxPlayers(), inline=True)
         embed.set_author(name=client.user.name, icon_url=client.user.avatar_url)
 
         return await client.send_message(message.channel, embed=embed)
