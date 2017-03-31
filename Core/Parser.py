@@ -1,6 +1,8 @@
 import urllib
 import json
 import urllib.request
+
+import discord
 from Reddit import *
 from help import *
 from Moderation import *
@@ -48,34 +50,44 @@ async def parseCommand(message, client):
         elif message.content.startswith('~permission'):
             commandCalled()
             logCommand(message, client, '~permission')
-            if client.user.permissions_in(message.channel).read_messages:
+            if message.channel.permissions_for(message.server.me).read_messages:
                 await client.send_message(message.channel, "I have permission")
             else:
                 await client.send_message(message.channel, "I do not have permission")
 
         elif message.content.startswith('~prune'):
-            if message.channel.permissions_for(message.author).manage_messages:
-                await prune(message, client)
+            if message.channel.permissions_for(message.server.me).manage_messages:
+                if message.channel.permissions_for(message.author).manage_messages:
+                    await prune(message, client)
+                else:
+                    await client.send_message(message.channel, ":x: You do not have permissions to use this command :x:")
             else:
-                await client.send_message(message.channel, ":x: You do not have permissions to use this command :x:")
+                await client.send_message(message.channel, ":x: I don't have permissions to delete messages here. :x:")
             commandCalled()
             logCommand(message, client, '~prune')
             # await prune(message, client)
 
         elif message.content.startswith('~kick'):
-            if message.channel.permissions_for(message.author).kick_members:
-                await kick(message, client)
+            if message.channel.permissions_for(message.server.me).kick_members:
+                if message.channel.permissions_for(message.author).kick_members:
+                    await kick(message, client)
+                else:
+                    await client.send_message(message.channel, ":x: You do not have permissions to use this command :x:")
             else:
-                await client.send_message(message.channel, ":x: You do not have permissions to use this command :x:")
+                await client.send_message(message.channel, ":x: I don't have permissions to kick members here. :x:")
             commandCalled()
             logCommand(message, client, '~kick')
             # await kick(message, client)
 
         elif message.content.startswith('~ban'):
-            if message.channel.permissions_for(message.author).ban_members:
-                await ban(message, client)
+            if message.channel.permissions_for(message.server.me).ban_members:
+                if message.channel.permissions_for(message.author).ban_members:
+                    await ban(message, client)
+                else:
+                    await client.send_message(message.channel, ":x: You do not have permissions to use this command :x:")
             else:
-                await client.send_message(message.channel, ":x: You do not have permissions to use this command :x:")
+                await client.send_message(message.channel, ":x: I don't have permissions to ban members here. :x:")
+
             commandCalled()
             logCommand(message, client, '~ban')
             # await ban(message, client)
