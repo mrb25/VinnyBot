@@ -24,7 +24,10 @@ async def postR34(message, client):
     else:
         search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={}".format(tags)
 
-    xmlFile = urllib.request.urlopen(search)
+    try:
+        xmlFile = urllib.request.urlopen(search)
+    except:
+        client.send_message(message.channel, "There was an error retrieving a post... :confounded: ")
     e = xml.etree.ElementTree.parse(xmlFile)
     root = e.getroot()
 

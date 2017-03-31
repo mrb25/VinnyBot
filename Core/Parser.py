@@ -246,7 +246,10 @@ async def parseCommand(message, client):
             except IndexError:
                 await client.send_message(message.channel, "No subreddit mentioned, please enter a subreddit")
                 return
-            await client.send_message(message.channel, random_hot_post(subreddit, 2))
+            try:
+                await client.send_message(message.channel, random_hot_post(subreddit, 2))
+            except:
+                await client.send_message(message.channel, "Oops. There was an error retriving a post :confounded:")
             commandCalled()
             logCommand(message, client, message.content)
 
