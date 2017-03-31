@@ -3,9 +3,9 @@ import discord
 
 async def help(client, message):
     user = message.author
-    text = "`MEME COMMANDS\n"
+    text = "```MEME COMMANDS\n"
     text += "\n~shit ~harambe ~lenny ~hammer ~doggo ~hitler ~mario ~megaman ~salt ~feels ~pikachu" \
-            " ~ayy\n~giphy *search terms*\n\nREDDIT COMMANDS" \
+            " ~ayy\n~giphy *search terms*\n~8ball -- Get a response from the magic 8 ball\nREDDIT COMMANDS" \
             "\n~rr *subreddit* -- Gives random HOT post from given subreddit\n"
     text += "~tr *subreddit* -- Top HOT post from subreddit right now\n~cosplay *search_terms* -- Searches for a " \
             "cosplay meeting the search terms. (use _ instead of spaces)\n~cosplaygirls *search_terms* -- Searches for" \
@@ -13,7 +13,10 @@ async def help(client, message):
             "\nCOMMENT COMMANDS\n~comment @user or #channel -- Generates a unique comment based on the user/channel " \
             "post history (Experimental)\n" \
             "~ryzen -- Hey did you hear about Ryzen??\n"
-    text += "\nMODERATION COMMANDS\n~prune *num*\n~kick *@username*\n~whois *@username* -- Gives info about a user\n" \
+    text += "\nMODERATION COMMANDS\n~prune @user \"example\" *num* -- Removes the messages from the last *num* messages " \
+            "from user containing \"example\". Mentioning users and defining text are both optional and can be used for as many " \
+            "users or phrases as needed in a single prune command" \
+            "\n~kick *@username*\n~whois *@username* -- Gives info about a user\n" \
             "~stats -- Gives stats about Vinny\n~info -- Gives information about Vinny\n"
     text += "\nVOICE COMMANDS\n"
     text += "~play *URL* -- Plays audio from video in your channel. Works well with Youtube, Soundcloud, Twitch," \
@@ -26,7 +29,7 @@ async def help(client, message):
             "\n\nNSFW COMMANDS\n~togglensfw -- Toggles the 'NSFW lock' on each channel" \
             " (User must have 'Manage Channels' permission)\n~nsfw -- Tells whether or not" \
             "nsfw is enabled on a given channel\n~r34 *tags* (for multi-word tags replace spaces with _) -- Rule 34\n\n" \
-            "Discord Server -- https://discord.gg/XMwyzxZ`\n"
+            "Discord Server -- https://discord.gg/XMwyzxZ```\n"
     await client.send_message(user, text)
 
 async def info(message, client):

@@ -54,19 +54,28 @@ async def parseCommand(message, client):
                 await client.send_message(message.channel, "I do not have permission")
 
         elif message.content.startswith('~prune'):
-            await client.send_message(message.channel, 'Prune temporarily disabled')
+            if message.channel.permissions_for(message.author).manage_messages:
+                await prune(message, client)
+            else:
+                await client.send_message(message.channel, ":x: You do not have permissions to use this command :x:")
             commandCalled()
             logCommand(message, client, '~prune')
             # await prune(message, client)
 
         elif message.content.startswith('~kick'):
-            await client.send_message(message.channel, 'Kick temporarily disabled')
+            if message.channel.permissions_for(message.author).kick_members:
+                await kick(message, client)
+            else:
+                await client.send_message(message.channel, ":x: You do not have permissions to use this command :x:")
             commandCalled()
             logCommand(message, client, '~kick')
             # await kick(message, client)
 
         elif message.content.startswith('~ban'):
-            await client.send_message(message.channel, 'Ban temporarily disabled')
+            if message.channel.permissions_for(message.author).ban_members:
+                await ban(message, client)
+            else:
+                await client.send_message(message.channel, ":x: You do not have permissions to use this command :x:")
             commandCalled()
             logCommand(message, client, '~ban')
             # await ban(message, client)
@@ -189,6 +198,11 @@ async def parseCommand(message, client):
             await giphy(message, client)
             commandCalled()
             logCommand(message, client, '~giphy')
+
+        elif message.content.startswith('~8ball'):
+            await magic8ball(message, client)
+            commandCalled()
+            logCommand(message, client, "8ball")
 
         elif message.content.startswith('~praise'):
             await client.send_message(message.channel, 'https://media.giphy.com/media/fr42tarocsK6Q/giphy.gif')
