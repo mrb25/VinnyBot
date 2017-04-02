@@ -8,6 +8,8 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
+import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
@@ -73,7 +75,7 @@ public class discordBot extends ListenerAdapter {
 
         if (guild != null) {
             if ("~play".equals(command[0]) && command.length == 2) {
-                if (event.getMember().getVoiceState().getChannel() == null){
+                if (event.getMember().getVoiceState().getChannel() == null) {
                     event.getTextChannel().sendMessage("You are not connected to a voice channel :cry:").queue();
                     return;
                 }
@@ -90,13 +92,23 @@ public class discordBot extends ListenerAdapter {
                 resumeTrack(event.getTextChannel());
             } else if ("~voicestats".equals(command[0])) {
                 voiceStats(event.getTextChannel());
-            } else if ("~search".equals(command[0])){
+            } else if ("~search".equals(command[0])) {
                 //search(event.getTextChannel(), command[1], event.getMember());
-                event.getTextChannel().sendMessage("Search functionality coming soon. Checkout the discord server for frequent updates.").queue();
+                //event.getTextChannel().sendMessage("Search functionality coming soon. Checkout the discord server for frequent updates.").queue();
             }
         }
 
         super.onMessageReceived(event);
+    }
+
+    @Override
+    public void onGuildVoiceLeave(GuildVoiceLeaveEvent event) {
+        checkVoiceLobby(event.getGuild());
+    }
+
+    @Override
+    public void onGuildVoiceMove(GuildVoiceMoveEvent event) {
+        checkVoiceLobby(event.getGuild());
     }
 
     private void loadAndPlay(final TextChannel channel, final String trackUrl, final Member author) {
@@ -150,11 +162,11 @@ public class discordBot extends ListenerAdapter {
 
     private static void connectToVoiceChannel(AudioManager audioManager, final Member author) {
         if (!audioManager.isConnected() && !audioManager.isAttemptingToConnect()) {
-                audioManager.openAudioConnection(author.getVoiceState().getChannel());
+            audioManager.openAudioConnection(author.getVoiceState().getChannel());
         }
     }
 
-    private void pauseTrack(final TextChannel textChannel){
+    private void pauseTrack(final TextChannel textChannel) {
         ServerMusicManager musicManager = getServerAudioPlayer(textChannel.getGuild());
         if (!musicManager.scheduler.isPlaying()) {
             textChannel.sendMessage("You are not listening to audio").queue();
@@ -176,6 +188,7 @@ public class discordBot extends ListenerAdapter {
 
     private void stopPlayer(final TextChannel textChannel) {
         ServerMusicManager musicManager = getServerAudioPlayer(textChannel.getGuild());
+        long guildId = Long.parseLong(textChannel.getGuild().getId());
         if (!musicManager.scheduler.isPlaying()) {
             textChannel.sendMessage("You are not listening to audio").queue();
             return;
@@ -183,6 +196,7 @@ public class discordBot extends ListenerAdapter {
         musicManager.scheduler.stopPlayer();
         textChannel.getGuild().getAudioManager().closeAudioConnection();
         textChannel.sendMessage("Stopping player").queue();
+        musicManagers.remove(guildId);
     }
 
     private void getPlaylist(final TextChannel textChannel) {
@@ -190,18 +204,16 @@ public class discordBot extends ListenerAdapter {
         if (!musicManager.scheduler.isPlaying()) {
             textChannel.sendMessage("You are not listening to audio").queue();
             return;
-        }
-        else {
+        } else {
             String[] playlist = musicManager.scheduler.getPlaylist();
             String msg = "```Playlist\n";
-            for (int i = 0; i < playlist.length; i++){
+            for (int i = 0; i < playlist.length; i++) {
                 if (i == 0)
                     msg += "Now Playing: " + playlist[i] + "\n";
                 else if (i == 1) {
                     msg += "Next: " + playlist[i] + "\n";
-                }
-                else
-                    msg += (i+1) + ": " + playlist[i] + "\n";
+                } else
+                    msg += (i + 1) + ": " + playlist[i] + "\n";
             }
             msg += "```";
             textChannel.sendMessage(msg).queue();
@@ -226,7 +238,7 @@ public class discordBot extends ListenerAdapter {
         builder.setAuthor(nickName, avatarURL, avatarURL);
         builder.addField("Total voice servers", "" + totalServers, true);
         builder.addField("Active voice servers", "" + activeServers, true);
-        builder.addField("Memory used", "" + (((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/1024)/1024) + " MB", true);
+        builder.addField("Memory used", "" + (((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024) / 1024) + " MB", true);
         textChannel.sendMessage(builder.build()).queue();
     }
 
@@ -234,7 +246,7 @@ public class discordBot extends ListenerAdapter {
     private void search(final TextChannel channel, final String trackUrl, final Member author) {
         final ServerMusicManager musicManager = getServerAudioPlayer(channel.getGuild());
 
-        playerManager.loadItemOrdered(channel.getGuild(), "ytsearch:"+trackUrl, new AudioLoadResultHandler() {
+        playerManager.loadItemOrdered(channel.getGuild(), "ytsearch:" + trackUrl, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
                 channel.sendMessage("Adding to queue " + track.getInfo().title).queue();
@@ -244,12 +256,14 @@ public class discordBot extends ListenerAdapter {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                int i = 1;
+                System.out.print("here: " + playlist.getTracks().size());
                 EmbedBuilder builder = new EmbedBuilder();
-                builder.setTitle("Search results", "");
+
+                builder.setAuthor(nickName, avatarURL, avatarURL);
                 builder.addField("Select a song to add by reacting with the corresponding number", "", false);
-                for (AudioTrack track : playlist.getTracks()){
-                    builder.addField("", i + ": " + track.getInfo().title, false);
+                for (int i = 0; i < playlist.getTracks().size(); i++) {
+                    builder.addField("", i + ": " + playlist.getTracks().get(i).getInfo().title, false);
+                    //System.out.print("Track");
                 }
                 channel.sendMessage(builder.build()).queue();
             }
@@ -264,5 +278,21 @@ public class discordBot extends ListenerAdapter {
                 channel.sendMessage("Could not play: " + exception.getMessage()).queue();
             }
         });
+    }
+
+    private void checkVoiceLobby(Guild guild) {
+        ServerMusicManager musicManager = getServerAudioPlayer(guild);
+        if (musicManager == null) {
+            return;
+        } else if (guild.getAudioManager().isConnected()) {
+            if (guild.getAudioManager().getConnectedChannel().getMembers().size() == 1) {
+                long guildId = Long.parseLong(guild.getId());
+                musicManager.scheduler.stopPlayer();
+                guild.getAudioManager().closeAudioConnection();
+                musicManagers.remove(guildId);
+                System.out.print(musicManagers.size());
+            }
+        }
+
     }
 }
