@@ -32,6 +32,7 @@ async def generateMarkovComment(message, client):
     print('Comment for ' + message.mentions[0].name + ' requested by ' + message.author.name + ' in Server: '
           + message.server.name + ' in channel: ' + message.channel.name)
 
+    await client.send_typing(message.channel)
     tmp = await client.send_message(message.channel, 'Downloading messages...')
 
     await updateLoading(message, client, tmp, channelCounter, usableChannels)
@@ -109,6 +110,7 @@ async def generateMarkovChannel(message, client):
         await client.send_message(message.channel, 'Please mention only one channel')
         return
 
+    await client.send_typing(message.channel)
     tmp = await client.send_message(message.channel, 'Downloading messages from Channel... (0%)')
 
     async for log in client.logs_from(message.channel_mentions[0], limit=10000):

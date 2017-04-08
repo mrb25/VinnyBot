@@ -233,11 +233,13 @@ async def parseCommand(message, client):
 
         # Reddit Commands
         elif message.content.startswith('~shit'):
+            await client.send_typing(message.channel)
             await client.send_message(message.channel, random_hot_post('shitpost', 20))
             commandCalled()
             logCommand(message, client, '~shit')
 
         elif message.content.startswith('~rr'):
+            await client.send_typing(message.channel)
             try:
                 subreddit = message.content.split(' ')[1]
             except IndexError:
@@ -253,6 +255,7 @@ async def parseCommand(message, client):
             logCommand(message, client, message.content)
 
         elif message.content.startswith('~tr'):
+            await client.send_typing(message.channel)
             try:
                 subreddit = message.content.split(' ')[1]
             except IndexError:
@@ -266,11 +269,13 @@ async def parseCommand(message, client):
             logCommand(message, client, message.content)
 
         elif message.content.startswith('~cosplaygirls'):
+            await client.send_typing(message.channel)
             await client.send_message(message.channel, getCosplayGirl(message, client))
             commandCalled()
             logCommand(message, client, '~cosplaygirls')
 
         elif message.content.startswith('~cosplay'):
+            await client.send_typing(message.channel)
             await client.send_message(message.channel, getCosplay(message, client))
             commandCalled()
             logCommand(message, client, message.content)

@@ -8,6 +8,7 @@ async def harambe(message, client):
     await client.send_message(message.channel, data['url'])
 
 async def giphy(message, client):
+    await client.send_typing(message.channel)
     text = message.content[6:].replace(' ', '+')
     data = json.loads(urllib.request.urlopen("http://api.giphy.com/v1/gifs/random?tag="+text+"&api_key=dc6zaTOxFJmzC").read().decode('utf-8'))
     data = json.loads(json.dumps(data['data']))

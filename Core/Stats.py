@@ -56,10 +56,7 @@ def initCommandCount():
 
 def sendStatistics(client):
     url = "https://bots.discord.pw/api/bots/" + getToken('Bot ID') + "/stats"
-    serverCount = 0
-    for server in client.servers:
-        serverCount += 1
-
+    serverCount = len(client.servers)
 
     data = {
                "server_count": serverCount

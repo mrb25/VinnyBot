@@ -17,6 +17,7 @@ async def postR34(message, client):
         return
 
     tags = message.content[4:]
+    await client.send_typing(message.channel)
 
     if "fur" not in tags or "furry" not in tags or "yiff" not in tags or "anthro" not in tags:
         search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={}".format(tags) +\
