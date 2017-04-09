@@ -17,7 +17,7 @@ async def help(client, message):
             "from user containing \"example\". Mentioning users and defining text are both optional and can be used for as many " \
             "users or phrases as needed in a single prune command" \
             "\n~kick *@username*\n~whois *@username* -- Gives info about a user\n" \
-            "~stats -- Gives stats about Vinny\n~info -- Gives information about Vinny\n"
+            "~stats -- Gives stats about Vinny\n~info -- Gives information about Vinny\n~invite -- Gives the link to invite Vinny to your server"
     text += "\nVOICE COMMANDS\n"
     text += "~play *URL* -- Plays audio from video in your channel. Works well with Youtube, Soundcloud, Twitch," \
             "Vimeo, etc.\n" \
@@ -40,6 +40,9 @@ async def info(message, client):
     info.add_field(name="Invite Vinny", value=VINNY_INVITE)
     await client.send_message(message.channel, embed=info)
 
+async def invite(message, client):
+    await client.send_message(message.channel, VINNY_INVITE)
+
 ABOUT_VINNY = "Vinny is an under development discord bot created by Kikkia. Since Vinny is under current development" \
               "Vinny may rarely crash or drop offline for short periods of time as I find/fix bugs and add features. " \
               "Vinny offers a wide set of features for " \
@@ -54,3 +57,4 @@ VINNY_SERVER = "Vinny now has his own discord server where you can suggest featu
 VINNY_INVITE = "To invite Vinny to your server go to: https://discordapp.com/oauth2/authorize?client_id=276855867796881408&scope=bot&permissions=67628096"
 
 VINNY_COLOR = int('008cba', 16)
+
