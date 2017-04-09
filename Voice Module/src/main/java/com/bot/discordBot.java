@@ -126,11 +126,7 @@ public class discordBot extends ListenerAdapter {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                AudioTrack firstTrack = playlist.getSelectedTrack();
 
-                if (firstTrack == null) {
-                    firstTrack = playlist.getTracks().get(0);
-                }
                 if (trackUrl.split(" ").length == 1) {
                     channel.sendMessage("Playlist detected. Please try again but include the songs you want included.\n" +
                             "Example: `~play *playlist url* 1-5` This would load songs 1-5 on the playlist. Limited to loading up to 10 songs at a time.").queue();
