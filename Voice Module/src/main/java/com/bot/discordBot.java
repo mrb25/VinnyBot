@@ -113,8 +113,9 @@ public class discordBot extends ListenerAdapter {
 
     private void loadAndPlay(final TextChannel channel, final String trackUrl, final Member author) {
         final ServerMusicManager musicManager = getServerAudioPlayer(channel.getGuild());
+        String url = trackUrl.split(" ")[0];
 
-        playerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
+        playerManager.loadItemOrdered(musicManager, url, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
                 channel.sendMessage("Adding to queue " + track.getInfo().title).queue();
@@ -129,10 +130,44 @@ public class discordBot extends ListenerAdapter {
                 if (firstTrack == null) {
                     firstTrack = playlist.getTracks().get(0);
                 }
-
-                channel.sendMessage("Adding to queue " + firstTrack.getInfo().title + " (first track of playlist " + playlist.getName() + ")").queue();
-
-                play(channel.getGuild(), musicManager, firstTrack, author);
+                if (trackUrl.split(" ").length == 1) {
+                    channel.sendMessage("Playlist detected. Please try again but include the songs you want included.\n" +
+                            "Example: `~play *playlist url* 1-5` This would load songs 1-5 on the playlist. Limited to loading up to 10 songs at a time.").queue();
+                } else {
+                    String songs = trackUrl.split(" ")[1];
+                    if (songs.split("-").length == 2) {
+                        int to, from;
+                        try {
+                            from = Integer.parseInt(songs.split("-")[0]);
+                            to = Integer.parseInt(songs.split("-")[1]);
+                        } catch (NumberFormatException e) {
+                            channel.sendMessage(":x: NumberFormatException: Invalid number given, please only user numeric characters :x:").queue();
+                            return;
+                        }
+                        if (from > to) {
+                            channel.sendMessage(":x: Error: Beginning index is bigger than ending index :x:").queue();
+                            return;
+                        } else if (to > playlist.getTracks().size()) {
+                            channel.sendMessage(":x: Error: Requesting tracks out of range. Only " + playlist.getTracks().size() + " tracks in playlist :x:").queue();
+                            return;
+                        } else if (to - from > 9) {
+                            channel.sendMessage(":exclamation: Warning: Requesting number of tracks that is greater than 10. Trimming results to " +
+                                    "" + from + "-" + (from + 9) +" :exclamation:").queue();
+                            to = from + 9;
+                        }
+                        String msg = "Added " + (to - from + 1) + " songs to queue: ```";
+                        int count = 1;
+                        for (int i = from - 1; i < to; i++) {
+                            play(channel.getGuild(), musicManager, playlist.getTracks().get(i), author);
+                            msg += count + ": " +  playlist.getTracks().get(i).getInfo().title + "\n";
+                            count++;
+                        }
+                        msg += "```";
+                        channel.sendMessage(msg).queue();
+                    } else {
+                        channel.sendMessage(":x: Error: Incorrect number of parameters. Make sure that there are no spaces between your track numbers and the dash :x:").queue();
+                    }
+                }
             }
 
             @Override
