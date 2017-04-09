@@ -114,6 +114,7 @@ public class discordBot extends ListenerAdapter {
     private void loadAndPlay(final TextChannel channel, final String trackUrl, final Member author) {
         final ServerMusicManager musicManager = getServerAudioPlayer(channel.getGuild());
         String url = trackUrl.split(" ")[0];
+        channel.sendTyping().queue();
 
         playerManager.loadItemOrdered(musicManager, url, new AudioLoadResultHandler() {
             @Override
