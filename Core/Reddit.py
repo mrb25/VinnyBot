@@ -53,7 +53,10 @@ def getCosplay(message, client):
 
     num = random.randrange(1, limit) - 1
 
-    hot_page = list(itertools.islice(submissions, limit))
+    try:
+        hot_page = list(itertools.islice(submissions, limit))
+    except:
+        return 'There was an error retrieving a post :cty:'
 
     if len(hot_page) == 0:
         return 'Failed to find post matching parameters.'
@@ -81,7 +84,10 @@ def getCosplayGirl(message, client):
 
     num = random.randrange(1, limit) - 1
 
-    hot_page = list(itertools.islice(submissions, limit))
+    try:
+        hot_page = list(itertools.islice(submissions, limit))
+    except:
+        return 'There was an error retrieving a post :cty:'
 
     if len(hot_page) == 0:
         return 'Failed to find post matching parameters.'
