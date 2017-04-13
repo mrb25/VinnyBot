@@ -26,8 +26,9 @@ async def generateMarkovComment(message, client):
 
     for channel in message.server.channels:
         if message.mentions[0].permissions_in(channel).send_messages:
-            if not channel.type == ChannelType.voice:
-                usableChannels.append(channel)
+            if channel.permissions_for(message.server.me).read_messages:
+                if not channel.type == ChannelType.voice:
+                    usableChannels.append(channel)
 
     print('Comment for ' + message.mentions[0].name + ' requested by ' + message.author.name + ' in Server: '
           + message.server.name + ' in channel: ' + message.channel.name)
