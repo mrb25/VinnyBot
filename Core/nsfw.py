@@ -28,7 +28,8 @@ async def postR34(message, client):
     try:
         xmlFile = urllib.request.urlopen(search)
     except:
-        client.send_message(message.channel, "There was an error retrieving a post... :confounded: ")
+        await client.send_message(message.channel, "There was an error retrieving a post... :confounded: ")
+        return
     e = xml.etree.ElementTree.parse(xmlFile)
     root = e.getroot()
 
