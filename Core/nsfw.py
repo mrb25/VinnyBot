@@ -43,7 +43,11 @@ async def postR34(message, client):
         await client.send_message(message.channel, "No results, try searching something less retarded next time!")
 
     else:
-        await client.send_message(message.channel, picUrls[randint(0, len(picUrls) - 1)])
+        try:
+            await client.send_message(message.channel, picUrls[randint(0, len(picUrls) - 1)])
+        except:
+            await client.send_message(message.channel, "There was an error retrieving a post... :confounded: ")
+            return
 
 
 def isEnabled(message):
