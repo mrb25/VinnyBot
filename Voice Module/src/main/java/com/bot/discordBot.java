@@ -43,7 +43,7 @@ public class discordBot extends ListenerAdapter {
     }
 
     private final AudioPlayerManager playerManager;
-    private final Map<Long, ServerMusicManager> musicManagers;
+    private final HashMap<Long, ServerMusicManager> musicManagers;
 
 
     private discordBot() {
@@ -186,7 +186,11 @@ public class discordBot extends ListenerAdapter {
     }
 
     private void skipTrack(TextChannel channel) {
-        ServerMusicManager musicManager = getServerAudioPlayer(channel.getGuild());
+        ServerMusicManager musicManager = musicManagers.get(Long.parseLong(channel.getGuild().getId()));
+        if (musicManager == null) {
+            channel.sendMessage("There is currently no audio playing.").queue();
+            return;
+        }
         musicManager.scheduler.nextTrack();
 
         channel.sendMessage("Skipped to next track.").queue();
@@ -199,7 +203,11 @@ public class discordBot extends ListenerAdapter {
     }
 
     private void pauseTrack(final TextChannel textChannel) {
-        ServerMusicManager musicManager = getServerAudioPlayer(textChannel.getGuild());
+        ServerMusicManager musicManager = musicManagers.get(Long.parseLong(textChannel.getGuild().getId()));
+        if (musicManager == null) {
+            textChannel.sendMessage("There is currently no audio playing.").queue();
+            return;
+        }
         if (!musicManager.scheduler.isPlaying()) {
             textChannel.sendMessage("You are not listening to audio").queue();
             return;
@@ -209,7 +217,11 @@ public class discordBot extends ListenerAdapter {
     }
 
     private void resumeTrack(final TextChannel textChannel) {
-        ServerMusicManager musicManager = getServerAudioPlayer(textChannel.getGuild());
+        ServerMusicManager musicManager = musicManagers.get(Long.parseLong(textChannel.getGuild().getId()));
+        if (musicManager == null) {
+            textChannel.sendMessage("There is currently no audio playing.").queue();
+            return;
+        }
         if (!musicManager.scheduler.isPlaying()) {
             textChannel.sendMessage("You are not listening to audio").queue();
             return;
@@ -219,8 +231,12 @@ public class discordBot extends ListenerAdapter {
     }
 
     private void stopPlayer(final TextChannel textChannel) {
-        ServerMusicManager musicManager = getServerAudioPlayer(textChannel.getGuild());
         long guildId = Long.parseLong(textChannel.getGuild().getId());
+        ServerMusicManager musicManager = musicManagers.get(guildId);
+        if (musicManager == null) {
+            textChannel.sendMessage("There is currently no audio playing.").queue();
+            return;
+        }
         if (!musicManager.scheduler.isPlaying()) {
             textChannel.sendMessage("You are not listening to audio").queue();
             return;
@@ -228,11 +244,19 @@ public class discordBot extends ListenerAdapter {
         musicManager.scheduler.stopPlayer();
         textChannel.getGuild().getAudioManager().closeAudioConnection();
         textChannel.sendMessage("Stopping player").queue();
+        musicManagers.put(guildId, null);
+        System.out.println(musicManagers.size());
         musicManagers.remove(guildId);
+        System.out.println(musicManagers.size());
+        System.gc();
     }
 
     private void getPlaylist(final TextChannel textChannel) {
-        ServerMusicManager musicManager = getServerAudioPlayer(textChannel.getGuild());
+        ServerMusicManager musicManager = musicManagers.get(Long.parseLong(textChannel.getGuild().getId()));
+        if (musicManager == null) {
+            textChannel.sendMessage("There is currently no audio playing.").queue();
+            return;
+        }
         if (!musicManager.scheduler.isPlaying()) {
             textChannel.sendMessage("You are not listening to audio").queue();
             return;
@@ -266,11 +290,12 @@ public class discordBot extends ListenerAdapter {
     private void voiceStats(TextChannel textChannel) {
         int activeServers = getNumberActiveStreams();
         int totalServers = musicManagers.size();
+        String mem = (((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024) / 1024) + " MB";
         EmbedBuilder builder = new EmbedBuilder();
         builder.setAuthor(nickName, avatarURL, avatarURL);
         builder.addField("Total voice servers", "" + totalServers, true);
         builder.addField("Active voice servers", "" + activeServers, true);
-        builder.addField("Memory used", "" + (((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024) / 1024) + " MB", true);
+        builder.addField("Memory used", "" + mem, true);
         textChannel.sendMessage(builder.build()).queue();
     }
 
@@ -313,7 +338,7 @@ public class discordBot extends ListenerAdapter {
     }
 
     private void checkVoiceLobby(Guild guild) {
-        ServerMusicManager musicManager = getServerAudioPlayer(guild);
+        ServerMusicManager musicManager = musicManagers.get(Long.parseLong(guild.getId()));
         if (musicManager == null) {
             return;
         } else if (guild.getAudioManager().isConnected()) {
@@ -321,10 +346,13 @@ public class discordBot extends ListenerAdapter {
                 long guildId = Long.parseLong(guild.getId());
                 musicManager.scheduler.stopPlayer();
                 guild.getAudioManager().closeAudioConnection();
-                musicManagers.remove(guildId);
+                System.out.println(musicManagers.remove(guildId));
                 System.out.print(musicManagers.size());
+                System.gc();
             }
         }
 
     }
+
+
 }
