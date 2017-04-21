@@ -35,9 +35,11 @@ def random_hot_post(subreddit, limit):
 
     if subreddit != 'shitpost':
         return random_page.url
-
-    linked_post = r.submission(url=random_page.url)
-    return linked_post.url
+    try:
+        linked_post = r.submission(url=random_page.url)
+        return linked_post.url
+    except:
+        return random_page.url
 
 
 def getCosplay(message, client):

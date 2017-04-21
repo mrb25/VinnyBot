@@ -1,5 +1,7 @@
 import re
 
+import discord
+
 votes=[]
 voteStrings=[]
 voters = []
@@ -43,26 +45,31 @@ async def prune(message, client):
                                              " For example:\n `~prune \"hey!\" @user 50` goes through the last `50`"
                                              " messages and removes all messages from `user` containing `hey!`")
 async def kick(message, client):
-    if len(message.mentions) == 0:
-        text = "You must @mention a user to kick."
-    else:
-        text = "Successfully kicked: \n"
-        for member in message.mentions:
-            await client.kick(member)
-            text += "`" + member.name + "`\n"
-
-    await client.send_message(message.channel, text)
+    try:
+        if len(message.mentions) == 0:
+            text = "You must @mention a user to kick."
+        else:
+            text = "Successfully kicked: \n"
+            for member in message.mentions:
+                await client.kick(member)
+                text += "`" + member.name + "`\n"
+        await client.send_message(message.channel, text)
+    except discord.errors.Forbidden:
+        await client.send_message(message.channel, ":x: Error while trying to kick member (My Role may be lower ranked than a person I am trying to kick) :x:")
 
 async def ban(message, client):
-    if len(message.mentions) == 0:
-        text = "You must @mention a user to ban."
-        await client.send_message(message.channel, text)
-    else:
-        text = "Successfully banned:\n"
-        for member in message.mentions:
-            await client.ban(member, 0)
-            text += "`" + member.name + "`\n"
-        await client.send_message(message.channel, text)
+    try:
+        if len(message.mentions) == 0:
+            text = "You must @mention a user to ban."
+            await client.send_message(message.channel, text)
+        else:
+            text = "Successfully banned:\n"
+            for member in message.mentions:
+                await client.ban(member, 0)
+                text += "`" + member.name + "`\n"
+            await client.send_message(message.channel, text)
+    except discord.errors.Forbidden:
+        await client.send_message(message.channel, ":x: Error while trying to ban member (My Role may be lower ranked than a person I am trying to ban) :x:")
 
 async def count(message, client):
     counter = 0
