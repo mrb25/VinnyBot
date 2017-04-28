@@ -96,60 +96,61 @@ async def parseCommand(message, client):
 
                 commandCalled()
                 logCommand(message, client, '~ban')
-                # await ban(message, client)
 
             # Voice Commands (Currently removed and moved to Vinny's new JDA module)
             elif message.content.startswith('~summon'):
-                #await summon(message, client)
                 await client.send_message(message.channel, "Summon command no longer used. Just use the play command "
                                                            "to summon Vinny.")
                 commandCalled()
                 logCommand(message, client, '~summon')
 
             elif message.content.startswith('~playlist'):
-                #await printPlaylist(message, client)
                 commandCalled()
                 logCommand(message, client, '~playlist')
 
             elif message.content.startswith('~skip'):
-                #await skipSong(message, client)
                 commandCalled()
                 logCommand(message, client, '~skip')
 
             elif message.content.startswith("~volume "):
-                #await setVolume(message, client)
                 commandCalled()
                 logCommand(message, client, '~volume (val)')
 
             elif message.content.startswith("~volume"):
-                #await getVolume(message, client)
                 commandCalled()
                 logCommand(message, client, '~volume')
 
             elif message.content.startswith('~play'):
-                #await playTest(message, client)
                 commandCalled()
                 logCommand(message, client, '~play')
 
             elif message.content.startswith('~pause'):
-                #await pauseStream(message, client)
                 commandCalled()
                 logCommand(message, client, '~pause')
 
             elif message.content.startswith('~resume'):
-                #await resumeStream(message, client)
                 commandCalled()
                 logCommand(message, client, '~resume')
 
             elif message.content.startswith('~stop'):
-                #await stopPlay(message, client)
                 commandCalled()
                 logCommand(message, client, '~stop')
 
             elif message.content.startswith('~voicestats'):
                 commandCalled()
-                logCommand(message, client, 'voicestats')
-                #await voiceStats(message, client)
+                logCommand(message, client, '~voicestats')
+
+            elif message.content.startswith('~search'):
+                commandCalled()
+                logCommand(message, client, message.content)
+
+            elif message.content.startswith('~leave'):
+                commandCalled()
+                logCommand(message, client, '~leave')
+
+            elif message.content.startswith('~cancel'):
+                commandCalled()
+                logCommand(message, client, '~cancel')
 
             # Meme Commands
             elif message.content.startswith('~ayy'):

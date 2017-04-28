@@ -20,9 +20,9 @@ async def help(client, message):
             "~stats -- Gives stats about Vinny\n~info -- Gives information about Vinny\n~invite -- Gives the link to invite Vinny to your server"
     text += "\nVOICE COMMANDS\n"
     text += "~play *URL* -- Plays audio from video in your channel. Works well with Youtube, Soundcloud, Twitch," \
-            "Vimeo, etc.\n" \
-            "~playlist -- Gets the playlist of currently playing music\n" \
-            "~skip -- Starts a vote to skip the current song"
+            "Vimeo, etc.\n~search *search terms* -- Searches youtube and returns a list of videos to choose from.\n" \
+            "~cancel -- Cancels a search request\n~playlist -- Gets the playlist of currently playing music\n" \
+            "~skip -- Skips the current song\n~leave -- Makes Vinny leave your voice channel"
     text += "\n~stop -- If an audio stream is playing in your server it stops it\n" \
             "~pause -- Pauses current audio stream\n~resume -- Resumes audio stream when paused" \
             "\n~voicestats -- Gives info about current audio streams" \
