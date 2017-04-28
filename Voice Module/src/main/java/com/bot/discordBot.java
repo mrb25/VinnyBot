@@ -8,6 +8,8 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.PrivateChannel;
+import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -24,12 +26,16 @@ import net.dv8tion.jda.core.managers.AudioManager;
  * Created by Jess Walter on 3/28/2017.
  */
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class discordBot extends ListenerAdapter {
     private static String nickName;
     private static String avatarURL;
+    private static final Color vinnyColor = new Color(0, 140, 186);
 
     public static void main(String[] args) throws Exception {
         Config config = new Config();
@@ -44,13 +50,14 @@ public class discordBot extends ListenerAdapter {
 
     private final AudioPlayerManager playerManager;
     private final HashMap<Long, ServerMusicManager> musicManagers;
-    private final HashMap<Long, ListenerMessage> searchListeners;
+    private final HashMap<Long, SearchListenerMessage> searchListeners;
+    private final HashMap<Long, Timer> searchTimers;
 
 
     private discordBot() {
         this.musicManagers = new HashMap<>();
         this.searchListeners = new HashMap<>();
-
+        this.searchTimers = new HashMap<>();
         this.playerManager = new DefaultAudioPlayerManager();
         AudioSourceManagers.registerRemoteSources(playerManager);
         AudioSourceManagers.registerLocalSource(playerManager);
@@ -95,8 +102,21 @@ public class discordBot extends ListenerAdapter {
             } else if ("~voicestats".equals(command[0])) {
                 voiceStats(event.getTextChannel());
             } else if ("~search".equals(command[0])) {
+                if (event.getMember().getVoiceState().getChannel() == null) {
+                    event.getTextChannel().sendMessage("You are not connected to a voice channel :cry:").queue();
+                    return;
+                }
                 search(event.getTextChannel(), command[1], event.getMember());
                 //event.getTextChannel().sendMessage("Search functionality coming soon. Checkout the discord server for frequent updates.").queue();
+            } else if ("~cancel".equals(command[0])){
+                searchListeners.put(Long.parseLong(event.getMember().getUser().getId()), null);
+                event.getTextChannel().sendMessage("Canceled all outstanding Listeners for " + event.getMember().getEffectiveName()).queue();
+            } else if (command[0].length() == 1) {
+                if (Character.isDigit(command[0].charAt(0))) {
+                    handleSearchResponse(event, command);
+                }
+            } else if (command[0].equals("~leave")) {
+                leaveChannel(event.getTextChannel());
             }
         }
 
@@ -121,7 +141,13 @@ public class discordBot extends ListenerAdapter {
         playerManager.loadItemOrdered(musicManager, url, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
-                channel.sendMessage("Adding to queue " + track.getInfo().title).queue();
+                EmbedBuilder builder = new EmbedBuilder();
+                builder.setTitle("Added song to playlist", null);
+                builder.addField(track.getInfo().title, "Duration: " + msToMinSec(track.getDuration()), false);
+                builder.setImage("https://img.youtube.com/vi/"+ track.getIdentifier() + "/mqdefault.jpg");
+                builder.setColor(vinnyColor);
+
+                channel.sendMessage(builder.build()).queue();
 
                 play(channel.getGuild(), musicManager, track, author);
             }
@@ -246,12 +272,30 @@ public class discordBot extends ListenerAdapter {
         musicManager.scheduler.stopPlayer();
         textChannel.getGuild().getAudioManager().closeAudioConnection();
         textChannel.sendMessage("Stopping player").queue();
-        musicManagers.put(guildId, null);
-        System.out.println(musicManagers.size());
+        //System.out.println(musicManagers.size());
         musicManagers.remove(guildId);
-        System.out.println(musicManagers.size());
+        //System.out.println(musicManagers.size());
         System.gc();
     }
+
+    private void leaveChannel(TextChannel textChannel) {
+        long guildId = Long.parseLong(textChannel.getGuild().getId());
+        ServerMusicManager musicManager = musicManagers.get(guildId);
+        if (musicManager == null) {
+            textChannel.sendMessage("I am currently not connected to a voice channel").queue();
+            return;
+        }
+
+        musicManager.scheduler.stopPlayer();
+        textChannel.getGuild().getAudioManager().closeAudioConnection();
+        textChannel.sendMessage("Leaving voice channel").queue();
+        //System.out.println(musicManagers.size());
+        musicManagers.remove(guildId);
+        //System.out.println(musicManagers.size());
+        System.gc();
+    }
+
+
 
     private void getPlaylist(final TextChannel textChannel) {
         ServerMusicManager musicManager = musicManagers.get(Long.parseLong(textChannel.getGuild().getId()));
@@ -298,6 +342,7 @@ public class discordBot extends ListenerAdapter {
         builder.addField("Total voice servers", "" + totalServers, true);
         builder.addField("Active voice servers", "" + activeServers, true);
         builder.addField("Memory used", "" + mem, true);
+        builder.setColor(vinnyColor);
         textChannel.sendMessage(builder.build()).queue();
     }
 
@@ -320,19 +365,23 @@ public class discordBot extends ListenerAdapter {
                 AudioTrack[] tracks = new AudioTrack[5];
 
                 builder.setAuthor(nickName, avatarURL, avatarURL);
-                builder.addField("Select a song to add by responding with the corresponding number", "", false);
+                builder.setTitle("Select a song to add by responding with the corresponding number.\n", null);
+                String body = "";
                 for (int i = 0; i < Math.min(5, playlist.getTracks().size()); i++) {
-                    builder.addField("", (i+1) + ": " + playlist.getTracks().get(i).getInfo().title, false);
+                    body += (i+1) + ": " + "`" + playlist.getTracks().get(i).getInfo().title + "`" + " Duration: " + msToMinSec(playlist.getTracks().get(i).getInfo().length) + "\n";
                     tracks[i] = playlist.getTracks().get(i);
                     //System.out.print("Track");
-
                 }
                 if (searchListeners.get(Long.parseLong(author.getUser().getId())) == null){
-                    searchListeners.put(Long.parseLong(author.getUser().getId()), new ListenerMessage(Long.parseLong(author.getUser().getId()), tracks, channel));
+                    searchListeners.put(Long.parseLong(author.getUser().getId()), new SearchListenerMessage(Long.parseLong(author.getUser().getId()), tracks, channel));
+                    builder.addField("Returned Videos:", body, false);
+                    builder.setFooter("60 second timeout | ~cancel to cancel the search", null);
+                    builder.setColor(vinnyColor);
+                    channel.sendMessage(builder.build()).queue();
+                    setSearchListenerTimer(channel, author);
                 } else {
-                    channel.sendMessage(":x: You already have an outstanding search in this or another channel. You can use the \"~reset\" command to clear it :x:");
+                    channel.sendMessage(":x: You already have an outstanding search in this or another channel. Please answer it or use the \"~cancel\" command to cancel it :x:").queue();
                 }
-                channel.sendMessage(builder.build()).queue();
             }
 
             @Override
@@ -347,6 +396,78 @@ public class discordBot extends ListenerAdapter {
         });
     }
 
+    //Helper method for song that takes length in Milliseconds and outputs it in a more readable HH:MM:SS format
+    private String msToMinSec(long length) {
+        int totSeconds = (int)length/1000;
+        String seconds = "";
+        String minutes = "";
+        String hours = "";
+        if (totSeconds%60 < 10)
+            seconds = "0" + totSeconds%60;
+        else
+            seconds += totSeconds%60;
+        if (totSeconds/60 < 10)
+            minutes = "0" + totSeconds/60;
+        else if (totSeconds/60 > 59)
+            minutes += (totSeconds/60)%60;
+        else
+            minutes += totSeconds/60;
+        if (totSeconds/3600 < 10)
+            hours = "0" + (totSeconds/60)/60;
+        else
+            hours += (totSeconds/60)/60;
+
+        if (hours.equals("00"))
+            return minutes + ":" + seconds;
+        else {
+            if (minutes.length() == 1)
+                minutes = "0" + minutes;
+            return hours + ":" + minutes + ":" + seconds;
+        }
+    }
+
+    private void handleSearchResponse(MessageReceivedEvent event, String[] command) {
+        SearchListenerMessage s = searchListeners.get(Long.parseLong(event.getAuthor().getId()));
+        if (s != null) {
+            if (s.getChannel().equals(event.getTextChannel())){
+                int selection = Integer.parseInt(command[0]);
+                //check if selection is outside of range
+                if (selection > s.getUpperbound() || selection < s.getLowerBound()){
+                    event.getTextChannel().sendMessage("Selection was outside of range. Please select between " + s.getLowerBound() + " and " + s.getUpperbound()).queue();
+                } else {
+                    loadAndPlay(s.getChannel(), s.getTracks()[selection-1].getInfo().uri, event.getMember());
+                    searchListeners.put(Long.parseLong(event.getAuthor().getId()), null);
+                    Timer t = searchTimers.get(Long.parseLong(event.getAuthor().getId()));
+                    if (t != null){
+                        t.cancel();
+                        t.purge();
+                        searchTimers.put(Long.parseLong(event.getAuthor().getId()), null);
+                    }
+                }
+            }
+        }
+    }
+
+    private void setSearchListenerTimer(TextChannel channel, Member author){
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (searchListeners.get(Long.parseLong(author.getUser().getId())) != null) {
+                    searchListeners.put(Long.parseLong(author.getUser().getId()), null);
+                    if (!author.getUser().hasPrivateChannel()){
+                        author.getUser().openPrivateChannel();
+                    }
+                    PrivateChannel p = author.getUser().getPrivateChannel();
+                    p.sendMessage("Closed audio search in channel: " + channel.getName() + ". Due to inactivity").queue();
+                    timer.cancel();
+                    timer.purge();
+                }
+            }
+        }, 60000);
+        searchTimers.put(Long.parseLong(author.getUser().getId()), timer);
+    }
+
     private void checkVoiceLobby(Guild guild) {
         ServerMusicManager musicManager = musicManagers.get(Long.parseLong(guild.getId()));
         if (musicManager == null) {
@@ -356,8 +477,8 @@ public class discordBot extends ListenerAdapter {
                 long guildId = Long.parseLong(guild.getId());
                 musicManager.scheduler.stopPlayer();
                 guild.getAudioManager().closeAudioConnection();
-                System.out.println(musicManagers.remove(guildId));
-                System.out.print(musicManagers.size());
+                musicManagers.remove(guildId);
+                //System.out.print(musicManagers.size());
                 System.gc();
             }
         }
