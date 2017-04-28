@@ -44,10 +44,12 @@ public class discordBot extends ListenerAdapter {
 
     private final AudioPlayerManager playerManager;
     private final HashMap<Long, ServerMusicManager> musicManagers;
+    private final HashMap<Long, ListenerMessage> searchListeners;
 
 
     private discordBot() {
         this.musicManagers = new HashMap<>();
+        this.searchListeners = new HashMap<>();
 
         this.playerManager = new DefaultAudioPlayerManager();
         AudioSourceManagers.registerRemoteSources(playerManager);
@@ -93,7 +95,7 @@ public class discordBot extends ListenerAdapter {
             } else if ("~voicestats".equals(command[0])) {
                 voiceStats(event.getTextChannel());
             } else if ("~search".equals(command[0])) {
-                //search(event.getTextChannel(), command[1], event.getMember());
+                search(event.getTextChannel(), command[1], event.getMember());
                 //event.getTextChannel().sendMessage("Search functionality coming soon. Checkout the discord server for frequent updates.").queue();
             }
         }
@@ -313,14 +315,22 @@ public class discordBot extends ListenerAdapter {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                System.out.print("here: " + playlist.getTracks().size());
+                //System.out.print("here: " + playlist.getTracks().size());
                 EmbedBuilder builder = new EmbedBuilder();
+                AudioTrack[] tracks = new AudioTrack[5];
 
                 builder.setAuthor(nickName, avatarURL, avatarURL);
-                builder.addField("Select a song to add by reacting with the corresponding number", "", false);
-                for (int i = 0; i < playlist.getTracks().size(); i++) {
-                    builder.addField("", i + ": " + playlist.getTracks().get(i).getInfo().title, false);
+                builder.addField("Select a song to add by responding with the corresponding number", "", false);
+                for (int i = 0; i < Math.min(5, playlist.getTracks().size()); i++) {
+                    builder.addField("", (i+1) + ": " + playlist.getTracks().get(i).getInfo().title, false);
+                    tracks[i] = playlist.getTracks().get(i);
                     //System.out.print("Track");
+
+                }
+                if (searchListeners.get(Long.parseLong(author.getUser().getId())) == null){
+                    searchListeners.put(Long.parseLong(author.getUser().getId()), new ListenerMessage(Long.parseLong(author.getUser().getId()), tracks, channel));
+                } else {
+                    channel.sendMessage(":x: You already have an outstanding search in this or another channel. You can use the \"~reset\" command to clear it :x:");
                 }
                 channel.sendMessage(builder.build()).queue();
             }
