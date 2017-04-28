@@ -9,18 +9,18 @@ async def help(client, message):
             "\n~rr *subreddit* -- Gives random HOT post from given subreddit\n"
     text += "~tr *subreddit* -- Top HOT post from subreddit right now\n~cosplay *search_terms* -- Searches for a " \
             "cosplay meeting the search terms. (use _ instead of spaces)\n~cosplaygirls *search_terms* -- Searches for" \
-            "a girl cosplayer meeting the search terms (use _ instead of spaces)\n" \
+            "a girl cosplay using the search terms (use _ instead of spaces)\n" \
             "\nCOMMENT COMMANDS\n~comment @user or #channel -- Generates a unique comment based on the user/channel " \
             "post history (Experimental)\n" \
             "~ryzen -- Hey did you hear about Ryzen??\n"
     text += "\nMODERATION COMMANDS\n~prune @user \"example\" *num* -- Removes the messages from the last *num* messages " \
             "from user containing \"example\". Mentioning users and defining text are both optional and can be used for as many " \
             "users or phrases as needed in a single prune command" \
-            "\n~kick *@username*\n~whois *@username* -- Gives info about a user\n" \
-            "~stats -- Gives stats about Vinny\n~info -- Gives information about Vinny\n~invite -- Gives the link to invite Vinny to your server"
+            "\n~kick @username\n~whois @username -- Gives info about a user\n" \
+            "~stats -- Gives stats about Vinny\n~info -- Gives info about Vinny\n~invite -- Gives the link to invite Vinny to a server"
     text += "\nVOICE COMMANDS\n"
     text += "~play *URL* -- Plays audio from video in your channel. Works well with Youtube, Soundcloud, Twitch," \
-            "Vimeo, etc.\n~search *search terms* -- Searches youtube and returns a list of videos to choose from.\n" \
+            " etc\n~search -- Searches youtube and gives a list of videos to choose from\n" \
             "~cancel -- Cancels a search request\n~playlist -- Gets the playlist of currently playing music\n" \
             "~skip -- Skips the current song\n~leave -- Makes Vinny leave your voice channel"
     text += "\n~stop -- If an audio stream is playing in your server it stops it\n" \
