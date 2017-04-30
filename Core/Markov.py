@@ -5,6 +5,7 @@ import markovify
 from discord import ChannelType
 
 VINNY_COLOR = int('008cba', 16)
+currentCommentsArr = []
 
 async def generateMarkovComment(message, client):
     counter = 0
@@ -24,6 +25,11 @@ async def generateMarkovComment(message, client):
         await client.send_message(message.channel, 'I know what I would say. You dont need to ~comment me')
         return
 
+    if message.author.id in currentCommentsArr:
+        await client.send_message(message.channel, 'I am already generating a comment for you. Please wait for that one'
+                                                   ' to finish first')
+        return
+
     for channel in message.server.channels:
         if message.mentions[0].permissions_in(channel).send_messages:
             if channel.permissions_for(message.server.me).read_messages:
@@ -32,7 +38,7 @@ async def generateMarkovComment(message, client):
 
     print('Comment for ' + message.mentions[0].name + ' requested by ' + message.author.name + ' in Server: '
           + message.server.name + ' in channel: ' + message.channel.name)
-
+    currentCommentsArr.append(message.author.id)
     await client.send_typing(message.channel)
     tmp = await client.send_message(message.channel, 'Downloading messages...')
 
@@ -52,6 +58,7 @@ async def generateMarkovComment(message, client):
 
     if counter <= 30:
         await client.edit_message(tmp, 'Not enough messages received, cannot generate message')
+        currentCommentsArr.remove(message.author.id)
         return
 
     await client.edit_message(tmp, 'Generating comment from {} messages.'.format(counter))
@@ -64,6 +71,8 @@ async def generateMarkovComment(message, client):
     if generatedMessage is None:
         await client.edit_message(tmp,
                                   'Failed to generate a Comment. I did not get enough comments from them :disappointed:')
+        currentCommentsArr.remove(message.author.id)
+
     else:
         print('Generated message: ' + generatedMessage + '\n')
 
@@ -74,8 +83,11 @@ async def generateMarkovComment(message, client):
 
             await client.send_message(message.channel, embed=embed)
             await client.delete_message(tmp)
+            currentCommentsArr.remove(message.author.id)
+
         else:
             await client.edit_message(tmp, message.mentions[0].name + ' says: ' + generatedMessage.replace('@', ':at:'))
+            currentCommentsArr.remove(message.author.id)
 
 
 async def updateLoading(message, client, tmp, channelCounter, usableChannels):
@@ -111,6 +123,12 @@ async def generateMarkovChannel(message, client):
         await client.send_message(message.channel, 'Please mention only one channel')
         return
 
+    if message.author.id in currentCommentsArr:
+        await client.send_message(message.channel, 'I am already generating a comment for you. Please wait for that one'
+                                                   ' to finish first')
+        return
+
+    currentCommentsArr.append(message.author.id)
     await client.send_typing(message.channel)
     tmp = await client.send_message(message.channel, 'Downloading messages from Channel... (0%)')
 
@@ -125,6 +143,7 @@ async def generateMarkovChannel(message, client):
             await updateChannelLoading(message, client, tmp, counter)
 
     if usableCounter <= 30:
+        currentCommentsArr.remove(message.author.id)
         await client.edit_message(tmp, 'Not enough messages received, cannot generate message')
         return
 
@@ -136,9 +155,11 @@ async def generateMarkovChannel(message, client):
     # print(textSource)
     generatedMessage = text_model.make_sentence(tries=100)
     if generatedMessage is None:
+        currentCommentsArr.remove(message.author.id)
         await client.edit_message(tmp, 'Failed to generate a Comment. I did not get enough comments from them :disappointed:')
 
     else:
+        currentCommentsArr.remove(message.author.id)
         print('Generated message: ' + generatedMessage + '\n')
         await client.edit_message(tmp, message.channel_mentions[0].name + ' says: ' + generatedMessage.replace('@', ':at:'))
 
