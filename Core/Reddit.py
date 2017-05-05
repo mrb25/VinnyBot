@@ -1,6 +1,10 @@
+import json
+import urllib.request
+
 import praw
 import random
 import itertools
+from nsfw import isEnabled
 
 import prawcore
 from praw import *
@@ -12,9 +16,14 @@ def main():
 
 
 
-def random_hot_post(subreddit, limit):
+def random_hot_post(subreddit, limit, message):
 
     r = praw.Reddit(user_agent='Discord Bot', client_id='byorb8K1SwaO1g', client_secret='qFBAtKZuQfvWcOhmO495ia7BH68')
+
+    if r.subreddit(subreddit).over18:
+        if not isEnabled(message):
+            return ":x: Error: Subreddit is NSFW and NSFW is not enabled in this channel. An admin can run the '~togglensfw' command to enable it :x:"
+
     submissions = r.subreddit(subreddit).hot(limit=limit)
 
     if submissions is None:

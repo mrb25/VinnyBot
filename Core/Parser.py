@@ -241,7 +241,7 @@ async def parseCommand(message, client):
             # Reddit Commands
             elif message.content.startswith('~shit'):
                 await client.send_typing(message.channel)
-                await client.send_message(message.channel, random_hot_post('shitpost', 20))
+                await client.send_message(message.channel, random_hot_post('shitpost', 20, message))
                 commandCalled()
                 logCommand(message, client, '~shit')
 
@@ -250,9 +250,9 @@ async def parseCommand(message, client):
                 try:
                     subreddit = message.content.split(' ')[1]
                 except IndexError:
-                    await client.send_message(message.channel, "So subreddit mentioned, please enter a subreddit")
+                    await client.send_message(message.channel, "No subreddit mentioned, please enter a subreddit")
                     return
-                post = random_hot_post(subreddit, 20)
+                post = random_hot_post(subreddit, 20, message)
                 if post is not None:
                     await client.send_message(message.channel, post)
                 else:
@@ -269,7 +269,7 @@ async def parseCommand(message, client):
                     await client.send_message(message.channel, "No subreddit mentioned, please enter a subreddit")
                     return
                 try:
-                    await client.send_message(message.channel, random_hot_post(subreddit, 2))
+                    await client.send_message(message.channel, random_hot_post(subreddit, 2, message.channel))
                 except:
                     await client.send_message(message.channel, "Oops. There was an error retriving a post :confounded:")
                 commandCalled()
