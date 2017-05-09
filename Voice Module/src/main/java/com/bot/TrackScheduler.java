@@ -87,4 +87,20 @@ public class TrackScheduler extends AudioEventAdapter{
         }
         return playlist;
     }
+
+    public String removeTrack(int index) {
+        AudioTrack toRemove = null;
+        int j = 0;
+        for (AudioTrack audioTrack : queue) {
+            if (j == index-1) {
+                toRemove = audioTrack;
+                break;
+            }
+        }
+        if (toRemove != null){
+            queue.remove(toRemove);
+            return toRemove.getInfo().title;
+        } else
+            return null;
+    }
 }

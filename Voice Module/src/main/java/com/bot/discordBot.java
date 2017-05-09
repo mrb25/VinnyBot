@@ -117,6 +117,11 @@ public class discordBot extends ListenerAdapter {
                 }
             } else if (command[0].equals("~leave")) {
                 leaveChannel(event.getTextChannel());
+            } else if (command[0].equals("~remove")) {
+                if (command.length == 2)
+                    removeTrack(event.getTextChannel(), command[1]);
+                else
+                    event.getTextChannel().sendMessage("Error: Formatting incorrect. Please type only the command and the number of the track to be removed. Separated by a space.").queue();
             }
         }
 
@@ -142,8 +147,8 @@ public class discordBot extends ListenerAdapter {
             @Override
             public void trackLoaded(AudioTrack track) {
                 EmbedBuilder builder = new EmbedBuilder();
-                builder.setTitle("Added song to playlist", null);
-                builder.addField(track.getInfo().title, "Duration: " + msToMinSec(track.getDuration()), false);
+                builder.setTitle(track.getInfo().title, track.getInfo().uri);
+                builder.addField("Added song to playlist", "Duration: " + msToMinSec(track.getDuration()), false);
                 builder.setImage("https://img.youtube.com/vi/"+ track.getIdentifier() + "/mqdefault.jpg");
                 builder.setColor(vinnyColor);
 
@@ -198,11 +203,15 @@ public class discordBot extends ListenerAdapter {
             @Override
             public void noMatches() {
                 channel.sendMessage("Nothing found by " + trackUrl).queue();
+                if (!musicManager.scheduler.isPlaying())
+                    musicManagers.remove(Long.parseLong(channel.getGuild().getId()));
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
                 channel.sendMessage("Could not play: " + exception.getMessage()).queue();
+                if (!musicManager.scheduler.isPlaying())
+                    musicManagers.remove(Long.parseLong(channel.getGuild().getId()));
             }
         });
     }
@@ -387,11 +396,15 @@ public class discordBot extends ListenerAdapter {
             @Override
             public void noMatches() {
                 channel.sendMessage("Nothing found for " + trackUrl).queue();
+                if (!musicManager.scheduler.isPlaying())
+                    musicManagers.remove(Long.parseLong(channel.getGuild().getId()));
             }
 
             @Override
             public void loadFailed(FriendlyException exception) {
                 channel.sendMessage("Could not play: " + exception.getMessage()).queue();
+                if (!musicManager.scheduler.isPlaying())
+                    musicManagers.remove(Long.parseLong(channel.getGuild().getId()));
             }
         });
     }
@@ -462,6 +475,8 @@ public class discordBot extends ListenerAdapter {
                     p.sendMessage("Closed audio search in channel: " + channel.getName() + ". Due to inactivity").queue();
                     timer.cancel();
                     timer.purge();
+                    if (!musicManagers.get(Long.parseLong(channel.getGuild().getId())).scheduler.isPlaying())
+                        musicManagers.remove(Long.parseLong(channel.getGuild().getId()));
                 }
             }
         }, 60000);
@@ -483,6 +498,27 @@ public class discordBot extends ListenerAdapter {
             }
         }
 
+    }
+
+    private void removeTrack(final TextChannel channel, String command){
+        ServerMusicManager musicManager = musicManagers.get(Long.parseLong(channel.getGuild().getId()));
+        if (musicManager == null) {
+            channel.sendMessage("Error: No AudioManager detected in this server").queue();
+            return;
+        } else if (!command.matches("[0-9]+")) {
+            channel.sendMessage("Error: Incorrect formatting. Please enter a number.").queue();
+        } else {
+            if (command.equals("0")) {
+                skipTrack(channel);
+                return;
+            }
+            String result = musicManager.scheduler.removeTrack(Integer.parseInt(command));
+            if (result == null) {
+                channel.sendMessage("Error: Failed to remove track").queue();
+            } else {
+                channel.sendMessage("Successfully removed track: " + result).queue();
+            }
+        }
     }
 
 
