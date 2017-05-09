@@ -128,6 +128,10 @@ async def generateMarkovChannel(message, client):
                                                    ' to finish first')
         return
 
+    if not message.channel_mentions[0].permissions_for(message.server.me).read_messages:
+        await client.send_message(message.channel, "Error: I do not have the permissions to read messages from that channel")
+        return
+
     currentCommentsArr.append(message.author.id)
     await client.send_typing(message.channel)
     tmp = await client.send_message(message.channel, 'Downloading messages from Channel... (0%)')
@@ -161,7 +165,17 @@ async def generateMarkovChannel(message, client):
     else:
         currentCommentsArr.remove(message.author.id)
         print('Generated message: ' + generatedMessage + '\n')
-        await client.edit_message(tmp, message.channel_mentions[0].name + ' says: ' + generatedMessage.replace('@', ':at:'))
+        if message.channel.permissions_for(message.server.me).embed_links:
+            embed = discord.Embed(title='', colour=VINNY_COLOR)
+            embed.set_author(name=message.channel_mentions[0], icon_url=message.server.icon_url)
+            embed.add_field(name='Message', value=generatedMessage)
+
+            await client.send_message(message.channel, embed=embed)
+            await client.delete_message(tmp)
+
+        else:
+            await client.edit_message(tmp, message.mentions[0].name + ' says: ' + generatedMessage.replace('@', ':at:'))
+            currentCommentsArr.remove(message.author.id)
 
 async def generateRyzen(message, client):
     with open("res/ryzen.txt", encoding="utf8") as f:
