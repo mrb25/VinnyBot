@@ -88,6 +88,10 @@ public class TrackScheduler extends AudioEventAdapter{
         return playlist;
     }
 
+    public AudioPlayer getPlayer() {
+        return player;
+    }
+
     public String removeTrack(int index) {
         AudioTrack toRemove = null;
         int j = 0;

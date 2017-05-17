@@ -36,10 +36,11 @@ public class discordBot extends ListenerAdapter {
     private static String nickName;
     private static String avatarURL;
     private static final Color vinnyColor = new Color(0, 140, 186);
+    private static JDA jda;
 
     public static void main(String[] args) throws Exception {
         Config config = new Config();
-        JDA jda = new JDABuilder(AccountType.BOT)
+        jda = new JDABuilder(AccountType.BOT)
                 .setToken(config.getToken("Discord"))
                 .buildBlocking();
 
@@ -61,6 +62,7 @@ public class discordBot extends ListenerAdapter {
         this.playerManager = new DefaultAudioPlayerManager();
         AudioSourceManagers.registerRemoteSources(playerManager);
         AudioSourceManagers.registerLocalSource(playerManager);
+        purgeInactiveConnections();
     }
 
     private synchronized ServerMusicManager getServerAudioPlayer(Guild guild) {
@@ -481,6 +483,28 @@ public class discordBot extends ListenerAdapter {
             }
         }, 60000);
         searchTimers.put(Long.parseLong(author.getUser().getId()), timer);
+    }
+
+    private void purgeInactiveConnections() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for(Map.Entry<Long, ServerMusicManager> entry : musicManagers.entrySet()){
+                    ServerMusicManager musicManager = entry.getValue();
+                    if (musicManager.scheduler.isPlaying() || musicManager.scheduler.getPlayer().isPaused())
+                        continue;
+                    else {
+                        musicManagers.remove(entry.getKey());
+                        musicManager.scheduler.stopPlayer();
+                        jda.getGuildById(entry.getKey().toString()).getAudioManager().closeAudioConnection();
+                        System.out.print("here");
+                    }
+
+                }
+
+            }
+        }, 600000, 600000);
     }
 
     private void checkVoiceLobby(Guild guild) {
