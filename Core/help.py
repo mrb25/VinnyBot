@@ -1,5 +1,15 @@
 import discord
 
+memeCommands = {}
+moderationCommands = {}
+voiceCommands = {}
+nsfwCommands = {}
+redditCommands = {}
+VINNY_COLOR = int('008cba', 16)
+ABOUT_VINNY = ""
+VINNY_INVITE = ""
+VINNY_SERVER = ""
+
 
 async def help(client, message):
     user = message.author
@@ -51,10 +61,10 @@ ABOUT_VINNY = "Vinny is an under development discord bot created by Kikkia. Sinc
               " Vinny uses the Discord.py " \
               "framework, as well as voice with JDA and lavaplayer For some more detailed statistics run the '~stats' command."
 
-VINNY_SERVER = "Vinny now has his own discord server where you can suggest features, report bugs, or just talk with " \
+VINNY_SERVER = "Vinny has his own discord server where you can suggest features, report bugs, or just talk with " \
                "other users and developers of vinny. Invite Link: https://discord.gg/XMwyzxZ"
 
 VINNY_INVITE = "To invite Vinny to your server go to: https://discordapp.com/oauth2/authorize?client_id=276855867796881408&scope=bot&permissions=67628096"
 
-VINNY_COLOR = int('008cba', 16)
+
 

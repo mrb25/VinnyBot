@@ -1,0 +1,50 @@
+***MEME COMMANDS***
+~shit -- Posts a random shitpost
+~harambe -- Posts a gorilla gif
+~lenny -- Lennyface?
+~hammer -- Vinny brings done the ban hammer
+~doggo -- Doggo or pupper? You decide
+~hitler -- ASCII hitler...
+~mario -- ASCII Mario
+~megaman -- ASCII Megaman
+~salt -- Salty?
+~feels -- Feels bad man
+~pikachu -- Pika Pika
+~ayy -- Lmao
+~giphy *search terms* -- Searches giphy for a gif or webm matching your search
+~8ball -- Get a response from the magic 8 ball
+
+***REDDIT COMMANDS***
+~rr *subreddit* -- Gives random HOT post from given subreddit
+~tr *subreddit* -- Top HOT post from subreddit right now
+~cosplay *search_terms* -- Searches for a cosplay meeting the search terms. (use _ instead of spaces)
+~cosplaygirls *search_terms* -- Searches for a girl cosplay using the search terms (use _ instead of spaces)
+
+***COMMENT COMMANDS***
+~comment @user or #channel -- Generates a unique comment based on the user/channel post history (Experimental)
+~ryzen -- Hey did you hear about Ryzen?
+
+***MODERATION COMMANDS***
+~prune @user \"example\" *num* -- Removes the messages from the last *num* messages from user containing \"example\". Mentioning users and defining text are both optional and can be used for as many users or phrases as needed in a single prune command.
+~kick @username -- Kicks all mentioned users
+~whois @username -- Gives info about a user
+~stats -- Gives stats about Vinny
+~info -- Gives info about Vinny
+~invite -- Gives the link to invite Vinny to a server
+
+***VOICE COMMANDS***
+~play *URL* -- Plays audio from video in your channel. Works well with Youtube, Soundcloud, Twitch, etc
+~search -- Searches youtube and gives a list of videos to choose from
+~cancel -- Cancels a search request
+~playlist -- Gets the playlist of currently playing music
+~skip -- Skips the current song\n~leave -- Makes Vinny leave your voice channel"
+~stop -- If an audio stream is playing in your server it stops it\n" \
+~pause -- Pauses current audio stream\n~resume -- Resumes audio stream when paused" \
+~voicestats -- Gives info about current audio streams
+
+***NSFW COMMANDS***
+~togglensfw -- Toggles the 'NSFW lock' on each channel (User must have 'Manage Channels' permission)
+~nsfw -- Tells whether or not nsfw is enabled on a given channel
+~r34 *tags* (for multi-word tags replace spaces with _) -- Rule 34
+
+END
