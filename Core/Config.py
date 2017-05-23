@@ -30,7 +30,6 @@ def initConfig():
             if name is not None:
                 if line != "\n":
                     command = line.split(' ')[0].replace('~', '')
-                    print(command)
                     commands[name][command] = line
 
 async def help(message, client):
