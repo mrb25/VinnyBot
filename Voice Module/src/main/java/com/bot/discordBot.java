@@ -21,6 +21,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
+import sun.security.provider.SHA;
 
 /**
  * Created by Jess Walter on 3/28/2017.
@@ -36,17 +37,15 @@ public class discordBot extends ListenerAdapter {
     private static String nickName;
     private static String avatarURL;
     private static final Color vinnyColor = new Color(0, 140, 186);
-    private static JDA jda;
+    private static final int NUM_SHARDS = 3;
+    private static ShardingManager shardingManager;
 
     public static void main(String[] args) throws Exception {
         Config config = new Config();
-        jda = new JDABuilder(AccountType.BOT)
-                .setToken(config.getToken("Discord"))
-                .buildBlocking();
+        shardingManager = new ShardingManager(NUM_SHARDS, config);
 
-        jda.addEventListener(new discordBot());
-        nickName = jda.getSelfUser().getName();
-        avatarURL = jda.getSelfUser().getAvatarUrl();
+        nickName = shardingManager.getJDA(0).getSelfUser().getName();
+        avatarURL = shardingManager.getJDA(0).getSelfUser().getAvatarUrl();
     }
 
     private final AudioPlayerManager playerManager;
@@ -55,7 +54,7 @@ public class discordBot extends ListenerAdapter {
     private final HashMap<Long, Timer> searchTimers;
 
 
-    private discordBot() {
+    protected discordBot() {
         this.musicManagers = new HashMap<>();
         this.searchListeners = new HashMap<>();
         this.searchTimers = new HashMap<>();
@@ -101,6 +100,8 @@ public class discordBot extends ListenerAdapter {
                 pauseTrack(event.getTextChannel());
             } else if ("~resume".equals(command[0])) {
                 resumeTrack(event.getTextChannel());
+            } else if ("~shardinfo".equals(command[0])) {
+                printShardInfo(event.getTextChannel());
             } else if ("~voicestats".equals(command[0])) {
                 voiceStats(event.getTextChannel());
             } else if ("~search".equals(command[0])) {
@@ -128,6 +129,15 @@ public class discordBot extends ListenerAdapter {
         }
 
         super.onMessageReceived(event);
+    }
+
+    private void printShardInfo(TextChannel channel) {
+        String toPrint = new String();
+        int[] totals = shardingManager.getServersPerShard();
+        for (int i = 0; i < NUM_SHARDS; i++){
+            toPrint += "Shard " + i + ": " + totals[i] + "\n";
+        }
+        channel.sendMessage(toPrint).queue();
     }
 
     @Override
@@ -306,7 +316,9 @@ public class discordBot extends ListenerAdapter {
         System.gc();
     }
 
-
+    public HashMap<Long, ServerMusicManager> getMusicManagers() {
+        return musicManagers;
+    }
 
     private void getPlaylist(final TextChannel textChannel) {
         ServerMusicManager musicManager = musicManagers.get(Long.parseLong(textChannel.getGuild().getId()));
@@ -345,8 +357,10 @@ public class discordBot extends ListenerAdapter {
     }
 
     private void voiceStats(TextChannel textChannel) {
-        int activeServers = getNumberActiveStreams();
-        int totalServers = musicManagers.size();
+        int activeServers = shardingManager.getNumberActiveConnections();
+        //getNumberActiveStreams();
+        int totalServers = shardingManager.getTotalConnections();
+        //musicManagers.size();
         String mem = (((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024) / 1024) + " MB";
         EmbedBuilder builder = new EmbedBuilder();
         builder.setAuthor(nickName, avatarURL, avatarURL);
@@ -497,14 +511,19 @@ public class discordBot extends ListenerAdapter {
                     else {
                         musicManagers.remove(entry.getKey());
                         musicManager.scheduler.stopPlayer();
-                        jda.getGuildById(entry.getKey().toString()).getAudioManager().closeAudioConnection();
+                        for(int i = 0; i < NUM_SHARDS; i++){
+                            Guild temp = shardingManager.getJDA(i).getGuildById(entry.getKey().toString());
+                            if (temp != null)
+                                temp.getAudioManager().closeAudioConnection();
+                        }
+
                         System.out.print("here");
                     }
 
                 }
 
             }
-        }, 600000, 600000);
+        }, 60000, 60000);
     }
 
     private void checkVoiceLobby(Guild guild) {
