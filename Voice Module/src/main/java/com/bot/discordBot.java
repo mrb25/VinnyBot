@@ -132,12 +132,14 @@ public class discordBot extends ListenerAdapter {
     }
 
     private void printShardInfo(TextChannel channel) {
-        String toPrint = new String();
+        EmbedBuilder embedBuilder = new EmbedBuilder();
         int[] totals = shardingManager.getServersPerShard();
         for (int i = 0; i < NUM_SHARDS; i++){
-            toPrint += "Shard " + i + ": " + totals[i] + "\n";
+            embedBuilder.addField("Shard " + i, "" + totals[i], true);
         }
-        channel.sendMessage(toPrint).queue();
+        embedBuilder.setFooter("You are on shard: " + channel.getJDA().getShardInfo().getShardId(), null);
+        embedBuilder.setColor(vinnyColor);
+        channel.sendMessage(embedBuilder.build()).queue();
     }
 
     @Override
@@ -343,17 +345,6 @@ public class discordBot extends ListenerAdapter {
             msg += "```";
             textChannel.sendMessage(msg).queue();
         }
-    }
-
-    private int getNumberActiveStreams() {
-        int count = 0;
-        for (Map.Entry<Long, ServerMusicManager> entry : musicManagers.entrySet()) {
-            ServerMusicManager manager = entry.getValue();
-            if (manager.scheduler.isPlaying()) {
-                count++;
-            }
-        }
-        return count;
     }
 
     private void voiceStats(TextChannel textChannel) {
