@@ -1,10 +1,4 @@
-import re
-
 import discord
-
-votes=[]
-voteStrings=[]
-voters = []
 
 async def prune(message, client):
     params = message.content.split(' ')
@@ -18,16 +12,16 @@ async def prune(message, client):
             num = int(param)
 
     if num is None:
-        await client.send_message(message.channel, "Please include a number of messages for me to look back through")
+        await message.channel.send("Please include a number of messages for me to look back through")
         return
 
     elif num > 500:
-        await client.send_message(message.channel, "I can only go through a max of 500 messages at a time. Please "
+        await message.channel.send("I can only go through a max of 500 messages at a time. Please "
                                                    "enter a number 500 or less.")
         return
     elif len(params) == 2:
-        await client.purge_from(message.channel, limit=num)
-        await client.send_message(message.channel, "Pruning the last `" + str(num) + "` messages.")
+        await message.channel.purge(limit=num)
+        await message.channel.send("Pruning the last `" + str(num) + "` messages.")
     elif len(message.mentions) != 0:
         if len(phrases) == 0:
             await pruneUsers(message, client, num)
@@ -41,7 +35,7 @@ async def prune(message, client):
         return
 
     else:
-        await client.send_message(message.channel, "Argument Error: Please make sure you follow proper argument format."
+        await message.channel.send("Argument Error: Please make sure you follow proper argument format."
                                              " For example:\n `~prune \"hey!\" @user 50` goes through the last `50`"
                                              " messages and removes all messages from `user` containing `hey!`")
 async def kick(message, client):
@@ -51,34 +45,34 @@ async def kick(message, client):
         else:
             text = "Successfully kicked: \n"
             for member in message.mentions:
-                await client.kick(member)
+                await message.guild.kick(member)
                 text += "`" + member.name + "`\n"
-        await client.send_message(message.channel, text)
+        await message.channel.send(text)
     except discord.errors.Forbidden:
-        await client.send_message(message.channel, ":x: Error while trying to kick member (My Role may be lower ranked than a person I am trying to kick) :x:")
+        await message.channel.send(":x: Error while trying to kick member (My Role may be lower ranked than a person I am trying to kick) :x:")
 
 async def ban(message, client):
     try:
         if len(message.mentions) == 0:
             text = "You must @mention a user to ban."
-            await client.send_message(message.channel, text)
+            await message.channel.send(text)
         else:
             text = "Successfully banned:\n"
             for member in message.mentions:
-                await client.ban(member, 0)
+                await message.guild.ban(member, 0)
                 text += "`" + member.name + "`\n"
-            await client.send_message(message.channel, text)
+            await message.channel.send(text)
     except discord.errors.Forbidden:
-        await client.send_message(message.channel, ":x: Error while trying to ban member (My Role may be lower ranked than a person I am trying to ban) :x:")
+        await message.channel.send(":x: Error while trying to ban member (My Role may be lower ranked than a person I am trying to ban) :x:")
 
 async def count(message, client):
     counter = 0
-    tmp = await client.send_message(message.channel, 'Calculating messages...')
-    async for log in client.logs_from(message.channel, limit=1000):
+    tmp = await message.channel.send('Calculating messages...')
+    async for log in message.channel.history(limit=1000):
         if log.author == message.author:
             counter += 1
 
-    await client.edit_message(tmp, message.author.name + ', you have {} messages.'.format(counter))
+    await tmp.edit(content=message.author.name + ', you have {} messages.'.format(counter))
 
 async def userInfo(message, client):
     text = ''
@@ -92,7 +86,7 @@ async def userInfo(message, client):
         text += "avatar url: " + user.avatar_url + "\n"
         text += "username: " + user.name + "\n"
         text += "joined: " + str(user.joined_at) + "\n"
-    await client.send_message(message.channel, text)
+    await message.channel.send(text)
 
 async def avatar(message, client):
     if len(message.mentions) == 0:
@@ -101,41 +95,13 @@ async def avatar(message, client):
         text = "You may only @mention one user."
     else:
         text = message.mentions[0].mention + " " + message.mentions[0].avatar_url
-    await client.send_message(message.channel, text)
-
-async def vote(message, client):
-    global voteStrings
-    text = ""
-    if message.content.startswith('~vote'):
-        text += "Voting has begun make you vote now.\n"
-        inVote = True
-        voteStrings = message.content[5:].split(';')
-        for i, v in enumerate(voteStrings):
-            votes.append(0)
-            text += ("~v" + str(i + 1) + ": " + v + "\n")
-            i += 1
-        await client.send_message(message.channel, text)
-
-    elif message.content.startswith('~endvote'):
-        text += "End Vote\n"
-        for i, v in enumerate(voteStrings):
-            text += str(votes[i]) + ": " + v + "\n"
-        voteStrings.clear()
-        votes.clear()
-        await client.send_message(message.channel, text)
-
-    elif not (message.author.id in voters) and message.content.startswith('~v'):
-        try:
-            votes[int(message.content[2:]) - 1] += 1
-            voters.append(message.author.id)
-        except ValueError:
-            print("VALUE ERROR")
+    await message.channel.send(text)
 
 async def pruneUsers(message, client, num):
     delcount = 0
-    async for log in client.logs_from(message.channel, limit=num):
+    async for log in message.channel.history(limit=num):
         if log.author in message.mentions:
-            await client.delete_message(log)
+            await log.delete()
             delcount += 1
 
     msg = "Removed `"+ str(delcount) +"` messages from the last `" + str(num) + "` messages from users: \n`"
@@ -144,15 +110,15 @@ async def pruneUsers(message, client, num):
 
     msg += "`"
 
-    await client.send_message(message.channel, msg)
+    await message.channel.send(msg)
 
 
 async def prunePhrases(message, client, phrases, num):
     delcount = 0
-    async for log in client.logs_from(message.channel, limit=num):
+    async for log in message.channel.history(limit=num):
         for phrase in phrases:
             if phrase in log.content:
-                await client.delete_message(log)
+                await log.delete()
                 delcount += 1
 
     msg = "Removed `" + str(delcount) + "` messages from the last `" + str(num) + "` messages containing one of the " \
@@ -163,15 +129,15 @@ async def prunePhrases(message, client, phrases, num):
 
     msg += "`"
 
-    await client.send_message(message.channel, msg)
+    await message.channel.send(msg)
 
 async def pruneUserPhrases(message, client, phrases, num):
     delcount = 0
-    async for log in client.logs_from(message.channel, limit=num):
+    async for log in message.channel.history(limit=num):
         for phrase in phrases:
             if phrase in log.content:
                 if log.author in message.mentions:
-                    await client.delete_message(log)
+                    await log.delete()
                     delcount += 1
 
     msg = "Removed `"+ str(delcount) +"` messages in the last `" + str(num) + "` messages from users: \n`"
@@ -185,4 +151,4 @@ async def pruneUserPhrases(message, client, phrases, num):
 
     msg += "`"
 
-    await client.send_message(message.channel, msg)
+    await message.channel.send(msg)

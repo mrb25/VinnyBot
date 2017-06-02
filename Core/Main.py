@@ -8,7 +8,7 @@ from Config import *
 
 initConfig()
 Token = getToken('Discord')
-client = discord.Client()
+client = discord.AutoShardedClient()
 
 
 @client.event

@@ -40,7 +40,7 @@ def random_hot_post(subreddit, limit, message):
         return None
 
     if random_page.stickied:
-        return random_hot_post(subreddit, limit + 1)
+        return random_hot_post(subreddit, limit + 1, message)
 
     if subreddit != 'shitpost':
         return random_page.url

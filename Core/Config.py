@@ -36,9 +36,9 @@ async def help(message, client):
     if len(message.content.split(" ")) > 1:
         for i in range(1, len(message.content.split(" "))):
             lookFor = message.content.split(" ")[i]
-            await client.send_message(message.author, lookFor + ": " + getCommand(lookFor))
+            await message.author.send(lookFor + ": " + getCommand(lookFor))
     else:
-        await client.send_message(message.author, embed=defaultHelp(client))
+        await message.author.send(embed=defaultHelp(client))
 
 
 def getCommand(command):

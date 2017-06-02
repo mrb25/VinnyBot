@@ -12,42 +12,42 @@ channels = []
 async def postR34(message, client):
     init()
     if not isEnabled(message):
-        await client.send_message(message.channel, "NSFW not authorized in this channel. To authorize an admin must"
+        await message.channel.send("NSFW not authorized in this channel. To authorize an admin must"
                                                    "use the ~togglensfw command")
         return
 
     tags = message.content[4:]
-    await client.send_typing(message.channel)
+    with message.channel.typing():
 
-    if "fur" not in tags or "furry" not in tags or "yiff" not in tags or "anthro" not in tags:
-        search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={}".format(tags) +\
-                 " -fur -furry -yiff -anthro -canine -mammal -wolf"
-    else:
-        search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={}".format(tags)
-
-    try:
-        xmlFile = urllib.request.urlopen(search)
-    except:
-        await client.send_message(message.channel, "There was an error retrieving a post... :confounded: ")
-        return
-    e = xml.etree.ElementTree.parse(xmlFile)
-    root = e.getroot()
-
-    picUrls = []
-
-    for post in root.findall('post'):
-        if "furaffinity" not in post.get('source'):
-            picUrls.append('http:' + post.get('file_url'))
-
-    if len(picUrls) == 0:
-        await client.send_message(message.channel, "No results, try searching something less retarded next time!")
-
-    else:
+        if "fur" not in tags or "furry" not in tags or "yiff" not in tags or "anthro" not in tags:
+            search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={}".format(tags) +\
+                     " -fur -furry -yiff -anthro -canine -mammal -wolf"
+        else:
+            search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={}".format(tags)
+    
         try:
-            await client.send_message(message.channel, picUrls[randint(0, len(picUrls) - 1)])
+            xmlFile = urllib.request.urlopen(search)
         except:
-            await client.send_message(message.channel, "There was an error retrieving a post... :confounded: ")
+            await message.channel.send("There was an error retrieving a post... :confounded: ")
             return
+        e = xml.etree.ElementTree.parse(xmlFile)
+        root = e.getroot()
+    
+        picUrls = []
+    
+        for post in root.findall('post'):
+            if "furaffinity" not in post.get('source'):
+                picUrls.append('http:' + post.get('file_url'))
+    
+        if len(picUrls) == 0:
+            await message.channel.send("No results, try searching something less retarded next time!")
+    
+        else:
+            try:
+                await message.channel.send(picUrls[randint(0, len(picUrls) - 1)])
+            except:
+                await message.channel.send("There was an error retrieving a post... :confounded: ")
+                return
 
 
 def isEnabled(message):
@@ -60,18 +60,18 @@ async def toggleChannel(message, client):
     if message.channel.id in channels:
         channels.remove(message.channel.id)
         writeChannels()
-        await client.send_message(message.channel, ":x: NSFW now disabled in this channel. :x:")
+        await message.channel.send(":x: NSFW now disabled in this channel. :x:")
 
     else:
         channels.append(message.channel.id)
         writeChannels()
-        await client.send_message(message.channel, ":wink: NSFW now enabled in this channel. I don't judge :wink:")
+        await message.channel.send(":wink: NSFW now enabled in this channel. I don't judge :wink:")
 
 
 def writeChannels():
     with open("config/nsfwLocks.txt", "w") as f:
             for id in channels:
-                f.write(id + "\n")
+                f.write(str(id) + "\n")
 
 
 def init():
