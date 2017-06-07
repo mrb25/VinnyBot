@@ -1,7 +1,4 @@
 import urllib.request
-import discord
-import re
-import asyncio
 import os
 from random import randint
 import xml.etree.ElementTree
