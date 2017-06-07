@@ -2,14 +2,10 @@ import glob
 import json
 import os
 import threading
-import urllib.parse
 import discord
-import urllib.request
 from urllib.request import urlopen
 from urllib.request import Request
 from Config import getToken
-from VoiceCore import getNumPlayers
-from VoiceCore import getNumMaxPlayers
 
 commandsCalled = 0
 members = {}

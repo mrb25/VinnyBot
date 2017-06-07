@@ -1,13 +1,7 @@
-import urllib
-import json
-import urllib.request
-
-import discord
 from Reddit import *
 from help import *
 from Config import *
 from Moderation import *
-from VoiceCore import *
 from Giphy import *
 from Memes import *
 from Markov import *

@@ -1,13 +1,7 @@
-import json
-import urllib.request
-
 import praw
 import random
 import itertools
 from nsfw import isEnabled
-
-import prawcore
-from praw import *
 
 def main():
     print("--------------------")

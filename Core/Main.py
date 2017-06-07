@@ -1,8 +1,5 @@
-import threading
 import discord
-import sys
 from Parser import *
-from VoiceCore import *
 from Logger import *
 from Config import *
 

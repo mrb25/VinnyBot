@@ -1,8 +1,5 @@
-import gc
-
 import discord
 import markovify
-from discord import ChannelType
 
 VINNY_COLOR = int('008cba', 16)
 currentCommentsArr = []
