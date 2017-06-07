@@ -1,5 +1,6 @@
 import os
 import time
+from datadog import statsd
 
 
 def logCommand(message, client, command):
@@ -9,3 +10,5 @@ def logCommand(message, client, command):
     with open(time.strftime("logs/VinnyLog %m-%d-%Y.txt"), "a+") as f:
         f.write(time.strftime("[%H:%M:%S] ") + command + " called by: " + message.author.name + " in channel: " +
                 message.channel.name + " in guild: " + message.guild.name + "\n")
+
+    statsd.increment('bot.command')
