@@ -11,4 +11,5 @@ def logCommand(message, client, command):
         f.write(time.strftime("[%H:%M:%S] ") + command + " called by: " + message.author.name + " in channel: " +
                 message.channel.name + " in guild: " + message.guild.name + "\n")
 
-    statsd.increment('bot.command')
+    statsd.increment('vinny.commandCalled')
+    statsd.increment('vinny.' + command)
