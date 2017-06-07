@@ -12,4 +12,4 @@ def logCommand(message, client, command):
                 message.channel.name + " in guild: " + message.guild.name + "\n")
 
     statsd.increment('vinny.commandCalled')
-    statsd.increment('vinny.' + command)
+    statsd.increment('vinny.' + command.split(' ')[0])
