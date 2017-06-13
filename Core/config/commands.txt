@@ -40,6 +40,7 @@
 ~stop -- If an audio stream is playing in your server it stops it
 ~pause -- Pauses current audio stream
 ~resume -- Resumes audio stream when paused
+~volume -- Set voice volume (Between 0 and 150)
 ~voicestats -- Gives info about current audio streams
 
 ***NSFW COMMANDS***
