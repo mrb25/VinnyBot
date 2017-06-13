@@ -532,14 +532,14 @@ public class discordBot extends ListenerAdapter {
 
     }
 
-    private void setVolume(final MessageRecievedEvent event, String[] command) {
+    private void setVolume(MessageReceivedEvent event, String[] command) {
         ServerMusicManager musicManager = musicManagers.get(Long.parseLong(event.getTextChannel().getGuild().getId()));
         if (musicManager == null) {
             event.getTextChannel().sendMessage("Error: No AudioManager detected in this server").queue();
             return;
         }
         try {
-            int volume = Integer.ParseInt(command[1]);
+            int volume = Integer.parseInt(command[1]);
             musicManager.player.setVolume(volume);
             event.getTextChannel().sendMessage("Volume successfully set to: " + Math.min(150, Math.max(0, volume))).queue();
         } catch (Exception e) {
