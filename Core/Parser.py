@@ -138,6 +138,10 @@ async def parseCommand(message, client):
             commandCalled()
             logCommand(message, client, '~leave')
 
+        elif message.content.startswith('~volume'):
+            commandCalled()
+            logCommand(message, client, '~volume')
+
         elif message.content.startswith('~cancel'):
             commandCalled()
             logCommand(message, client, '~cancel')
