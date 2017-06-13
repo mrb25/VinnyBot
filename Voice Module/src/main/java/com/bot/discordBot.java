@@ -3,13 +3,9 @@ package com.bot;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.source.AudioSourceManagers;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.PrivateChannel;
-import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -21,7 +17,6 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
-import sun.security.provider.SHA;
 
 /**
  * Created by Jess Walter on 3/28/2017.
@@ -32,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.lang.Math;
 
 public class discordBot extends ListenerAdapter {
     private static String nickName;
@@ -39,6 +35,10 @@ public class discordBot extends ListenerAdapter {
     private static final Color vinnyColor = new Color(0, 140, 186);
     private static final int NUM_SHARDS = 3;
     private static ShardingManager shardingManager;
+    private final AudioPlayerManager playerManager;
+    private final HashMap<Long, ServerMusicManager> musicManagers;
+    private final HashMap<Long, SearchListenerMessage> searchListeners;
+    private final HashMap<Long, Timer> searchTimers;
 
     public static void main(String[] args) throws Exception {
         Config config = new Config();
@@ -47,12 +47,6 @@ public class discordBot extends ListenerAdapter {
         nickName = shardingManager.getJDA(0).getSelfUser().getName();
         avatarURL = shardingManager.getJDA(0).getSelfUser().getAvatarUrl();
     }
-
-    private final AudioPlayerManager playerManager;
-    private final HashMap<Long, ServerMusicManager> musicManagers;
-    private final HashMap<Long, SearchListenerMessage> searchListeners;
-    private final HashMap<Long, Timer> searchTimers;
-
 
     protected discordBot() {
         this.musicManagers = new HashMap<>();
@@ -104,7 +98,10 @@ public class discordBot extends ListenerAdapter {
                 printShardInfo(event.getTextChannel());
             } else if ("~voicestats".equals(command[0])) {
                 voiceStats(event.getTextChannel());
-            } else if ("~search".equals(command[0])) {
+            } else if ("~volume".equals(command[0])) {
+                setVolume(event, command);
+            }
+            else if ("~search".equals(command[0])) {
                 if (event.getMember().getVoiceState().getChannel() == null) {
                     event.getTextChannel().sendMessage("You are not connected to a voice channel :cry:").queue();
                     return;
@@ -180,7 +177,8 @@ public class discordBot extends ListenerAdapter {
                 } else {
                     String songs = trackUrl.split(" ")[1];
                     if (songs.split("-").length == 2) {
-                        int to, from;
+                        int to;
+                        int from;
                         try {
                             from = Integer.parseInt(songs.split("-")[0]);
                             to = Integer.parseInt(songs.split("-")[1]);
@@ -497,7 +495,7 @@ public class discordBot extends ListenerAdapter {
             public void run() {
                 for(Map.Entry<Long, ServerMusicManager> entry : musicManagers.entrySet()){
                     ServerMusicManager musicManager = entry.getValue();
-                    if (musicManager.scheduler.isPlaying() || musicManager.scheduler.getPlayer().isPaused())
+                    if (musicManager.scheduler.isPlaying())
                         continue;
                     else {
                         musicManagers.remove(entry.getKey());
@@ -532,6 +530,21 @@ public class discordBot extends ListenerAdapter {
             }
         }
 
+    }
+
+    private void setVolume(final MessageRecievedEvent event, String[] command) {
+        ServerMusicManager musicManager = musicManagers.get(Long.parseLong(event.getTextChannel().getGuild().getId()));
+        if (musicManager == null) {
+            event.getTextChannel().sendMessage("Error: No AudioManager detected in this server").queue();
+            return;
+        }
+        try {
+            int volume = Integer.ParseInt(command[1]);
+            musicManager.player.setVolume(volume);
+            event.getTextChannel().sendMessage("Volume successfully set to: " + Math.min(150, Math.max(0, volume))).queue();
+        } catch (Exception e) {
+            event.getTextChannel().sendMessage("Error: Incorrect parameters. Please input a number between 0 and 100").queue();
+        }
     }
 
     private void removeTrack(final TextChannel channel, String command){
