@@ -36,6 +36,7 @@ public class discordBot extends ListenerAdapter {
     private final HashMap<Long, ServerMusicManager> musicManagers;
     private final HashMap<Long, SearchListenerMessage> searchListeners;
     private final HashMap<Long, Timer> searchTimers;
+    private Timer purgeTimer;
 
     public static void main(String[] args) throws Exception {
         Config config = new Config();
@@ -43,6 +44,7 @@ public class discordBot extends ListenerAdapter {
 
         nickName = shardingManager.getJDA(0).getSelfUser().getName();
         avatarURL = shardingManager.getJDA(0).getSelfUser().getAvatarUrl();
+
     }
 
     protected discordBot() {
@@ -96,6 +98,9 @@ public class discordBot extends ListenerAdapter {
             else if ("~search".equals(command[0])) {
                 if (event.getMember().getVoiceState().getChannel() == null) {
                     event.getTextChannel().sendMessage("You are not connected to a voice channel :cry:").queue();
+                    return;
+                } else if (command.length < 2) {
+                    event.getTextChannel().sendMessage("You need to give me something to search for.").queue();
                     return;
                 }
                 search(event.getTextChannel(), command[1], event.getMember());
@@ -480,8 +485,11 @@ public class discordBot extends ListenerAdapter {
     }
 
     private void purgeInactiveConnections() {
-        Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        if (purgeTimer != null)
+            return;
+
+        purgeTimer = new Timer();
+        purgeTimer.schedule(new TimerTask() {
             @Override
             public void run() {
                 Iterator it = musicManagers.entrySet().iterator();
@@ -489,7 +497,7 @@ public class discordBot extends ListenerAdapter {
                 while(it.hasNext()) {
                     Map.Entry<Long, ServerMusicManager> entry = (Map.Entry<Long, ServerMusicManager>) it.next();
                     ServerMusicManager musicManager = entry.getValue();
-                    if (!musicManager.scheduler.isPlaying()) {
+                    if (!musicManager.scheduler.isPlaying() && !musicManager.scheduler.getPlayer().isPaused()) {
                         musicManager.scheduler.stopPlayer();
                         for(int i = 0; i < NUM_SHARDS; i++){
                             Guild temp = shardingManager.getJDA(i).getGuildById(entry.getKey().toString());
@@ -504,8 +512,9 @@ public class discordBot extends ListenerAdapter {
                     System.out.println("No connections purged");
                 else
                     System.out.println("Purged: " + numClosed + " inactive connections");
+                System.gc();
             }
-        }, 60000, 60000);
+        }, 600000, 1800000);
     }
 
     private void checkVoiceLobby(Guild guild) {
