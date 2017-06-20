@@ -101,6 +101,7 @@ public class discordBot extends ListenerAdapter {
                     return;
                 } else if (command.length < 2) {
                     event.getTextChannel().sendMessage("You need to give me something to search for.").queue();
+                    return;
                 }
                 search(event.getTextChannel(), command[1], event.getMember());
                 //event.getTextChannel().sendMessage("Search functionality coming soon. Checkout the discord server for frequent updates.").queue();
@@ -486,7 +487,7 @@ public class discordBot extends ListenerAdapter {
     private void purgeInactiveConnections() {
         if (purgeTimer != null)
             return;
-        
+
         purgeTimer = new Timer();
         purgeTimer.schedule(new TimerTask() {
             @Override
