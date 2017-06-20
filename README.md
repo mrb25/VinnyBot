@@ -1,5 +1,5 @@
 # VinnyBot
-A side project I have been working on for about 4 months now. In these 4 months Vinny has accumulated over 75,000 users across over 2,600 servers.
+A side project I have been working on for about 4 months now. In these 4 months Vinny has accumulated over 83,000 users across over 3,000 servers.
 
 # Usage
 To add Vinny to your own server go to: https://discordapp.com/oauth2/authorize?client_id=276855867796881408&scope=bot&permissions=67628096  
