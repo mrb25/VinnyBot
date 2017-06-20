@@ -33,9 +33,9 @@ public class discordBot extends ListenerAdapter {
     private static final int NUM_SHARDS = 3;
     private static ShardingManager shardingManager;
     private final AudioPlayerManager playerManager;
-    private final WeakHashMap<Long, ServerMusicManager> musicManagers;
-    private final WeakHashMap<Long, SearchListenerMessage> searchListeners;
-    private final WeakHashMap<Long, Timer> searchTimers;
+    private final HashMap<Long, ServerMusicManager> musicManagers;
+    private final HashMap<Long, SearchListenerMessage> searchListeners;
+    private final HashMap<Long, Timer> searchTimers;
 
     public static void main(String[] args) throws Exception {
         Config config = new Config();
@@ -46,9 +46,9 @@ public class discordBot extends ListenerAdapter {
     }
 
     protected discordBot() {
-        this.musicManagers = new WeakHashMap<>();
-        this.searchListeners = new WeakHashMap<>();
-        this.searchTimers = new WeakHashMap<>();
+        this.musicManagers = new HashMap<>();
+        this.searchListeners = new HashMap<>();
+        this.searchTimers = new HashMap<>();
         this.playerManager = new DefaultAudioPlayerManager();
         AudioSourceManagers.registerRemoteSources(playerManager);
         AudioSourceManagers.registerLocalSource(playerManager);
@@ -313,7 +313,7 @@ public class discordBot extends ListenerAdapter {
         System.gc();
     }
 
-    public WeakHashMap<Long, ServerMusicManager> getMusicManagers() {
+    public HashMap<Long, ServerMusicManager> getMusicManagers() {
         return musicManagers;
     }
 
