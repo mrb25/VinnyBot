@@ -57,12 +57,7 @@ public class discordBot extends ListenerAdapter {
 
     private synchronized ServerMusicManager getServerAudioPlayer(Guild guild) {
         long guildId = Long.parseLong(guild.getId());
-        ServerMusicManager musicManager = musicManagers.get(guildId);
-
-        if (musicManager == null) {
-            musicManager = new ServerMusicManager(playerManager);
-            musicManagers.put(guildId, musicManager);
-        }
+        ServerMusicManager musicManager = musicManagers.computeIfAbsent(guildId, k -> new ServerMusicManager(playerManager));
 
         guild.getAudioManager().setSendingHandler(musicManager.getSendHandler());
 
@@ -325,7 +320,6 @@ public class discordBot extends ListenerAdapter {
         }
         if (!musicManager.scheduler.isPlaying()) {
             textChannel.sendMessage("You are not listening to audio").queue();
-            return;
         } else {
             String[] playlist = musicManager.scheduler.getPlaylist();
             String msg = "```Playlist\n";
@@ -490,33 +484,33 @@ public class discordBot extends ListenerAdapter {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                for(Map.Entry<Long, ServerMusicManager> entry : musicManagers.entrySet()){
+                Iterator it = musicManagers.entrySet().iterator();
+                int numClosed = 0;
+                while(it.hasNext()) {
+                    Map.Entry<Long, ServerMusicManager> entry = (Map.Entry<Long, ServerMusicManager>) it.next();
                     ServerMusicManager musicManager = entry.getValue();
-                    if (musicManager.scheduler.isPlaying())
-                        continue;
-                    else {
-                        musicManagers.remove(entry.getKey());
+                    if (!musicManager.scheduler.isPlaying()) {
                         musicManager.scheduler.stopPlayer();
                         for(int i = 0; i < NUM_SHARDS; i++){
                             Guild temp = shardingManager.getJDA(i).getGuildById(entry.getKey().toString());
                             if (temp != null)
                                 temp.getAudioManager().closeAudioConnection();
                         }
-
-                        System.out.print("here");
+                        it.remove();
+                        numClosed++;
                     }
-
                 }
-
+                if (numClosed == 0)
+                    System.out.println("No connections purged");
+                else
+                    System.out.println("Purged: " + numClosed + " inactive connections");
             }
         }, 60000, 60000);
     }
 
     private void checkVoiceLobby(Guild guild) {
         ServerMusicManager musicManager = musicManagers.get(Long.parseLong(guild.getId()));
-        if (musicManager == null) {
-            return;
-        } else if (guild.getAudioManager().isConnected()) {
+        if (guild.getAudioManager().isConnected()) {
             if (guild.getAudioManager().getConnectedChannel().getMembers().size() == 1) {
                 long guildId = Long.parseLong(guild.getId());
                 musicManager.scheduler.stopPlayer();
@@ -548,7 +542,6 @@ public class discordBot extends ListenerAdapter {
         ServerMusicManager musicManager = musicManagers.get(Long.parseLong(channel.getGuild().getId()));
         if (musicManager == null) {
             channel.sendMessage("Error: No AudioManager detected in this server").queue();
-            return;
         } else if (!command.matches("[0-9]+")) {
             channel.sendMessage("Error: Incorrect formatting. Please enter a number.").queue();
         } else {
