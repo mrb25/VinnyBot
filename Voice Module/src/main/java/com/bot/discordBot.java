@@ -106,7 +106,7 @@ public class discordBot extends ListenerAdapter {
                 search(event.getTextChannel(), command[1], event.getMember());
                 //event.getTextChannel().sendMessage("Search functionality coming soon. Checkout the discord server for frequent updates.").queue();
             } else if ("~cancel".equals(command[0])){
-                searchListeners.put(Long.parseLong(event.getMember().getUser().getId()), null);
+                searchListeners.remove(Long.parseLong(event.getMember().getUser().getId()));
                 event.getTextChannel().sendMessage("Canceled all outstanding Listeners for " + event.getMember().getEffectiveName()).queue();
             } else if (command[0].length() == 1) {
                 if (Character.isDigit(command[0].charAt(0))) {
@@ -450,12 +450,12 @@ public class discordBot extends ListenerAdapter {
                     event.getTextChannel().sendMessage("Selection was outside of range. Please select between " + s.getLowerBound() + " and " + s.getUpperbound()).queue();
                 } else {
                     loadAndPlay(s.getChannel(), s.getTracks()[selection-1].getInfo().uri, event.getMember());
-                    searchListeners.put(Long.parseLong(event.getAuthor().getId()), null);
+                    searchListeners.remove(Long.parseLong(event.getAuthor().getId()));
                     Timer t = searchTimers.get(Long.parseLong(event.getAuthor().getId()));
                     if (t != null){
                         t.cancel();
                         t.purge();
-                        searchTimers.put(Long.parseLong(event.getAuthor().getId()), null);
+                        searchTimers.remove(Long.parseLong(event.getAuthor().getId()));
                     }
                 }
             }
@@ -468,7 +468,7 @@ public class discordBot extends ListenerAdapter {
             @Override
             public void run() {
                 if (searchListeners.get(Long.parseLong(author.getUser().getId())) != null) {
-                    searchListeners.put(Long.parseLong(author.getUser().getId()), null);
+                    searchListeners.remove(Long.parseLong(author.getUser().getId()));
                     if (!author.getUser().hasPrivateChannel()){
                         author.getUser().openPrivateChannel();
                     }
