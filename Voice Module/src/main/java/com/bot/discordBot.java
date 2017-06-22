@@ -470,7 +470,7 @@ public class discordBot extends ListenerAdapter {
                 if (searchListeners.get(Long.parseLong(author.getUser().getId())) != null) {
                     searchListeners.remove(Long.parseLong(author.getUser().getId()));
                     if (!author.getUser().hasPrivateChannel()){
-                        author.getUser().openPrivateChannel();
+                        author.getUser().openPrivateChannel().queue();
                     }
                     PrivateChannel p = author.getUser().getPrivateChannel();
                     p.sendMessage("Closed audio search in channel: " + channel.getName() + ". Due to inactivity").queue();
