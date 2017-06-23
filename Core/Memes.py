@@ -173,3 +173,18 @@ async def feels(message, client):
 
 async def magic8ball(message, client):
     await message.channel.send("The magic 8 ball says: " + random.choice(answers))
+
+async def roll(message, client):
+    params = message.content.split(' ')
+    num = 10
+    for param in params:
+        if param.isdigit():
+            num = int(param)
+            break
+    if num > 1000000000:
+        await message.channel.send("I can only roll up to 1,000,000,000")
+        return
+    elif num < 2:
+        await message.channel.send("Please enter a number >= 2")
+        return
+    await message.channel.send("Rolled: " + str(random.choice(range(0, num))))

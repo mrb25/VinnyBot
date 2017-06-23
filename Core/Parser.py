@@ -227,6 +227,11 @@ async def parseCommand(message, client):
             commandCalled()
             logCommand(message, client, '~whois')
 
+        elif message.content.startswith('~roll'):
+            await roll(message, client)
+            commandCalled()
+            logCommand(message, client, '~roll')
+
         # Reddit Commands
         elif message.content.startswith('~shit'):
             with message.channel.typing():
