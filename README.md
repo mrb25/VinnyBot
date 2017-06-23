@@ -21,7 +21,7 @@ Right now this guide is only for the text module. If you have any problems feel 
 1. Have Pip and python 3.5.2+ installed
 2. Clone repo
 3. cd into repo
-4. pip -r requirements.txt
+4. pip install -r requirements.txt
 5. Make a file Core/config/tokens.txt
 6. Make tokens.txt like so:  
 \*\*\*Discord\*\*\*  
