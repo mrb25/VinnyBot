@@ -176,18 +176,18 @@ async def magic8ball(message, client):
 
 async def roll(message, client):
     params = message.content.split(' ')
-    num = None
-    for param in params:
-        if param.isdigit():
+    params.pop(0)
+    if len(params) == 0:
+        await message.channel.send("Rolled: " + str(random.choice(range(0, 10))))
+        return
+    try:
+        for param in params:
             num = int(param)
-            break
-    if num == None:
-        await message.channel.send("Please enter a positive number to roll to")
-        return
-    if num > 1000000000:
-        await message.channel.send("I can only roll up to 1,000,000,000")
-        return
-    elif num < 2:
-        await message.channel.send("Please enter a number >= 2")
-        return
-    await message.channel.send("Rolled: " + str(random.choice(range(0, num))))
+            if num < 2:
+                await message.channel.send("Please enter a number >= 2")
+            elif num > 1000000000:
+                await message.channel.send("I can only roll up to 1,000,000,000")
+            else:
+                await message.channel.send("Rolled: " + str(random.choice(range(0, num))))
+    except:
+        await message.channel.send("Invalid input. Please enter only integers")
