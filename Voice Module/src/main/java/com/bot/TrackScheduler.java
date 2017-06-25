@@ -1,11 +1,11 @@
 package com.bot;
 
-import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
-
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
+import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 
+import java.util.Iterator;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -93,18 +93,15 @@ public class TrackScheduler extends AudioEventAdapter{
     }
 
     public String removeTrack(int index) {
-        AudioTrack toRemove = null;
-        int j = 0;
-        for (AudioTrack audioTrack : queue) {
-            if (j == index-1) {
-                toRemove = audioTrack;
-                break;
-            }
+        Iterator<AudioTrack> it = queue.iterator();
+        AudioTrack track = it.next();
+        for (int i = 2; i < index; i++) {
+            track = it.next();
         }
-        if (toRemove != null){
-            queue.remove(toRemove);
-            return toRemove.getInfo().title;
-        } else
-            return null;
+        if(track != null){
+            it.remove();
+            return track.getInfo().title;
+        }
+        return null;
     }
 }
