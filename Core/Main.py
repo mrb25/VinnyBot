@@ -16,7 +16,7 @@ async def on_ready():
     print('------\n')
     await client.change_presence(game=discord.Game(name='~help for command list'))
     initCommandCount()
-    sendStatistics(client)
+    ##sendStatistics(client)
 
 
 @client.event

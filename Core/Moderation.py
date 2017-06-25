@@ -88,6 +88,25 @@ async def userInfo(message, client):
         text += "joined: " + str(user.joined_at) + "\n"
     await message.channel.send(text)
 
+async def roleInfo(message, client):
+    server = message.guild
+    for role in message.role_mentions:
+        text = discord.Embed(title=role.name, colour=role.colour)
+        hasMember = False
+        for member in server.members:
+            if role in member.roles:
+                hasMemeber = True
+                memberInfo = "";
+                if member.nick is not None:
+                    memberInfo += "Nickname: " + member.nick + "\n"
+                memberInfo += "Status: " + member.status.value + "\n"
+                if member.status.value == "online":
+                    memberInfo += "In game: " + member.game.name + "\n"
+                text.add_field(name=member.name, value=memberInfo, inline=False)
+        if not hasMember:
+            text.add_field(name="Nobody...", value=":cry:")
+        await message.channel.send(embed=text)
+
 async def avatar(message, client):
     if len(message.mentions) == 0:
         text = "You must @mention a user."
