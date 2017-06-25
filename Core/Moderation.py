@@ -93,15 +93,14 @@ async def roleInfo(message, client):
     for role in message.role_mentions:
         text = discord.Embed(title=role.name, colour=role.colour)
         if len(role.members) > 0:
-            for member in server.members:
-                if role in member.roles:
-                    memberInfo = ""
-                    if member.nick is not None:
-                        memberInfo += "Nickname: " + member.nick + "\n"
-                    memberInfo += "Status: " + member.status.value + "\n"
-                    if member.status.value == "online":
-                        memberInfo += "In game: " + member.game.name + "\n"
-                    text.add_field(name=member.name, value=memberInfo, inline=False)
+            for member in role.members:
+                memberInfo = ""
+                if member.nick is not None:
+                    memberInfo += "Nickname: " + member.nick + "\n"
+                memberInfo += "Status: " + member.status.value + "\n"
+                if member.status.value == "online":
+                    memberInfo += "In game: " + member.game.name + "\n"
+                text.add_field(name=member.name, value=memberInfo, inline=False)
         else:
             text.add_field(name="Nobody...", value=":cry:")
         await message.channel.send(embed=text)
