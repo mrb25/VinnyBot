@@ -97,7 +97,7 @@ async def roleInfo(message, client):
                 if member.nick is not None:
                     memberInfo += "Nickname: " + member.nick + "\n"
                 memberInfo += "Status: " + member.status.value + "\n"
-                if member.status.value == "online":
+                if member.status.value == "online" and member.game is not None:
                     memberInfo += "In game: " + member.game.name + "\n"
                 text.add_field(name=member.name, value=memberInfo, inline=False)
         else:
