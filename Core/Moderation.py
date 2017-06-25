@@ -95,7 +95,7 @@ async def roleInfo(message, client):
         hasMember = False
         for member in server.members:
             if role in member.roles:
-                hasMemeber = True
+                hasMember = True
                 memberInfo = "";
                 if member.nick is not None:
                     memberInfo += "Nickname: " + member.nick + "\n"
