@@ -230,7 +230,7 @@ async def parseCommand(message, client):
         elif message.content.startswith('~whohas'):
             await roleInfo(message, client)
             commandCalled()
-            logCommand(message, client, '~whois')
+            logCommand(message, client, '~whohas')
 
         elif message.content.startswith('~roll'):
             await roll(message, client)
