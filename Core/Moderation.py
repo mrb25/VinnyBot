@@ -89,7 +89,6 @@ async def userInfo(message, client):
     await message.channel.send(text)
 
 async def roleInfo(message, client):
-    server = message.guild
     for role in message.role_mentions:
         text = discord.Embed(title=role.name, colour=role.colour)
         if len(role.members) > 0:
