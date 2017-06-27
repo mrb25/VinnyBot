@@ -558,14 +558,14 @@ public class discordBot extends ListenerAdapter {
             musicManager.player.setVolume(volume);
             event.getTextChannel().sendMessage("Volume successfully set to: " + Math.min(150, Math.max(0, volume))).queue();
         } catch (Exception e) {
-            event.getTextChannel().sendMessage("Error: Incorrect parameters. Please input a number between 0 and 100").queue();
+            event.getTextChannel().sendMessage("Error: Incorrect parameters. Please input a number between 0 and 100.").queue();
         }
     }
 
     private void removeTrack(final TextChannel channel, String command){
         ServerMusicManager musicManager = musicManagers.get(Long.parseLong(channel.getGuild().getId()));
         if (musicManager == null) {
-            channel.sendMessage("Error: No AudioManager detected in this server").queue();
+            channel.sendMessage("Error: No AudioManager detected in this server.").queue();
         } else if (!command.matches("[0-9]+")) {
             channel.sendMessage("Error: Incorrect formatting. Please enter a number.").queue();
         } else {
@@ -573,14 +573,16 @@ public class discordBot extends ListenerAdapter {
                 skipTrack(channel);
                 return;
             }
+            if (Integer.parseInt(command) > musicManager.scheduler.getNumQueuedTracks() + 1){
+                channel.sendMessage("Error: Given number larger than queue size.").queue();
+                return;
+            }
             String result = musicManager.scheduler.removeTrack(Integer.parseInt(command));
             if (result == null) {
-                channel.sendMessage("Error: Failed to remove track").queue();
+                channel.sendMessage("Error: Failed to remove track.").queue();
             } else {
                 channel.sendMessage("Successfully removed track: " + result).queue();
             }
         }
     }
-
-
 }
