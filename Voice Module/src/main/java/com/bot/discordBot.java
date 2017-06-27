@@ -26,6 +26,8 @@ import java.awt.*;
 import java.util.*;
 import java.lang.Math;
 
+import static com.bot.TrackScheduler.MAX_QUEUE_SIZE;
+
 public class discordBot extends ListenerAdapter {
     private static String nickName;
     private static String avatarURL;
@@ -154,6 +156,12 @@ public class discordBot extends ListenerAdapter {
         playerManager.loadItemOrdered(musicManager, url, new AudioLoadResultHandler() {
             @Override
             public void trackLoaded(AudioTrack track) {
+                //Checking to make sure queue is not full
+                if (musicManager.scheduler.getNumQueuedTracks() + 1 >= MAX_QUEUE_SIZE){
+                    channel.sendMessage(":x: Cannot add song to queue. Queue Limit of " + MAX_QUEUE_SIZE + " reached.").queue();
+                    return;
+                }
+
                 EmbedBuilder builder = new EmbedBuilder();
                 builder.setTitle(track.getInfo().title, track.getInfo().uri);
                 builder.addField("Added song to playlist", "Duration: " + msToMinSec(track.getDuration()), false);
@@ -197,6 +205,10 @@ public class discordBot extends ListenerAdapter {
                         String msg = "Added " + (to - from + 1) + " songs to queue: ```";
                         int count = 1;
                         for (int i = from - 1; i < to; i++) {
+                            if (musicManager.scheduler.getNumQueuedTracks() + 1 >= MAX_QUEUE_SIZE) {
+                                msg = ":x: Queue size full. I was only able to add " + (i - from + 1) + " songs. ```" + msg.split("```")[1];
+                                break;
+                            }
                             play(channel.getGuild(), musicManager, playlist.getTracks().get(i), author);
                             msg += count + ": " +  playlist.getTracks().get(i).getInfo().title + "\n";
                             count++;
@@ -228,6 +240,9 @@ public class discordBot extends ListenerAdapter {
     private void play(Guild guild, ServerMusicManager musicManager, AudioTrack track, final Member author) {
         connectToVoiceChannel(guild.getAudioManager(), author);
 
+        if (musicManager.scheduler.getNumQueuedTracks() >= 19) {
+
+        }
         musicManager.scheduler.queue(track);
     }
 
@@ -255,11 +270,11 @@ public class discordBot extends ListenerAdapter {
             return;
         }
         if (!musicManager.scheduler.isPlaying()) {
-            textChannel.sendMessage("You are not listening to audio").queue();
+            textChannel.sendMessage("You are not listening to audio.").queue();
             return;
         }
         musicManager.scheduler.pause();
-        textChannel.sendMessage("Successfully paused stream").queue();
+        textChannel.sendMessage("Successfully paused stream.").queue();
     }
 
     private void resumeTrack(final TextChannel textChannel) {
@@ -269,11 +284,11 @@ public class discordBot extends ListenerAdapter {
             return;
         }
         if (!musicManager.scheduler.isPlaying()) {
-            textChannel.sendMessage("You are not listening to audio").queue();
+            textChannel.sendMessage("You are not listening to audio.").queue();
             return;
         }
         musicManager.scheduler.resume();
-        textChannel.sendMessage("Successfully resumed Stream").queue();
+        textChannel.sendMessage("Successfully resumed Stream.").queue();
     }
 
     private void stopPlayer(final TextChannel textChannel) {
@@ -284,12 +299,12 @@ public class discordBot extends ListenerAdapter {
             return;
         }
         if (!musicManager.scheduler.isPlaying()) {
-            textChannel.sendMessage("You are not listening to audio").queue();
+            textChannel.sendMessage("You are not listening to audio.").queue();
             return;
         }
         musicManager.scheduler.stopPlayer();
         textChannel.getGuild().getAudioManager().closeAudioConnection();
-        textChannel.sendMessage("Stopping player").queue();
+        textChannel.sendMessage("Stopping player.").queue();
         //System.out.println(musicManagers.size());
         musicManagers.remove(guildId);
         //System.out.println(musicManagers.size());
@@ -300,13 +315,13 @@ public class discordBot extends ListenerAdapter {
         long guildId = Long.parseLong(textChannel.getGuild().getId());
         ServerMusicManager musicManager = musicManagers.get(guildId);
         if (musicManager == null) {
-            textChannel.sendMessage("I am currently not connected to a voice channel").queue();
+            textChannel.sendMessage("I am currently not connected to a voice channel.").queue();
             return;
         }
 
         musicManager.scheduler.stopPlayer();
         textChannel.getGuild().getAudioManager().closeAudioConnection();
-        textChannel.sendMessage("Leaving voice channel").queue();
+        textChannel.sendMessage("Leaving voice channel.").queue();
         //System.out.println(musicManagers.size());
         musicManagers.remove(guildId);
         //System.out.println(musicManagers.size());
@@ -324,10 +339,10 @@ public class discordBot extends ListenerAdapter {
             return;
         }
         if (!musicManager.scheduler.isPlaying()) {
-            textChannel.sendMessage("You are not listening to audio").queue();
+            textChannel.sendMessage("You are not listening to audio.").queue();
         } else {
             String[] playlist = musicManager.scheduler.getPlaylist();
-            String msg = "```Playlist\n";
+            String msg = (musicManager.scheduler.getNumQueuedTracks() + 1) + "/" + MAX_QUEUE_SIZE + " queue slots filled" + "```Playlist\n";
             for (int i = 0; i < playlist.length; i++) {
                 if (i == 0)
                     msg += "Now Playing: " + playlist[i] + "\n";

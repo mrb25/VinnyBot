@@ -18,6 +18,8 @@ public class TrackScheduler extends AudioEventAdapter{
     private final BlockingQueue<AudioTrack> queue;
     private AudioTrack nowPlaying;
 
+    public static final int MAX_QUEUE_SIZE = 20;
+
     /**
      * @param player The audio player this scheduler uses
      */
@@ -103,5 +105,9 @@ public class TrackScheduler extends AudioEventAdapter{
             return track.getInfo().title;
         }
         return null;
+    }
+
+    public int getNumQueuedTracks() {
+        return queue.size();
     }
 }
