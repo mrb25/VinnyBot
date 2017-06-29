@@ -135,7 +135,7 @@ async def generateMarkovChannel(message, client):
     with message.channel.typing():
         tmp = await message.channel.send('Downloading messages from Channel... (0%)')
 
-        async for log in message.channel.history(limit=10000):
+        async for log in message.channel_mentions[0].history(limit=10000):
             # Checks and omits commands
             if not log.content.startswith('~'):
                 usableCounter += 1
