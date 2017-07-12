@@ -483,7 +483,6 @@ public class discordBot extends ListenerAdapter {
             @Override
             public void run() {
                 if (searchListeners.get(Long.parseLong(author.getUser().getId())) != null) {
-                    searchListeners.remove(Long.parseLong(author.getUser().getId()));
                     if (!author.getUser().hasPrivateChannel()){
                         author.getUser().openPrivateChannel().queue();
                     }
@@ -493,6 +492,14 @@ public class discordBot extends ListenerAdapter {
                     timer.purge();
                     if (!musicManagers.get(Long.parseLong(channel.getGuild().getId())).scheduler.isPlaying())
                         musicManagers.remove(Long.parseLong(channel.getGuild().getId()));
+
+                    Iterator it = searchListeners.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry<Long, ServerMusicManager> entry = (Map.Entry<Long, ServerMusicManager>) it.next();
+                        if (entry.getKey() == Long.parseLong(author.getUser().getId())) {
+                            it.remove();
+                        }
+                    }
                 }
             }
         }, 60000);
