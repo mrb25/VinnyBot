@@ -33,10 +33,10 @@ async def getStats(message, client):
         try:
             embed.add_field(name='Shards', value=str(len(client.shard_ids)), inline=False)
         except TypeError:
-            embed.add_field(name='Shards', value=1, inline=False)
+            embed.add_field(name='Shards', value=3, inline=False)
         embed.set_author(name=client.user.name, icon_url=client.user.avatar_url)
 
-        return await message.channel.send(message.channel, embed=embed)
+        return await message.channel.send("Find more detailed stats at: https://goo.gl/Jct6uL", embed=embed)
     else:
         await message.channel.send(message.channel, "Vinny Stats:\n`Servers: " + str(serverCount) + "\nChannels: " + str(channelCount)
                                   + "\nNumber of commands issued since last update: " + str(commandsCalled) +

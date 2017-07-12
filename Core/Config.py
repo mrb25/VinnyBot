@@ -38,7 +38,8 @@ async def help(message, client):
             lookFor = message.content.split(" ")[i]
             await message.author.send(lookFor + ": " + getCommand(lookFor))
     else:
-        await message.author.send(embed=defaultHelp(client))
+        await message.author.send("For more help or to give feedback join Vinny's discord server at:"
+                                  " https://discord.gg/XMwyzxZ", embed=defaultHelp(client))
 
 
 def getCommand(command):
