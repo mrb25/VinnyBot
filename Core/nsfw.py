@@ -6,7 +6,6 @@ import xml.etree.ElementTree
 channels = []
 
 async def postR34(message, client):
-    init()
     if not isEnabled(message):
         await message.channel.send("NSFW not authorized in this channel. To authorize an admin must"
                                                    "use the ~togglensfw command")
@@ -47,19 +46,17 @@ async def postR34(message, client):
 
 
 def isEnabled(message):
-    return message.channel.id in channels
+    return str(message.channel.id) in channels
 
 
 async def toggleChannel(message, client):
-    init()
-
-    if message.channel.id in channels:
-        channels.remove(message.channel.id)
+    if str(message.channel.id) in channels:
+        channels.remove(str(message.channel.id))
         writeChannels()
         await message.channel.send(":x: NSFW now disabled in this channel. :x:")
 
     else:
-        channels.append(message.channel.id)
+        channels.append(str(message.channel.id))
         writeChannels()
         await message.channel.send(":wink: NSFW now enabled in this channel. I don't judge :wink:")
 
@@ -70,7 +67,7 @@ def writeChannels():
                 f.write(str(id) + "\n")
 
 
-def init():
+def initNsfw():
     global channels
 
     if not os.path.exists("config"):
@@ -83,5 +80,4 @@ def init():
     if not channels:
         with open("config/nsfwLocks.txt", "r") as f:
             channels = f.readlines()
-            channels = [id.strip() for id in channels]
-
+            channels = [channel.strip() for channel in channels]

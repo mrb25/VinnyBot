@@ -13,3 +13,5 @@ def logCommand(message, client, command):
 
     statsd.increment('vinny.commandCalled')
     statsd.increment('vinny.' + command.split(' ')[0])
+    if command.split(' ')[0] is "r34":
+        statsd.increment('vinny.r34.' + command.split(' ')[0])

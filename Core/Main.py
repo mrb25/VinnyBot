@@ -1,7 +1,5 @@
-import discord
 from Parser import *
-from Logger import *
-from Config import *
+from nsfw import initNsfw
 
 initConfig()
 Token = getToken('Discord')
@@ -16,7 +14,9 @@ async def on_ready():
     print('------\n')
     await client.change_presence(game=discord.Game(name='~help for command list'))
     initCommandCount()
+    initNsfw()
     sendStatistics(client)
+
 
 
 @client.event
