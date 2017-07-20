@@ -3,7 +3,7 @@ A side project I have been working on for about 5 months now. In these 5 months 
 
 ## Usage
 To add Vinny to your own server go to: https://goo.gl/g1vWxS  
-I will be updating the wiki soon with all of his commands. 
+[Full list of commands](docs/commands.md)
 
 ## Support
 The best way to get help with Vinny is to go to his support Discord server: https://discord.gg/XMwyzxZ
