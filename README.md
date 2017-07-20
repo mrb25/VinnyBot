@@ -30,10 +30,10 @@ Right now this guide is only for the text module. If you have any problems feel 
 4. pip install -r requirements.txt
 5. Make a file Core/config/tokens.txt
 6. Make tokens.txt like so:  
-\*\*\*Discord\*\*\*  
-\<Discord bot Oauth2 Token\>  (You need to register a bot on https://discordapp.com/developers/applications/me)
+\*\*\*Discord\*\*\*   
+\<Discord bot Oauth2 Token\>  (You need to register a bot on https://discordapp.com/developers/applications/me)  
 \*\*\*Bot API\*\*\*  
-\<bots.discord.pw Token\> 
+\<bots.discord.pw Token\>   
 \*\*\*Bot ID\*\*\*  
 \<BotID\>  (This also comes from https://discordapp.com/developers/applications/me)
-7. Run Core/Main.py
+7. Run Core/Main.py  
