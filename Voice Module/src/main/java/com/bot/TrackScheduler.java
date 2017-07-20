@@ -73,6 +73,12 @@ public class TrackScheduler extends AudioEventAdapter{
 
     public void stopPlayer() {
         player.stopTrack();
+
+        //removes all items from queue before disconnecting
+        while (!queue.isEmpty()){
+            queue.poll();
+        }
+        nowPlaying = null;
     }
 
     public boolean isPlaying() {
@@ -109,5 +115,9 @@ public class TrackScheduler extends AudioEventAdapter{
 
     public int getNumQueuedTracks() {
         return queue.size();
+    }
+
+    public AudioTrack getNowPlaying() {
+        return nowPlaying;
     }
 }
