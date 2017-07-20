@@ -2,7 +2,7 @@
 A side project I have been working on for about 5 months now. In these 5 months Vinny has accumulated over 95,000 users across over 3,600 servers.
 
 ## Usage
-To add Vinny to your own server go to: https://discordapp.com/oauth2/authorize?client_id=276855867796881408&scope=bot&permissions=67628096  
+To add Vinny to your own server go to: https://goo.gl/g1vWxS  
 I will be updating the wiki soon with all of his commands. 
 
 ## Support
