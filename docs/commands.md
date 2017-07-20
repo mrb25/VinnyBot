@@ -1,4 +1,4 @@
-## MEME COMMANDS***
+## MEME COMMANDS
 ~shit -- Posts a random shitpost 
 ~harambe -- Posts a gorilla gif  
 ~lenny -- Lennyface?  
