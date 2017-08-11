@@ -10,6 +10,8 @@ from Stats import *
 from nsfw import *
 from Logger import *
 
+import sys
+
 
 async def parseCommand(message, client):
     try:
@@ -268,9 +270,10 @@ async def parseCommand(message, client):
                     await message.channel.send("No subreddit mentioned, please enter a subreddit")
                     return
                 try:
-                    await message.channel.send(random_hot_post(subreddit, 2, message.channel))
+                    await message.channel.send(random_hot_post(subreddit, 3, message))
                 except:
                     await message.channel.send("Oops. There was an error retriving a post :confounded:")
+                    print('Error with Top reddit command: ' + sys.exc_info()[0] + '\n')
                 commandCalled()
                 logCommand(message, client, message.content)
 
