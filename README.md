@@ -1,4 +1,7 @@
 ## VinnyBot
+[![Discord](https://img.shields.io/badge/Discord-Support-blue.svg)](https://discord.gg/XMwyzxZ)
+[![Build Status](https://travis-ci.org/JessWalters/VinnyBot.svg?branch=master)](https://travis-ci.org/bwmarrin/discordgo)
+
 A side project I have been working on for about 5 months now. In these 5 months Vinny has accumulated over 95,000 users across over 3,600 servers.
 
 ## Usage
