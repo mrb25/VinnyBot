@@ -1,11 +1,9 @@
 from Reddit import *
 from help import *
-from Config import *
 from Moderation import *
 from Giphy import *
 from Memes import *
 from Markov import *
-from WhoSaid import *
 from Stats import *
 from nsfw import *
 from Logger import *
@@ -302,6 +300,9 @@ async def parseCommand(message, client):
             await postR34(message, client)
             commandCalled()
             logCommand(message, client, message.content)
+
+        elif message.content.startswith('~pixiv '):
+            await pixivSearch(message, client)
 
         elif message.content.startswith("~togglensfw"):
             if message.channel.permissions_for(message.author).manage_channels:
