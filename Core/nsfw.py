@@ -1,9 +1,11 @@
 import urllib.request
 import os
 from random import randint
+from pixivpy3 import *
 import xml.etree.ElementTree
 
 channels = []
+pixivApi = AppPixivAPI()
 
 async def postR34(message, client):
     if not isEnabled(message):
@@ -43,6 +45,17 @@ async def postR34(message, client):
             except:
                 await message.channel.send("There was an error retrieving a post... :confounded: ")
                 return
+
+
+async def pixivSearch(message, client):
+    splitMes = message.content.split(" ")
+    if len(splitMes) <= 1:
+        await message.channel.send("You must supply at least one tag to search for")
+        return
+    tag = splitMes[1]
+    with message.channel.typing():
+        json_result = pixivApi.search_illust(tag, search_target='partial_match_for_tags', req_auth=False)
+        print(json_result)
 
 
 def isEnabled(message):

@@ -1,5 +1,8 @@
+from Config import getToken
+from Config import initConfig
 from Parser import *
 from nsfw import initNsfw
+
 
 initConfig()
 Token = getToken('Discord')

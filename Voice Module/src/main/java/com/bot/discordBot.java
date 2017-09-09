@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceLeaveEvent;
 import net.dv8tion.jda.core.events.guild.voice.GuildVoiceMoveEvent;
+import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
@@ -32,7 +33,7 @@ public class discordBot extends ListenerAdapter {
     private static String nickName;
     private static String avatarURL;
     private static final Color vinnyColor = new Color(0, 140, 186);
-    private static final int NUM_SHARDS = 3;
+    private static final int NUM_SHARDS = 5;
     private static ShardingManager shardingManager;
     private final AudioPlayerManager playerManager;
     private final HashMap<Long, ServerMusicManager> musicManagers;
@@ -486,8 +487,13 @@ public class discordBot extends ListenerAdapter {
                     if (!author.getUser().hasPrivateChannel()){
                         author.getUser().openPrivateChannel().queue();
                     }
-                    PrivateChannel p = author.getUser().getPrivateChannel();
-                    p.sendMessage("Closed audio search in channel: " + channel.getName() + ". Due to inactivity").queue();
+                    try {
+                        PrivateChannel p = author.getUser().openPrivateChannel().complete(true);
+                        p.sendMessage("Closed audio search in channel: " + channel.getName() + ". Due to inactivity").queue();
+                    } catch (RateLimitedException e) {
+                        e.printStackTrace();
+                    }
+
                     timer.cancel();
                     timer.purge();
                     if (!musicManagers.get(Long.parseLong(channel.getGuild().getId())).scheduler.isPlaying())
