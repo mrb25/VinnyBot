@@ -38,5 +38,7 @@ Right now this guide is only for the text module. If you have any problems feel 
 \*\*\*Bot API\*\*\*  
 \<bots.discord.pw Token\>   
 \*\*\*Bot ID\*\*\*  
-\<BotID\>  (This also comes from https://discordapp.com/developers/applications/me)
+\<BotID\>  (This also comes from https://discordapp.com/developers/applications/me)  
+\*\*\*Reddit\*\*\*  
+\<Reddit client secret toke\> (Retrieved from registering a bot with reddits API)
 7. Run Core/Main.py  
