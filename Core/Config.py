@@ -32,7 +32,7 @@ def initConfig():
                     command = line.split(' ')[0].replace('~', '')
                     commands[name][command] = line
 
-async def help(message, client):
+async def sendhelp(message, client):
     if len(message.content.split(" ")) > 1:
         for i in range(1, len(message.content.split(" "))):
             lookFor = message.content.split(" ")[i]

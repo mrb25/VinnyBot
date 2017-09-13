@@ -7,6 +7,7 @@ from Markov import *
 from Stats import *
 from nsfw import *
 from Logger import *
+from Config import *
 
 import sys
 
@@ -24,7 +25,7 @@ async def parseCommand(message, client):
             return
 
         elif message.content.startswith('~help'):
-            await help(message, client)
+            await sendhelp(message, client)
             commandCalled()
             logCommand(message, client, '~help')
 
