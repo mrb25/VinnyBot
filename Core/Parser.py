@@ -268,7 +268,7 @@ async def parseCommand(message, client):
                     await message.channel.send("No subreddit mentioned, please enter a subreddit")
                     return
                 try:
-                    await message.channel.send(random_hot_post(subreddit, 3, message))
+                    await message.channel.send(random_top_post(subreddit, message, 75))
                 except:
                     await message.channel.send("Oops. There was an error retriving a post :confounded:")
                     print('Error with Top reddit command: ' + sys.exc_info()[0] + '\n')
@@ -301,8 +301,8 @@ async def parseCommand(message, client):
             commandCalled()
             logCommand(message, client, message.content)
 
-        elif message.content.startswith('~pixiv '):
-            await pixivSearch(message, client)
+        # elif message.content.startswith('~pixiv '):
+        #    await pixivSearch(message, client)
 
         elif message.content.startswith("~togglensfw"):
             if message.channel.permissions_for(message.author).manage_channels:
