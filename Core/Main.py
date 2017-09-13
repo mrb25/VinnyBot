@@ -2,6 +2,7 @@ from Config import getToken
 from Config import initConfig
 from Parser import *
 from nsfw import initNsfw
+from Reddit import initReddit
 
 
 initConfig()
@@ -18,6 +19,7 @@ async def on_ready():
     await client.change_presence(game=discord.Game(name='~help for command list'))
     initCommandCount()
     initNsfw()
+    initReddit()
     sendStatistics(client)
 
 

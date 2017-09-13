@@ -17,7 +17,7 @@
 
 ***REDDIT COMMANDS***
 ~rr *subreddit* -- Gives random HOT post from given subreddit
-~tr *subreddit* -- Top HOT post from subreddit right now
+~tr *subreddit* -- Gives random top of all time post from subreddit
 ~cosplay *search_terms* -- Searches for a cosplay meeting the search terms.
 ~cosplaygirls *search_terms* -- Searches for a girl cosplay using the search terms
 

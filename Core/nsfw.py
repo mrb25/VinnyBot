@@ -17,10 +17,10 @@ async def postR34(message, client):
     with message.channel.typing():
 
         if "fur" not in tags or "furry" not in tags or "yiff" not in tags or "anthro" not in tags:
-            search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={}".format(tags) +\
+            search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=200&tags={}".format(tags) +\
                      " -fur -furry -yiff -anthro -canine -mammal -wolf"
         else:
-            search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=100&tags={}".format(tags)
+            search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=200&tags={}".format(tags)
     
         try:
             xmlFile = urllib.request.urlopen(search)
@@ -34,7 +34,10 @@ async def postR34(message, client):
     
         for post in root.findall('post'):
             if "furaffinity" not in post.get('source'):
-                picUrls.append('http:' + post.get('file_url'))
+                if 'http' not in post.get('file_url'):
+                    picUrls.append('http:' + post.get('file_url'))
+                else:
+                    picUrls.append(post.get('file_url'))
     
         if len(picUrls) == 0:
             await message.channel.send("No results, try searching something less retarded next time!")
