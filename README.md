@@ -2,7 +2,7 @@
 [![Discord](https://img.shields.io/badge/Discord-Support-blue.svg)](https://discord.gg/XMwyzxZ)
 [![Build Status](https://travis-ci.org/JessWalters/VinnyBot.svg?branch=master)](https://travis-ci.org/bwmarrin/discordgo)
 
-A side project I have been working on for about 5 months now. In these 5 months Vinny has accumulated over 110,000 users across over 4,300 servers.
+A side project I have been working on for about 5 months now. In these 5 months Vinny has accumulated over 131,000 users across over 5,150 servers. The codebase is currently undergoing a major redesign and refactor. This is to increase readability for other devs and maintainability. This started as a small hackathon project and the core was not written for a bot of this scale. 
 
 ## Usage
 ### To add Vinny to your own server go to: https://goo.gl/g1vWxS  
