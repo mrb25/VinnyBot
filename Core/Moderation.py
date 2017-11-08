@@ -4,7 +4,6 @@ async def prune(message, client):
     params = message.content.split(' ')
     phrases = []
     num = None
-
     for param in params:
         if param.startswith('"'):
             phrases.append(param[1:-1])
@@ -20,8 +19,13 @@ async def prune(message, client):
                                                    "enter a number 500 or less.")
         return
     elif len(params) == 2:
-        await message.channel.purge(limit=num)
-        await message.channel.send("Pruning the last `" + str(num) + "` messages.")
+        try:
+            await message.channel.purge(limit=num)
+            await message.channel.send("Pruning the last `" + str(num) + "` messages.")
+        except Exception as e:
+            await message.channel.send(":x: Error pruning channel. :x: \n Error: `" + str(e) + "`")
+            print("ERROR Occured on channel: " + message.channel.name + " user: " + message.author.name + str(e))
+
     elif len(message.mentions) != 0:
         if len(phrases) == 0:
             await pruneUsers(message, client, num)
