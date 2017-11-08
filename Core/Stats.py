@@ -32,7 +32,7 @@ async def getStats(message, client):
         try:
             embed.add_field(name='Shards', value=str(len(client.shard_ids)), inline=False)
         except TypeError:
-            embed.add_field(name='Shards', value=3, inline=False)
+            embed.add_field(name='Shards', value=5, inline=False)
         embed.set_author(name=client.user.name, icon_url=client.user.avatar_url)
 
         return await message.channel.send("Find more detailed stats at: https://goo.gl/Jct6uL", embed=embed)
