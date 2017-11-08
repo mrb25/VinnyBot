@@ -29,7 +29,6 @@ async def getStats(message, client):
                         inline=True)
         embed.add_field(name='Channels', value=channelCount, inline=True)
         embed.add_field(name='Users', value=len(members), inline=True)
-        embed.add_field(name='Commands Called', value=commandsCalled, inline=True)
         try:
             embed.add_field(name='Shards', value=str(len(client.shard_ids)), inline=False)
         except TypeError:
@@ -39,19 +38,7 @@ async def getStats(message, client):
         return await message.channel.send("Find more detailed stats at: https://goo.gl/Jct6uL", embed=embed)
     else:
         await message.channel.send(message.channel, "Vinny Stats:\n`Servers: " + str(serverCount) + "\nChannels: " + str(channelCount)
-                                  + "\nNumber of commands issued since last update: " + str(commandsCalled) +
-                                  "`")
-
-
-def commandCalled():
-    global commandsCalled
-    commandsCalled += 1
-
-def initCommandCount():
-    global commandsCalled
-    for filename in glob.glob(os.path.join('logs', '*.txt')):
-        with open(filename, 'r') as f:
-            commandsCalled += sum(1 for _ in f)
+                                  + "\n`")
 
 
 def sendStatistics(client):
