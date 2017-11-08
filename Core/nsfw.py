@@ -21,7 +21,7 @@ async def postR34(message, client):
                      " -fur -furry -yiff -anthro -canine -mammal -wolf"
         else:
             search = "http://rule34.xxx/index.php?page=dapi&s=post&q=index&limit=200&tags={}".format(tags)
-    
+
         try:
             xmlFile = urllib.request.urlopen(search)
         except:
@@ -79,8 +79,8 @@ async def toggleChannel(message, client):
 
 def writeChannels():
     with open("config/nsfwLocks.txt", "w") as f:
-            for id in channels:
-                f.write(str(id) + "\n")
+            for channelId in channels:
+                f.write(str(channelId) + "\n")
 
 
 def initNsfw():
