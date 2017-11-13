@@ -19,3 +19,13 @@ async def giphy(message, client):
                 await message.channel.send("No results returned :cry:")
         except UnicodeEncodeError:
             await message.channel.send("Error attempting to send giphy search. (Does the search have wierd characters or formatting?)")
+
+# Opens the page of some guy's heroku app using user input
+async def ascii(message, client):
+    text = message.content[7:].replace(' ', '+')
+    with urllib.request.urlopen('https://artii.herokuapp.com/make?text=' + text) as response:
+        html = response.read()
+        encoding = response.headers.get_content_charset('utf-8')
+        html_text = html.decode(encoding)
+        html_text = "```" + html_text + "```"  # Adds block quotes around the ascii text for cleanliness
+        await message.channel.send(html_text)

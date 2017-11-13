@@ -170,6 +170,10 @@ async def parseCommand(message, client):
             await feels(message, client)
             logCommand(message, client, '~feels')
 
+        elif message.content.startswith('~ascii'):
+            await ascii(message, client)
+            logCommand(message, client, '~ascii')
+
         elif message.content.startswith('~harambe'):
             await harambe(message, client)
             logCommand(message, client, '~harambe')
