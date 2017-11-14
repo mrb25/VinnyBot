@@ -20,12 +20,11 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.AudioManager;
 
 /**
- * Created by Jess Walter on 3/28/2017.
+ * Created by Jess on 3/28/2017.
  */
 
 import java.awt.*;
 import java.util.*;
-import java.lang.Math;
 
 import static com.bot.TrackScheduler.MAX_QUEUE_SIZE;
 
