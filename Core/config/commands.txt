@@ -14,6 +14,7 @@
 ~giphy *search terms* -- Searches giphy for a gif or webm matching your search
 ~8ball -- Get a response from the magic 8 ball
 ~roll *range* -- Gives a random number from 0 - range (default 10)
+~ascii *text* -- Returns a more obnoxious version of the input text in ascii art
 
 ***REDDIT COMMANDS***
 ~rr *subreddit* -- Gives random HOT post from given subreddit
