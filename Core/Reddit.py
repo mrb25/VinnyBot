@@ -9,7 +9,7 @@ from nsfw import isEnabled
 
 def initReddit():
     global r
-    r = praw.Reddit(user_agent='Discord Bot', client_id='byorb8K1SwaO1g', client_secret=getToken('Reddit'))
+    r = praw.Reddit(user_agent='Discord Bot', client_id='w6_2TjkkWSYcgA', client_secret=getToken('Reddit'))
 
 def random_hot_post(subreddit, limit, message):
 
@@ -40,7 +40,10 @@ def random_hot_post(subreddit, limit, message):
 
     try:
         linked_post = r.submission(url=random_page.url)
-        return linked_post.title + "\n" + linked_post.url
+        try:
+            return linked_post.title + "\n\n" + linked_post.selftext
+        except:
+            return linked_post.title + "\n" + linked_post.url
     except:
         return random_page.title + "\n" + random_page.url
 
@@ -133,6 +136,9 @@ def random_top_post(subreddit, message, limit):
 
     try:
         linked_post = r.submission(url=random_page.url)
-        return linked_post.title + "\n" + linked_post.url
+        try:
+            return linked_post.title + "\n\n" + linked_post.selftext
+        except:
+            return linked_post.title + "\n" + linked_post.url
     except:
         return random_page.title + "\n" + random_page.url
