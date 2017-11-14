@@ -41,7 +41,8 @@ def random_hot_post(subreddit, limit, message):
     try:
         linked_post = r.submission(url=random_page.url)
         try:
-            return linked_post.title + "\n\n" + linked_post.selftext
+            text = linked_post.title + "\n\n" + linked_post.selftext
+            return text[0:2000]
         except:
             return linked_post.title + "\n" + linked_post.url
     except:
@@ -137,7 +138,8 @@ def random_top_post(subreddit, message, limit):
     try:
         linked_post = r.submission(url=random_page.url)
         try:
-            return linked_post.title + "\n\n" + linked_post.selftext
+            text = linked_post.title + "\n\n" + linked_post.selftext
+            return text[0:2000]
         except:
             return linked_post.title + "\n" + linked_post.url
     except:
