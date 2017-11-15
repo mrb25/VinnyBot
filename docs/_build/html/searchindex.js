@@ -1,0 +1,1 @@
+Search.setIndex({docnames:["index"],envversion:50,filenames:["index.rst"],objects:{},objnames:{},objtypes:{},terms:{check:0,com:0,github:0,http:0,index:0,jesswalt:0,modul:0,page:0,search:0},titles:["Welcome to VinnyBot&#8217;s documentation!"],titleterms:{document:0,indic:0,tabl:0,vinnybot:0,welcom:0}})
