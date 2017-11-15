@@ -15,4 +15,12 @@ Welcome to VinnyBot's documentation!
 VinnyBot
 ==============
 
-A Discord bot for memes and voice commands.
+Vinny is an under development discord bot created by Kikkia. Since Vinny is under current developmentVinny may rarely crash or drop offline for short periods of time as I find/fix bugs and add features. Vinny offers a wide set of features for any discord server. Including Music, Memes, Comment generation, and Much more. For a full list type '~help' in a channel vinny is in. Vinny uses the Discord.py framework, as well as voice with JDA and lavaplayer.
+
+Vinny Server
+--------------------
+Vinny has his own discord server where you can suggest features, report bugs, or just talk with other users and developers of vinny. Invite Link: https://discord.gg/XMwyzxZ
+
+Invite Vinny
+------------------
+To invite Vinny to your server go to: https://discordapp.com/oauth2/authorize?client_id=276855867796881408&scope=bot&permissions=67628096

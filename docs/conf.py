@@ -156,6 +156,3 @@ texinfo_documents = [
      author, 'VinnyBot', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-
