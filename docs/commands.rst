@@ -3,7 +3,7 @@ Vinny Commands
 
 Meme Commands
 -------------------------------
-*nice meme*
+*Nice meme*
 
 * ~shit -- Posts a random shitpost
 * ~harambe -- Posts a gorilla gif
