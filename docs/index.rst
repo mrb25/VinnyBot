@@ -11,6 +11,7 @@ Welcome to VinnyBot's documentation!
 
     about
     commands
+    documentation
 
 VinnyBot
 ==============
