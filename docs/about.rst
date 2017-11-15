@@ -7,6 +7,7 @@ A side project I have been working on for about 5 months now. In these 5 months 
 Usage
 -----------------
 **To add Vinny to your own server go to: https://goo.gl/g1vWxS**
+
 Full list of commands: `commands`
 
 Support

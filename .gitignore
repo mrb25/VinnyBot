@@ -8,5 +8,5 @@ logs/
 .imp
 
 #Readthedocs built stuffs
-docs/_build
-docs/_static
+docs/_build/
+docs/_static/
