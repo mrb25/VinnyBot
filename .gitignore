@@ -6,3 +6,7 @@ config/
 logs/
 .idea
 .imp
+
+#Readthedocs built stuffs
+docs/_build/
+docs/_static/
