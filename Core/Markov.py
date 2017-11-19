@@ -30,7 +30,7 @@ async def generateMarkovComment(message, client):
 
         for channel in message.guild.channels:
             if message.mentions[0].permissions_in(channel).send_messages:
-                if channel.permissions_for(message.guild.me).read_messages:
+                if channel.permissions_for(message.guild.me).read_messages and channel.permissions_for(message.guild.me).send_messages:
                     try:
                         if channel.is_nsfw() or not channel.is_nsfw():
                             usableChannels.append(channel)
