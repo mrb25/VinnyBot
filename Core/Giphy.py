@@ -25,8 +25,12 @@ async def giphy(message, client):
 # Credit: mrb25
 async def ascii(message, client):
     try:
-        f = Figlet(font='slant')
-        print(f.renderText(message))
-        return f.renderText(message)
+        f = Figlet()
+        toreturn = f.renderText((message.content[7:]))
+        if toreturn.strip() is "":  # So that it doesn't just return "``````"
+            await message.channel.send(":x: Error getting ascii. This message is either empty or contains only unicode. :x:")
+        else:
+            toreturn = "```" + toreturn + "```"
+            await message.channel.send(toreturn)
     except:
-        await message.channel.send(':x: Error getting ascii. The message is probably too long :x:')
+        await message.channel.send(":x: Error getting ascii. The message is probably too long :x:")
