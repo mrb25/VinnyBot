@@ -40,11 +40,13 @@ async def generateMarkovComment(message, client):
         print('Comment for ' + message.mentions[0].name + ' requested by ' + message.author.name + ' in Server: '
               + message.guild.name + ' in channel: ' + message.channel.name)
         currentCommentsArr.append(message.author.id)
+        print(usableChannels)
         with message.channel.typing():
             tmp = await message.channel.send('Downloading messages...')
 
             await updateLoading(message, client, tmp, channelCounter, usableChannels)
             for channel in usableChannels:
+                print(channel)
                 if message.mentions[0].permissions_in(channel).send_messages:
                     async for log in channel.history(limit=3500):
                         # Checks for messages from the mentioned user
