@@ -33,7 +33,8 @@ async def generateMarkovComment(message, client):
                 if channel.permissions_for(message.guild.me).read_messages and channel.permissions_for(message.guild.me).send_messages:
                     try:
                         if channel.is_nsfw() or not channel.is_nsfw():
-                            usableChannels.append(channel)
+                            if not isinstance(channel, discord.CategoryChannel):
+                                usableChannels.append(channel)
                     except AttributeError:
                         continue
 
