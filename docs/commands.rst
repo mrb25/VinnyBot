@@ -44,8 +44,10 @@ Moderation Commands
 * ~prune @user \"example\" *num* -- Removes the messages from the last *num* messages from user containing \"example\". Mentioning users and defining text are both optional and can be used for as many users or phrases as needed in a single prune command.
 * ~kick @username -- Kicks all mentioned users
 * ~whois @username -- Gives info about a user
-* ~whohas @role -- Gives list of all users with this role
 
+.. image:: /media/~whois.PNG
+
+* ~whohas @role -- Gives list of all users with this role
 
 Voice Commands
 ------------------------------------
