@@ -4,11 +4,11 @@ Vinny Examples
 Meme Commands
 -------------------------------
 
-* ~shit -- Posts a random shitpost
+~shit -- Posts a random shitpost from /r/shitpost
 
 .. image:: /media/~shit.PNG
 
-* ~lenny -- Lennyface?
+~lenny
 
 ::
 
@@ -23,7 +23,7 @@ Meme Commands
   ──█──────────▀▄───────────▄▀───────█
   ───█───────────▀▄▄▄▄▄▄▄▄▄▀────────█
 
-* ~hammer -- Vinny brings down the ban hammer
+~hammer
 
 ::
 
@@ -36,7 +36,7 @@ Meme Commands
   ░░░░██████░█▄▄▀░█░░█░█░▀█░
   ░░░░░▀▀▀▀░░░░░░░░░░░░░░░░░
 
-* ~doggo -- Doggo or pupper? You decide
+~doggo
 
 ::
 
@@ -51,7 +51,7 @@ Meme Commands
   ┈┈┈┈╲╱╲╱┈┈┈┈╲╲▂╲▂┈┈┈┈┈
   ┈┈┈┈┈┈┈┈┈┈┈┈┈╲╱╲╱┈┈┈┈┈
 
-* ~hitler -- ASCII hitler...
+~hitler
 
 ::
 
@@ -70,7 +70,7 @@ Meme Commands
   ░░████▄▄▄▄▓▓▓▒▒░░▐░░
   ░░░▀██████▓▒▒▒▒▒░▐░
 
-* ~mario -- ASCII Mario
+~mario
 
 ::
 
@@ -89,7 +89,7 @@ Meme Commands
   ▒▒█▓▓██▀▀▀▒▒▒▀▄▄█▀▒▒
   ▒▒▒▀▀▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
 
-* ~megaman -- ASCII Megaman
+~megaman
 
 ::
 
@@ -105,7 +105,7 @@ Meme Commands
   ░▀▀▀▀█▄▄▀░██████▄░░░░
   ░░░░░░░░░█████████░░░░
 
-* ~salt -- Salty?
+~salt
 
 ::
 
@@ -123,7 +123,7 @@ Meme Commands
   ▒▒░░░░░▀▀▀▀▀▀▒▒▒▒▒▒▒▒▒
   ▒▒▒░░░░░░░░▒▒
 
-* ~feels -- Feels bad man
+~feels
 
 ::
 
@@ -149,7 +149,7 @@ Meme Commands
   ─▄▀░░░▄▀░░░░░░░░▀▀▀▀█▀
   ▀░░░▄▀░░░░░░░░░░▀░░░▀▀▀▀▄▄▄▄▄
 
-* ~pikachu -- Pika Pika
+~pikachu
 
 ::
 
@@ -163,7 +163,7 @@ Meme Commands
   ░░░█░░░▀▄░░░░░░░▄▀░░░░█▀▀▀
   ░░░░▀▄░░▀░░▀▀▀░░▀░░░▄█▀
 
-* ~ayy -- Lmao
+~ayy
 
 ::
 
@@ -184,13 +184,13 @@ Meme Commands
     █░░░█░░█░░░░█░░░░█░░░█░░█░░█░█░░░█░█░░░█
     ▀░░░▀░░▀░░░░▀░░░░▀▀▀░░░░░░░░░▀░░░▀░▀▄▄▄▀﻿
 
-* ~8ball -- Get a response from the magic 8 ball
+~8ball
 
 .. image:: /media/~8ball.PNG
 
 Reddit Commands
 -------------------------------
-* ~rr (and ~tr) *subreddit* -- Gives random HOT post from given subreddit
+~rr (and ~tr)
 
 picture:
 
@@ -202,59 +202,56 @@ text:
 
 Comment Commands
 ---------------------------------------
-*Pretend to be someone else*
-
-* ~comment @user or #channel -- Generates a unique comment based on the user/channel post history (Experimental)
+~comment @Vinny
 
 .. image:: /media/~comment.PNG
 
-* ~ryzen -- Hey did you hear about Ryzen?
+~ryzen
 
 .. image:: /media/~ryzen.PNG
 
 Moderation Commands
 ----------------------------------------
-*Squire, get the banhammer*
+~prune
 
-* ~prune @user \"example\" *num* -- Removes the messages from the last *num* messages from user containing \"example\". Mentioning users and defining text are both optional and can be used for as many users or phrases as needed in a single prune command.
-* ~kick @username -- Kicks all mentioned users
-* ~whois @username -- Gives info about a user
+This command will yeild...
+
+.. image:: /media/~prune.PNG
+
+This result
+
+.. image:: /media/~prune2.PNG
+
+~kick @kickmeplz
+
+.. image:: /media/~kick.PNG
+
+~whois @Vinny
 
 .. image:: /media/~whois.PNG
 
-* ~whohas @role -- Gives list of all users with this role
+~whohas
 
 .. image:: /media/~whohas.PNG
 
-Voice Commands
-------------------------------------
-*Hello?*
-
-* ~play *URL* -- Plays audio in your channel (Youtube, Soundcloud, Twitch, etc)
-* ~search *tags* -- Searches youtube and gives a list of videos to choose from
-* ~cancel -- Cancels a search request
-* ~playlist -- Gets the playlist of currently playing music
-* ~skip -- Skips the current song
-* ~leave -- Makes Vinny leave your voice channel
-* ~stop -- If an audio stream is playing in your server it stops it
-* ~pause -- Pauses current audio stream
-* ~resume -- Resumes audio stream when paused
-* ~volume -- Set voice volume (Between 0 and 150)
-* ~voicestats -- Gives info about current audio streams
-
 NSFW Commands
 ------------------------------
-*Not for kids*
-
-* ~togglensfw -- Toggles the 'NSFW lock' on a channel (Admins only)
-* ~nsfw -- Tells whether or not nsfw is enabled on a given channel
-* ~r34 *search_terms* -- Rule 34 (Multi word tags use _)
+( ͡° ͜ʖ ͡°)
 
 Vinny Commands
 ----------------------------------
-*beep boop*
+~stats
 
-* ~stats -- Gives stats about Vinny
-* ~info -- Gives info about Vinny
-* ~invite -- Gives the link to invite Vinny to a server
-* ~help -- Gives a command list
+.. image:: /media/~stats.PNG
+
+~info
+
+.. image:: /media/~info.PNG
+
+~invite
+
+.. image:: /media/~invite.PNG
+
+~help -- PM'd to whomever sent the command
+
+.. image:: /media/~help.PNG
