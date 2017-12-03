@@ -26,11 +26,9 @@ async def giphy(message, client):
 async def ascii(message, client):
     try:
         f = Figlet()
-        toreturn = f.renderText((message.content[7:]))
+        toreturn = f.renderText((message.clean_content[7:]))
         if toreturn.strip() is "":  # So that it doesn't just return "``````"
             await message.channel.send(":x: Error getting ascii. This message is either empty or contains only unicode. :x:")
-        elif "@" in message.content:
-            await message.channel.send(":x: Ascii command cannot handle mentions. :x:")
         else:
             toreturn = "```" + toreturn + "```"
             await message.channel.send(toreturn)
