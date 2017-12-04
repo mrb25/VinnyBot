@@ -41,7 +41,7 @@ Right now this guide is only for the text module. If you have any problems feel 
 5. Make a file Core/config/tokens.txt
 6. Make tokens.txt like so:
     \*\*\*Discord\*\*\*
-    \<Discord bot Oauth2 Token\>  (You need to register a bot with Discord `here <https://discordapp.com/developers/applications/me>`_)
+    \<Discord bot Oauth2 Token\>  (You need to `register a bot with Discord here <https://discordapp.com/developers/applications/me>`_)
     \*\*\*Bot API\*\*\*
     \<bots.discord.pw Token\>
     \*\*\*Bot ID\*\*\*
