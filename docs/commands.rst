@@ -1,3 +1,5 @@
+.. List of all Vinny Commands. Created by mrb25 on 11/15
+
 Vinny Commands
 ================
 

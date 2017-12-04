@@ -2,11 +2,11 @@
 
 About VinnyBot
 ===============
-A side project I have been working on for about 5 months now. In these 5 months Vinny has accumulated over 131,000 users across over 5,150 servers. The codebase is currently undergoing a major redesign and refactor. This is to increase readability for other devs and maintainability. This started as a small hackathon project and the core was not written for a bot of this scale.
+A side project I have been working on for about 6 months now. In these 6 months Vinny has accumulated over 153,000 users across over 7,000 servers. The codebase is currently undergoing a major redesign and refactor. This is to increase readability for other devs and maintainability. This started as a small hackathon project and the core was not written for a bot of this scale.
 
 Usage
 -----------------
-**To add Vinny to your own server go to: https://goo.gl/g1vWxS**
+**To add Vinny to your own server go** `here <https://goo.gl/g1vWxS>`_
 
 Full list of commands: `commands`
 
@@ -41,11 +41,11 @@ Right now this guide is only for the text module. If you have any problems feel 
 5. Make a file Core/config/tokens.txt
 6. Make tokens.txt like so:
     \*\*\*Discord\*\*\*
-    \<Discord bot Oauth2 Token\>  (You need to register a bot on https://discordapp.com/developers/applications/me)
+    \<Discord bot Oauth2 Token\>  (You need to register a bot with Discord `here <https://discordapp.com/developers/applications/me>`_)
     \*\*\*Bot API\*\*\*
     \<bots.discord.pw Token\>
     \*\*\*Bot ID\*\*\*
-    \<BotID\>  (This also comes from https://discordapp.com/developers/applications/me)
+    \<BotID\>  (This also comes from the same link as above)
     \*\*\*Reddit\*\*\*
     \<Reddit client secret token\> (Retrieved from registering a bot with reddit's API)
 7. Run Core/Main.py
