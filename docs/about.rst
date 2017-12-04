@@ -12,7 +12,7 @@ Full list of commands: `commands`
 
 Support
 ----------------
-The best way to get help with Vinny is to go to his support Discord server: https://discord.gg/XMwyzxZ
+The best way to get help with Vinny is to go to his `support Discord server <https://discord.gg/XMwyzxZ>`_
 
 Usage of code
 ----------------------
@@ -20,8 +20,8 @@ Vinny is completly open-source under the MIT License. Feel free to use and modif
 
 Contributing
 --------------------------
-If you want to help by suggesting a feature or update to Vinny the best way is to reach out to me. Either on Vinny's support sever or by making an issue on this repo.
-Check it on GitHub: https://github.com/JessWalters/VinnyBot
+If you want to help by suggesting a feature or update to Vinny the best way is to reach out to me. Either on Vinny's support sever or by making an issue on his repo.
+Check it on `GitHub <https://github.com/JessWalters/VinnyBot>`_
 
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`

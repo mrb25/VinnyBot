@@ -21,8 +21,8 @@ Vinny is an under development discord bot created by Kikkia. Since Vinny is unde
 
 Vinny Server
 --------------------
-Vinny has his own discord server where you can suggest features, report bugs, or just talk with other users and developers of vinny. Invite Link: https://discord.gg/XMwyzxZ
+Vinny has his own discord server where you can suggest features, report bugs, or just talk with other users and developers of vinny. `Invite Link <https://discord.gg/XMwyzxZ>`_
 
 Invite Vinny
 ------------------
-To invite Vinny to your server go to: https://discordapp.com/oauth2/authorize?client_id=276855867796881408&scope=bot&permissions=67628096
+To invite Vinny to your server go `here <https://discordapp.com/oauth2/authorize?client_id=276855867796881408&scope=bot&permissions=67628096>`_

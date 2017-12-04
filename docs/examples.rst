@@ -1,12 +1,15 @@
 Vinny Examples
 ================
 
-Meme Commands
+.. _Meme_Examples:
+
+Meme Examples
 -------------------------------
 
 ~shit -- Posts a random shitpost from /r/shitpost
 
 .. image:: /media/~shit.PNG
+
 
 ~lenny
 
@@ -188,7 +191,9 @@ Meme Commands
 
 .. image:: /media/~8ball.PNG
 
-Reddit Commands
+.. _Reddit_Examples:
+
+Reddit Examples
 -------------------------------
 ~rr (and ~tr)
 
@@ -200,7 +205,9 @@ text:
 
 .. image:: /media/~rr_text.PNG
 
-Comment Commands
+.. _Comment_examples:
+
+Comment Examples
 ---------------------------------------
 ~comment @Vinny
 
@@ -210,7 +217,9 @@ Comment Commands
 
 .. image:: /media/~ryzen.PNG
 
-Moderation Commands
+.. _Moderation_Examples:
+
+Moderation Examples
 ----------------------------------------
 ~prune
 
@@ -234,11 +243,15 @@ This result
 
 .. image:: /media/~whohas.PNG
 
-NSFW Commands
+.. _NSFW_Examples:
+
+NSFW Examples
 ------------------------------
 ( ͡° ͜ʖ ͡°)
 
-Vinny Commands
+.. _Vinny_Examples:
+
+Vinny Examples
 ----------------------------------
 ~stats
 
