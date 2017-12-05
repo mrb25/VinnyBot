@@ -8,15 +8,19 @@ async def nowPlaying(message, client):
     members = server.members
     gamelist = []
     for member in members:
-        if member.game is not None:
+        if member.game is not None and not member.bot:
             gamelist.append(member.game.name)
-    if gamelist is None:
+    if not gamelist:  # if list is empty
         await message.channel.send("No one appears to be playing anything... :thinking:")
+        return
     # Creates dictionary where word is the game and definition is # of people playing
     countedgames = {i: gamelist.count(i) for i in gamelist}
     # Sorts dict by # of people playing
     sortedgames = sorted(countedgames.items(), key=operator.itemgetter(1))
-    print(str(sortedgames))
+    finalstring = "Games being played by members now: \n"
+    for (game, players) in sortedgames:
+        finalstring += game + ": " + str(players) + "\n"
+    await message.channel.send(finalstring)
 
 async def battle(message, client):
     # Get the people that are fighting & initial error finding
