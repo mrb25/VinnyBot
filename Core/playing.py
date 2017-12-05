@@ -58,7 +58,7 @@ async def battle(message, client):
         defender = user1
 
     # Someday the great spaghetti code monster will be summoned and reap all our lives, And I will be a bit at fault.
-    flipthis = true  # To keep users' HP on the same side each time
+    flipthis = True  # To keep users' HP on the same side each time
 
     while attacker_health > 0 and defender_health > 0:
         time.sleep(2)  # Damn humans need time to read
@@ -85,6 +85,9 @@ async def battle(message, client):
         if flipthis:
             battlerecord += "\n" + defender.name + ": " + str(defender_health) + " | " + \
                             attacker.name + ": " + str(attacker_health)
+        else:
+            battlerecord += "\n" + attacker.name + ": " + str(attacker_health) + " | " + \
+                            defender.name + ": " + str(defender_health)
         await message.channel.send(battlerecord)
 
         # Switch attacker <-> defender
