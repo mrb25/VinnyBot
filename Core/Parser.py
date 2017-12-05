@@ -283,6 +283,10 @@ async def parseCommand(message, client):
             await nowPlaying(message, client)
             logCommand(message, client, '~nowplaying')
 
+        elif message.content.startswith('~battle'):
+            await battle(message, client)
+            logCommand(message, client, '~battle')
+
 
     # else:
     #     if message.content.startswith('~help'):
