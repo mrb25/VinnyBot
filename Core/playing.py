@@ -1,5 +1,7 @@
 import discord
 import operator
+import time
+from random import randint
 
 async def nowPlaying(message, client):
     server = message.guild
@@ -33,3 +35,51 @@ async def battle(message, client):
         return
     print(user1.name + ", " + user2.name)
     await message.channel.send(user1.name + " and " + user2.name + " are battling!")
+
+    # players are given weapons randomly
+    weapons = ["axe", "bow", "sword", "wits"]
+    user1_weapon = weapons[randint(0, 3)]
+    user2_weapon = weapons[randint(0, 3)]
+    await message.channel.send(user1.name + " weilds their " + user1_weapon + ", while " + user2.name +
+                               " takes in their trusty " + user2_weapon + ".")
+
+    # initilize health and begin battle loop
+    attacker_health = 100
+    defender_health = 100
+    if randint(0, 1) is 0:
+        attacker = user1
+        defender = user2
+    else:
+        attacker = user2
+        defender = user1
+    while attacker_health > 0 and defender_health > 0:
+        roll = randint(1, 20)
+        if roll is 1:
+            attacker_health -= 10
+            if attacker_health < 0:
+                attacker_health = 0
+            await message.channel.send("Critical fail! " + attacker.name + " hurts themself for 10!")
+        if roll is 20:
+            defender_health -= 40
+            if defender_health < 0:
+                defender_health = 0
+            await message.channel.send("Critical hit! " + attacker.name + " hits " + defender.name + " for 40!")
+        else:
+            hit = roll + 10
+            defender_health -= hit
+            if defender_health < 0:
+                defender_health = 0
+            await message.channel.send(attacker.name + " strikes " + defender.name + " for " + str(hit) +
+                                       "\n" + attacker.name + ": " + str(attacker_health) + " | " +
+                                       defender.name + ": " + str(defender_health))
+        time.sleep(2)
+
+        # Switch attacker <-> defender
+        temp = attacker
+        attacker = defender
+        defender = temp
+
+        # Switch health for each player
+        temp = attacker_health
+        attacker_health = defender_health
+        defender_health = temp
