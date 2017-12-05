@@ -33,11 +33,10 @@ async def battle(message, client):
     if user1 is user2:  # If user mentions themself or the same person twice
         await message.channel.send("You'll have to fight your inner demons on your own...")
         return
-    print(user1.name + ", " + user2.name)
     await message.channel.send(user1.name + " and " + user2.name + " are battling!")
 
     # players are given weapons randomly
-    weapons = ["axe", "bow", "sword", "wits"]
+    weapons = ["dagger :dagger:", "bow :bow_and_arrow:", "sword :crossed_swords:", "wits :thinking:"]
     user1_weapon = weapons[randint(0, 3)]
     user2_weapon = weapons[randint(0, 3)]
     await message.channel.send(user1.name + " weilds their " + user1_weapon + ", while " + user2.name +
@@ -52,27 +51,50 @@ async def battle(message, client):
     else:
         attacker = user2
         defender = user1
+
+    # Someday the great spaghetti code monster will be summoned and reap all our lives, And I will be a bit at fault.
+    flipthis = 0  # To keep users' HP on the same side each time
+
     while attacker_health > 0 and defender_health > 0:
+        time.sleep(2)  # Damn humans need time to read
         roll = randint(1, 20)
         if roll is 1:
             attacker_health -= 10
             if attacker_health < 0:
                 attacker_health = 0
-            await message.channel.send("Critical fail! " + attacker.name + " hurts themself for 10!")
+            if flipthis is 1:
+                await message.channel.send("Critical fail! " + attacker.name + " hurts themself for 10!" +
+                                           "\n" + defender.name + ": " + str(defender_health) + " | " +
+                                           attacker.name + ": " + str(attacker_health))
+            else:
+                await message.channel.send("Critical fail! " + attacker.name + " hurts themself for 10!" +
+                                           "\n" + attacker.name + ": " + str(attacker_health) + " | " +
+                                           defender.name + ": " + str(defender_health))
         if roll is 20:
             defender_health -= 40
             if defender_health < 0:
                 defender_health = 0
-            await message.channel.send("Critical hit! " + attacker.name + " hits " + defender.name + " for 40!")
+            if flipthis is 1:
+                await message.channel.send("Critical hit! " + attacker.name + " hits " + defender.name + " for 40!" +
+                                           "\n" + attacker.name + ": " + str(attacker_health) + " | " +
+                                           defender.name + ": " + str(defender_health))
+            else:
+                await message.channel.send("Critical hit! " + attacker.name + " hits " + defender.name + " for 40!" +
+                                           "\n" + attacker.name + ": " + str(attacker_health) + " | " +
+                                           defender.name + ": " + str(defender_health))
         else:
             hit = roll + 10
             defender_health -= hit
             if defender_health < 0:
                 defender_health = 0
-            await message.channel.send(attacker.name + " strikes " + defender.name + " for " + str(hit) +
-                                       "\n" + attacker.name + ": " + str(attacker_health) + " | " +
-                                       defender.name + ": " + str(defender_health))
-        time.sleep(2)
+            if flipthis is 1:
+                await message.channel.send(attacker.name + " strikes " + defender.name + " for " + str(hit) +
+                                           "\n" + attacker.name + ": " + str(attacker_health) + " | " +
+                                           defender.name + ": " + str(defender_health))
+            else:
+                await message.channel.send(attacker.name + " strikes " + defender.name + " for " + str(hit) +
+                                           "\n" + attacker.name + ": " + str(attacker_health) + " | " +
+                                           defender.name + ": " + str(defender_health))
 
         # Switch attacker <-> defender
         temp = attacker
@@ -83,3 +105,10 @@ async def battle(message, client):
         temp = attacker_health
         attacker_health = defender_health
         defender_health = temp
+    if defender_health < 1:
+        loser = defender
+        winner = attacker
+    else:
+        loser = attacker
+        winner = defender
+    await message.channel.send(winner.name + " defeated " + loser.name + "!")
