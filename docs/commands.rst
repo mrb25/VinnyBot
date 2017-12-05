@@ -20,6 +20,7 @@ Meme Commands
 * ~giphy *search terms* -- Searches giphy for a gif or webm matching your search
 * ~8ball -- Get a response from the magic 8 ball
 * ~roll *range* -- Gives a random number from 0 - range (default 10)
+* ~battle *member* *optional other member* -- have a quick skirimsh against another member of the server
 
 Reddit Commands
 -------------------------------
@@ -36,6 +37,7 @@ Comment Commands
 
 * ~comment @user or #channel -- Generates a unique comment based on the user/channel post history (Experimental)
 * ~ryzen -- Hey did you hear about Ryzen?
+* ~nowplaying -- gives a list of games being played by server members right now. In order of most to least played.
 
 Moderation Commands
 ----------------------------------------
