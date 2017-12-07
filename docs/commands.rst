@@ -1,8 +1,10 @@
+.. List of all Vinny Commands. Created by mrb25 on 11/15
+
 Vinny Commands
 ================
 
 Meme Commands
--------------------------------
+---------------------------------------------------------------------
 *Nice meme*
 
 * ~shit -- Posts a random shitpost
@@ -22,6 +24,8 @@ Meme Commands
 * ~roll *range* -- Gives a random number from 0 - range (default 10)
 * ~battle *member* *optional other member* -- have a quick skirimsh against another member of the server
 
+:ref:`Meme_Examples`
+
 Reddit Commands
 -------------------------------
 *I made this*
@@ -31,6 +35,8 @@ Reddit Commands
 * ~cosplay *search_terms* -- Searches for a cosplay meeting the search terms.
 * ~cosplaygirls *search_terms* -- Searches for a girl cosplay using the search terms
 
+:ref:`Reddit_Examples`
+
 Comment Commands
 ---------------------------------------
 *Pretend to be someone else*
@@ -39,6 +45,8 @@ Comment Commands
 * ~ryzen -- Hey did you hear about Ryzen?
 * ~nowplaying -- gives a list of games being played by server members right now. In order of most to least played.
 
+:ref:`Comment_Examples`
+
 Moderation Commands
 ----------------------------------------
 *Squire, get the banhammer*
@@ -46,10 +54,9 @@ Moderation Commands
 * ~prune @user \"example\" *num* -- Removes the messages from the last *num* messages from user containing \"example\". Mentioning users and defining text are both optional and can be used for as many users or phrases as needed in a single prune command.
 * ~kick @username -- Kicks all mentioned users
 * ~whois @username -- Gives info about a user
-
-.. image:: /media/~whois.PNG
-
 * ~whohas @role -- Gives list of all users with this role
+
+:ref:`Moderation_Examples`
 
 Voice Commands
 ------------------------------------
@@ -75,6 +82,8 @@ NSFW Commands
 * ~nsfw -- Tells whether or not nsfw is enabled on a given channel
 * ~r34 *search_terms* -- Rule 34 (Multi word tags use _)
 
+:ref:`NSFW_Examples`
+
 Vinny Commands
 ----------------------------------
 *beep boop*
@@ -83,3 +92,5 @@ Vinny Commands
 * ~info -- Gives info about Vinny
 * ~invite -- Gives the link to invite Vinny to a server
 * ~help -- Gives a command list
+
+:ref:`Vinny_Examples`
