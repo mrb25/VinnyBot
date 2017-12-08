@@ -43,7 +43,7 @@ Comment Commands
 
 * ~comment @user or #channel -- Generates a unique comment based on the user/channel post history (Experimental)
 * ~ryzen -- Hey did you hear about Ryzen?
-* ~nowplaying -- gives a list of games being played by server members right now. In order of most to least played.
+* ~games -- gives a list of games being played by server members right now. In order of most to least played.
 
 :ref:`Comment_Examples`
 

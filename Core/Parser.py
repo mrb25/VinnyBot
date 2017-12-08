@@ -279,9 +279,9 @@ async def parseCommand(message, client):
             await generateRyzen(message, client)
             logCommand(message, client, '~ryzen')
 
-        elif message.content.startswith('~nowplaying'):
-            await nowPlaying(message, client)
-            logCommand(message, client, '~nowplaying')
+        elif message.content.startswith('~games'):
+            await games(message, client)
+            logCommand(message, client, '~games')
 
         elif message.content.startswith('~battle'):
             await battle(message, client)

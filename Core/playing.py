@@ -3,7 +3,7 @@ import operator
 import time
 from random import randint
 
-async def nowPlaying(message, client):
+async def games(message, client):
     server = message.guild
     members = server.members
     gamelist = []
@@ -58,7 +58,7 @@ async def battle(message, client):
     await message.channel.send(user1_name + " weilds their " + user1_weapon + ", while " + user2_name +
                                " takes in their trusty " + user2_weapon + ".")
 
-    # initilize health and starting attacker (random)
+    # initialize health and starting attacker (random)
     attacker_health = 100
     defender_health = 100
     if randint(0, 1) is 0:

@@ -193,6 +193,10 @@ Meme Examples
 
 .. image:: /media/~8ball.PNG
 
+~battle
+
+.. image:: /media/~battle.PNG
+
 .. _Reddit_Examples:
 
 Reddit Examples
@@ -218,6 +222,10 @@ Comment Examples
 ~ryzen
 
 .. image:: /media/~ryzen.PNG
+
+~games
+
+..image:: /media/~games.PNG
 
 .. _Moderation_Examples:
 
