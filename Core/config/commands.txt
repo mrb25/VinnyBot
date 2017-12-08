@@ -26,7 +26,7 @@
 ***COMMENT COMMANDS***
 ~comment @user or #channel -- Generates a unique comment based on the user/channel post history (Experimental)
 ~ryzen -- Hey did you hear about Ryzen?
-~nowplaying -- Generates a list of the games that are being played by everyone in the server.
+~games -- Generates a list of the games that are being played by everyone in the server.
 
 ***MODERATION COMMANDS***
 ~prune @user \"example\" *num* -- Removes the messages from the last *num* messages from user containing \"example\". Mentioning users and defining text are both optional and can be used for as many users or phrases as needed in a single prune command.
