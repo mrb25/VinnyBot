@@ -33,12 +33,17 @@ def initConfig():
                     commands[name][command] = line
 
 async def sendhelp(message, client):
-    if len(message.content.split(" ")) > 1:
-        for i in range(1, len(message.content.split(" "))):
-            lookFor = message.content.split(" ")[i]
-            await message.author.send(lookFor + ": " + getCommand(lookFor))
-    else:
-        await message.author.send("For more help or to give feedback join Vinny's discord server at:"
+    try:
+        if len(message.content.split(" ")) > 1:
+            for i in range(1, len(message.content.split(" "))):
+                lookFor = message.content.split(" ")[i]
+                await message.author.send(lookFor + ": " + getCommand(lookFor))
+        else:
+            await message.author.send("For more help or to give feedback join Vinny's discord server at:"
+                                      " https://discord.gg/XMwyzxZ", embed=defaultHelp(client))
+    except:
+        await message.channel.send("Error sending the message to your DMs. Posting help in channel.")
+        await message.channel.send("For more help or to give feedback join Vinny's discord server at:"
                                   " https://discord.gg/XMwyzxZ", embed=defaultHelp(client))
 
 

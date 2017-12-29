@@ -30,21 +30,24 @@ async def generateMarkovComment(message, client):
 
         for channel in message.guild.channels:
             if message.mentions[0].permissions_in(channel).send_messages:
-                if channel.permissions_for(message.guild.me).read_messages:
+                if channel.permissions_for(message.guild.me).read_messages and channel.permissions_for(message.guild.me).send_messages:
                     try:
                         if channel.is_nsfw() or not channel.is_nsfw():
-                            usableChannels.append(channel)
+                            if not isinstance(channel, discord.CategoryChannel):
+                                usableChannels.append(channel)
                     except AttributeError:
                         continue
 
         print('Comment for ' + message.mentions[0].name + ' requested by ' + message.author.name + ' in Server: '
               + message.guild.name + ' in channel: ' + message.channel.name)
         currentCommentsArr.append(message.author.id)
+        print(usableChannels)
         with message.channel.typing():
             tmp = await message.channel.send('Downloading messages...')
 
             await updateLoading(message, client, tmp, channelCounter, usableChannels)
             for channel in usableChannels:
+                print(channel)
                 if message.mentions[0].permissions_in(channel).send_messages:
                     async for log in channel.history(limit=3500):
                         # Checks for messages from the mentioned user
